@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout PIX - Mercado Pago</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <form id="checkout-form">
+        <h2>Pagamento via PIX</h2>
+        <input type="text" id="nome" placeholder="Nome" required><br>
+        <input type="text" id="sobrenome" placeholder="Sobrenome" required><br>
+        <input type="email" id="email" placeholder="E-mail" required><br>
+        <button type="submit">Gerar PIX</button>
+    </form>
+
+    <div id="pix-container" style="display:none;">
+        <h3>Escaneie o QR Code ou copie o código PIX</h3>
+        <img id="pix-qr" src="" alt="QR Code PIX">
+        <p id="pix-code"></p>
+    </div>
+
+    <script>
+        $("#checkout-form").submit(function(event) {
+            event.preventDefault();
+            $.post("/create_pix", {
+                nome: $("#nome").val(),
+                sobrenome: $("#sobrenome").val(),
+                email: $("#email").val()
+            }, function(data) {
+                $("#pix-qr").attr("src", data.qr_code_base64);
+                $("#pix-code").text(data.pix_code);
+                $("#pix-container").show();
+            });
+        });
+    </script>
+</body>
+</html>
