@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,38 +8,54 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-   
+
     <div style="display: grid;  width: 100%; max-width: 400px; ">
-        <form id="checkout-form">
+        <form id="checkout-form" >
             <h2>Pagamento via PIX</h2>
             <input type="text" id="nome" placeholder="Nome" required><br>
             <input type="text" id="sobrenome" placeholder="Sobrenome" required><br>
             <input type="email" id="email" placeholder="E-mail" required><br>
             <button type="submit">COMPRAR E RECEBER AGORA</button>
         </form>
-    
-        <div id="pix-container" style="display: none;">
+
+        <div id="pix-container">
             <h3>Escaneie o QR Code ou copie o código PIX</h3>
-            <img id="pix-qr" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Examplejm" alt="QR Code PIX">
-            <p id="pix-code"></p>
+            <img id="pix-qr" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Examplejm"
+                alt="QR Code PIX">
+            <div id="pix-code-div">
+                <p id="pix-code"></p>
+            </div>
+            <h3>Clique Acima para copiar</h3>
+
         </div>
     </div>
 
     <script>
-        $("#checkout-form").submit(function(event) {
+        $("#checkout-form").submit(function (event) {
             event.preventDefault();
             $.post("/create_pix", {
                 nome: $("#nome").val(),
                 sobrenome: $("#sobrenome").val(),
                 email: $("#email").val()
-            }, function(data) {
+            }, function (data) {
                 $("#pix-qr").attr("src", 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + data.pix_code);
                 $("#pix-code").text(data.pix_code);
                 $("#pix-container").show();
                 $("#checkout-form").hide();
             });
         });
+        document.getElementById('pix-code').addEventListener('click', function () {
+            navigator.clipboard.writeText(document.getElementById('pix-code').innerText)
+                .then(() => {
+                    alert('Texto copiado para a área de transferência!');
+                })
+                .catch((error) => {
+                    alert('Falha ao copiar texto para a área de transferência:', error);
+                });
+        })
     </script>
 </body>
+
 </html>
