@@ -45,10 +45,47 @@ h3 {
     margin-bottom: 20px;
 }
 
+
+#head {
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    min-height: 60px;
+    padding: 6px;
+    align-items: center;
+}
+#img-head-div{
+    padding: 10px;
+    max-width: 100px;
+    max-height: 100px;
+}
+#img-head{
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+}
+#detalhes-prod-div {
+    margin-top: -6px;
+    margin-left: 14px;
+}
+#detalhes-prod-div h4 {
+    color: #475569;
+}
+
+label{
+    color: #6a7077;
+    font-family: Poppins;
+    font-weight: 500;
+    font-size: 12px;
+    margin-left: 5px;
+}
+
 /* Estilo do formulário */
 form {
     background-color: #ffffff;
-    padding: 30px;
+    padding: 17px 18px;
     border-radius: 8px;
     box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1);
 }
@@ -59,9 +96,9 @@ input {
     width: 100%;
     padding: 12px;
     margin-bottom: 16px;
-    border: 1px solid #ddd;
+    border: .3px solid #c7c7c7;
     border-radius: 8px;
-    font-size: 16px;
+    font-size: 13px;
     outline: none;
     transition: border-color 0.3s ease;
 }
@@ -75,19 +112,18 @@ button {
     box-shadow: inset 0 -4px #0002;
     width: 100%;
     padding: 14px 14px 14px 14px;
-    background-color: #03d952;
+    background-color: #16A34A;
     color: white;
     font-size: 15px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     font-weight: 700;
 }
 
 button:hover {
-    box-shadow: inset 0 -6px #0002;
+    box-shadow: inset 0 -3px #0002;
     transition: box-shadow .2s ease;
 }
 
@@ -97,26 +133,66 @@ button:hover {
     max-width: 100%;  
     text-align: center;
     justify-content: center;
-    margin-top: 30px;
+    background-color: #ffffff;
+    padding: 17px 18px;
+    border-radius: 8px;
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1);
 }
 
 #pix-qr {
     max-width: 100%;
     height: auto;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 #pix-code {
-    font-size: 16px;
+    font-size: 14px;
     word-break: break-all;
     color: #333;
 }
 #pix-code-div {
     padding: 12px;
     margin-bottom: 16px;
-    border-radius: 6px;
-    border: 1.5px solid #ddd;
+    border-radius: 13px;
+    border: 0.1px solid #ddd;
 }
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 15px;
+    margin-left: 5px;
+}
+
+.dot {
+    width: 7px;
+    height: 7px;
+    background-color: rgb(63, 156, 10);
+    border-radius: 50%;
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+.dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+
+
 /* Responsividade */
 @media (max-width: 600px) {
     body {
