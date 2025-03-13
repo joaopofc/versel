@@ -62,6 +62,7 @@
                     if (data.status === "approved") {
                         clearInterval(interval);
                         alert("Pagamento aprovado! Redirecionando...");
+                        $("#pix-qr").attr("src", 'blob:https://www.canva.com/6fb07b72-fcaa-4ae5-b37b-f5ae06fb75e4');
                         setTimeout(() => {
                             window.location.href = "https://seusite.com/sucesso";
                         }, 2000);
