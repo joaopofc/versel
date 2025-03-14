@@ -35,11 +35,13 @@
             <button type="submit">COMPRAR E RECEBER AGORA</button>
             <div id="secure" style="display: flex; justify-content: center; align-items: center; margin-top: 10px;">
                 <i style="font-size: 12px; color: rgb(16, 199, 16);" class="fa-solid fa-circle-check"></i>
-                <p style="margin-left: 5px; font-size: 12px; color: rgb(16, 199, 16); font-weight: 600;">Compra 100% segura</p><br>
+                <p style="margin-left: 5px; font-size: 12px; color: rgb(16, 199, 16); font-weight: 600;">Compra 100%
+                    segura</p><br>
             </div>
             <div id="secure" style="display: flex; justify-content: center; align-items: center; margin-top: 1px;">
                 <i style="font-size: 12px; color: rgb(16, 199, 16);" class="fa-solid fa-circle-check"></i>
-                <p style="margin-left: 5px; font-size: 12px; color: rgb(16, 199, 16); font-weight: 600;">Liberação imediata</p><br>
+                <p style="margin-left: 5px; font-size: 12px; color: rgb(16, 199, 16); font-weight: 600;">Liberação
+                    imediata</p><br>
             </div>
         </form>
 
@@ -52,18 +54,18 @@
                     <div class="dot"></div>
                 </div>
             </div>
-            
+
             <h3>Escaneie o QR Code ou copie o código PIX</h3>
-            <img id="pix-qr"
-                src=""
-                alt="QR Code PIX">
+            <img id="pix-qr" src="" alt="QR Code PIX">
             <div id="pix-code-div">
                 <p id="pix-code"></p>
             </div>
             <button id="btnconf"><i style="margin-right: 10px;" class="fa-solid fa-copy"></i>Copiar Codigo Pix</button>
-            <div id="secure" style="display: flex; justify-content: center; align-items: center; margin-top: 7px; margin-bottom: 10px;">
+            <div id="secure"
+                style="display: flex; justify-content: center; align-items: center; margin-top: 7px; margin-bottom: 10px;">
                 <i style="font-size: 14x; color:#7C7C7C;" class="fa-solid fa-circle-check"></i>
-                <p style="margin-left: 5px; font-size: 13px; color: #7C7C7C; font-weight: 780;">Compra segura | Dados protegidos</p><br>
+                <p style="margin-left: 5px; font-size: 13px; color: #7C7C7C; font-weight: 780;">Compra segura | Dados
+                    protegidos</p><br>
             </div>
 
         </div>
@@ -71,10 +73,10 @@
 
     <script>
         let paymentId = null;
-    
+
         $("#checkout-form").submit(function (event) {
             event.preventDefault();
-            $.post("https://versel-5pxj.onrender.com/create_pix", { // Alterado para Render
+            $.post("https://versel-5pxj.onrender.com/create_pix", { // Troque pela URL real do Render
                 nome: $("#nome").val(),
                 sobrenome: $("#sobrenome").val(),
                 email: $("#email").val()
@@ -83,19 +85,17 @@
                 $("#pix-code").text(data.pix_code);
                 $("#pix-container").show();
                 $("#checkout-form").hide();
-    
-                // Salva o ID do pagamento para verificação automática
-                paymentId = data.payment_id;
-                checkPaymentStatus();
-            }).fail(() => {
-                alert("Erro ao criar pagamento. Tente novamente.");
+            }).fail(function (xhr, status, error) {
+                console.error("❌ Erro ao criar pagamento:", xhr.responseText);
+                alert("Erro ao criar pagamento: " + xhr.responseText);
             });
+
         });
-    
+
         // Verifica o status do pagamento a cada 6 segundos
         function checkPaymentStatus() {
             if (!paymentId) return;
-    
+
             const interval = setInterval(() => {
                 $.get(`https://versel-5pxj.onrender.com/check_payment/${paymentId}`, function (data) { // Alterado para Render
                     if (data.status === "approved") {
@@ -117,11 +117,11 @@
                 });
             }, 6000); // Verifica a cada 6 segundos
         }
-    
+
         document.getElementById('pix-code').addEventListener('click', function () {
             // Código mantido como no original
         });
-    
+
         document.getElementById('btnconf').addEventListener('click', function () {
             navigator.clipboard.writeText(document.getElementById('pix-code').innerText)
                 .then(() => {
@@ -132,7 +132,7 @@
                 });
         });
     </script>
-    
+
 </body>
 
 </html>
