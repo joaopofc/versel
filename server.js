@@ -15,6 +15,12 @@ const MERCADO_PAGO_ACCESS_TOKEN = "APP_USR-4128571484840245-051411-4e2440590f5e3
 app.post("/create_pix", async (req, res) => {
     const { nome, sobrenome, email } = req.body;
 
+    if (!nome || !sobrenome || !email) {
+        return res.status(400).json({ error: "Nome, sobrenome e email são obrigatórios!" });
+    }
+
+    console.log("📢 Criando pagamento PIX para:", nome, sobrenome, email);
+
     try {
         const response = await axios.post(
             "https://api.mercadopago.com/v1/payments",
@@ -36,6 +42,8 @@ app.post("/create_pix", async (req, res) => {
             }
         );
 
+        console.log("✅ Pagamento criado com sucesso!", response.data);
+
         res.json({
             payment_id: response.data.id, // ID do pagamento gerado
             qr_code_base64: response.data.point_of_interaction.transaction_data.qr_code_base64,
@@ -43,8 +51,8 @@ app.post("/create_pix", async (req, res) => {
         });
 
     } catch (error) {
-        console.error(error);
-        res.status(500).send("Erro ao criar pagamento PIX");
+        console.error("❌ Erro ao criar pagamento:", error.response ? error.response.data : error.message);
+        res.status(500).json({ error: "Erro ao criar pagamento PIX", details: error.response?.data });
     }
 });
 
@@ -62,14 +70,16 @@ app.get("/check_payment/:id", async (req, res) => {
 
         const status = response.data.status; // Status do pagamento (pending, approved, rejected)
 
+        console.log(`🔍 Status do pagamento ${payment_id}: ${status}`);
+
         res.json({ status });
 
     } catch (error) {
-        console.error(error);
-        res.status(500).send("Erro ao verificar pagamento");
+        console.error("❌ Erro ao verificar pagamento:", error.response ? error.response.data : error.message);
+        res.status(500).json({ error: "Erro ao verificar pagamento", details: error.response?.data });
     }
 });
 
 // Iniciar o servidor
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Servidor rodando na porta ${PORT}`));
