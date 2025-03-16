@@ -13,7 +13,6 @@ app.use(cors());
 // Access Token do Mercado Pago
 const MERCADO_PAGO_ACCESS_TOKEN = "APP_USR-4128571484840245-051411-4e2440590f5e3a407cc718aecec17f6e-1361831608";
 
-// Criar pagamento PIX
 app.post("/create_pix", async (req, res) => {
     const { nome, sobrenome, email, preco } = req.body;
 
@@ -21,13 +20,19 @@ app.post("/create_pix", async (req, res) => {
         return res.status(400).json({ error: "Nome, sobrenome e email são obrigatórios!" });
     }
 
-    console.log("📢 Criando pagamento PIX para:", nome, sobrenome, email);
+    // Garantir que o preço seja um número
+    const precoNumerico = parseFloat(preco);
+    if (isNaN(precoNumerico)) {
+        return res.status(400).json({ error: "O valor do preço é inválido." });
+    }
+
+    console.log("📢 Criando pagamento PIX para:", nome, sobrenome, email, precoNumerico);
 
     try {
         const response = await axios.post(
             "https://api.mercadopago.com/v1/payments",
             {
-                transaction_amount: preco, // Valor do pagamento
+                transaction_amount: precoNumerico, // Valor do pagamento, agora garantido como numérico
                 payment_method_id: "pix",
                 payer: {
                     email: email,
@@ -57,6 +62,7 @@ app.post("/create_pix", async (req, res) => {
         res.status(500).json({ error: "Erro ao criar pagamento PIX", details: error.response?.data });
     }
 });
+
 
 // Verificar status do pagamento usando a API correta
 app.get("/check_payment/:id", async (req, res) => {
