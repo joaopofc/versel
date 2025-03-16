@@ -90,36 +90,6 @@ app.get("/check_payment/:id", async (req, res) => {
 
 
 
-
-app.post('/send-email', (req, res) => {
-    const { nome, email, produto } = req.body;
-
-    // Configurar o envio de e-mail aqui (com NodeMailer, SendGrid, etc)
-    // Exemplo com Nodemailer:
-    const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-            user: "joaopaulojd021@gmail.com", // Seu e-mail
-            pass: "jnkurgeunpbzkhbq" // Senha de aplicativo
-        }
-    });
-
-    const mailOptions = {
-        from: 'joaopaulojd021@gmail.com',
-        to: email,
-        subject: `Confirmação de compra do ${produto}`,
-        text: `Olá ${nome}, seu pagamento foi confirmado para o produto ${produto}.`
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            return res.status(500).send('Erro ao enviar e-mail');
-        }
-        res.status(200).send('E-mail enviado com sucesso');
-    });
-});
-
-
 // Iniciar o servidor
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`🚀 Servidor rodando na porta ${PORT}`));

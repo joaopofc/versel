@@ -165,16 +165,6 @@
                         $("#pix-qr").attr("src", 'https://firebasestorage.googleapis.com/v0/b/loginxepa.appspot.com/o/img%2FDesign%20sem%20nome%20(9).png?alt=media&token=0dc8b3f5-48cf-43e3-a4af-d8ecb33f8dab');
                         $("#pix-code-div").hide();
                         $("#status").text("Pagamento aprovado! Aguarde 1 segundo.");
-                        $.post("https://seu-servidor.com/send-email", {
-                            nome: $("#nome").val(),
-                            email: $("#email").val(),
-                            produto: produto.nome // Produto ou o nome do item que foi comprado
-                        }).done(function () {
-                            console.log("✅ E-mail enviado com sucesso!");
-                        }).fail(function (xhr, status, error) {
-                            console.error("❌ Erro ao enviar e-mail:", error);
-                        });
-
                         setTimeout(() => {
                             window.location.href = "https://ipat.shop";
                         }, 4000);
@@ -194,7 +184,6 @@
             navigator.clipboard.writeText(document.getElementById('pix-code').innerText)
                 .then(() => {
                     alert('Texto copiado para a área de transferência!');
-                    checkPaymentStatus();
                 })
                 .catch((error) => {
                     alert('Falha ao copiar texto para a área de transferência:', error);
