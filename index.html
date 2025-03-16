@@ -74,7 +74,6 @@
     </div>
 
     <script>
-        let paymentId = null;
         const firebaseConfig = {
             apiKey: "AIzaSyB0DFXPILXxKAkjaKOHvgnppV3CY7xR9Cs",
             authDomain: "meu-checkout-web.firebaseapp.com",
@@ -91,6 +90,9 @@
         const database = firebase.database();
         var borr = document.getElementById('borr');
 
+
+        let paymentId = null;
+        let produto = null; // 🔥 Agora a variável está no escopo global
 
         // 🔍 Função para pegar parâmetros da URL
         function getQueryParam(param) {
@@ -110,13 +112,13 @@
             productRef.once("value")
                 .then(snapshot => {
                     if (snapshot.exists()) {
-                        var produto = snapshot.val();
+                        produto = snapshot.val(); // 🔥 Agora `produto` é global
 
                         // Atualiza a página com os dados do produto
                         $("#detalhes-prod").text(produto.nome);
                         $("#preco-prod").text("R$" + produto.preco.toFixed(2));
                         $("#img-head").attr("src", produto.imagem);
-                        var precion = produto.preco.toFixed(2);
+
                         console.log("✅ Produto encontrado:", produto);
                     } else {
                         console.error("❌ Produto não encontrado.");
@@ -132,14 +134,20 @@
             alert("Produto inválido!");
         }
 
-
+        // 🔥 Criar pagamento com o preço correto
         $("#checkout-form").submit(function (event) {
             event.preventDefault();
-            $.post("https://versel-5pxj.onrender.com/create_pix", { // Troque pela URL real do Render
+
+            if (!produto) { // 🔥 Verifica se `produto` já foi carregado
+                alert("Erro: Produto ainda não carregado. Aguarde e tente novamente.");
+                return;
+            }
+
+            $.post("https://versel-5pxj.onrender.com/create_pix", {
                 nome: $("#nome").val(),
                 sobrenome: $("#sobrenome").val(),
                 email: $("#email").val(),
-                preco: produto.preco.toFixed(2)
+                preco: produto.preco.toFixed(2) // 🔥 Enviando o preço correto para o backend
             }, function (data) {
                 $("#pix-qr").attr("src", 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + data.pix_code);
                 $("#pix-code").text(data.pix_code);
