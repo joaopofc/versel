@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="pt">
 
 <head>
@@ -69,7 +69,6 @@
                 <p style="margin-left: 5px; font-size: 13px; color: #7C7C7C; font-weight: 780;">Compra segura | Dados
                     protegidos</p><br>
             </div>
-
         </div>
     </div>
 
@@ -89,7 +88,6 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
         var borr = document.getElementById('borr');
-
 
         let paymentId = null;
         let produto = null; // 🔥 Agora a variável está no escopo global
@@ -116,7 +114,7 @@
 
                         // Atualiza a página com os dados do produto
                         $("#detalhes-prod").text(produto.nome);
-                        $("#preco-prod").text("R$" + produto.preco.toFixed(2));
+                        $("#preco-prod").text("R$" + parseFloat(produto.preco).toFixed(2));
                         $("#img-head").attr("src", produto.imagem);
 
                         console.log("✅ Produto encontrado:", produto);
@@ -147,7 +145,7 @@
                 nome: $("#nome").val(),
                 sobrenome: $("#sobrenome").val(),
                 email: $("#email").val(),
-                preco: produto.preco.toFixed(2) // 🔥 Enviando o preço correto para o backend
+                preco: parseFloat(produto.preco).toFixed(2) // 🔥 Enviando o preço correto como número
             }, function (data) {
                 $("#pix-qr").attr("src", 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + data.pix_code);
                 $("#pix-code").text(data.pix_code);
