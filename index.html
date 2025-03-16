@@ -110,7 +110,7 @@
             productRef.once("value")
                 .then(snapshot => {
                     if (snapshot.exists()) {
-                        const produto = snapshot.val();
+                        var produto = snapshot.val();
 
                         // Atualiza a página com os dados do produto
                         $("#detalhes-prod").text(produto.nome);
@@ -139,7 +139,7 @@
                 nome: $("#nome").val(),
                 sobrenome: $("#sobrenome").val(),
                 email: $("#email").val(),
-                preco: precion
+                preco: produto.preco.toFixed(2)
             }, function (data) {
                 $("#pix-qr").attr("src", 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + data.pix_code);
                 $("#pix-code").text(data.pix_code);
