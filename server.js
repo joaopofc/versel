@@ -15,7 +15,7 @@ const MERCADO_PAGO_ACCESS_TOKEN = "APP_USR-4128571484840245-051411-4e2440590f5e3
 
 // Criar pagamento PIX
 app.post("/create_pix", async (req, res) => {
-    const { nome, sobrenome, email } = req.body;
+    const { nome, sobrenome, email, preco } = req.body;
 
     if (!nome || !sobrenome || !email) {
         return res.status(400).json({ error: "Nome, sobrenome e email são obrigatórios!" });
@@ -27,7 +27,7 @@ app.post("/create_pix", async (req, res) => {
         const response = await axios.post(
             "https://api.mercadopago.com/v1/payments",
             {
-                transaction_amount: 0.01, // Valor do pagamento
+                transaction_amount: preco, // Valor do pagamento
                 payment_method_id: "pix",
                 payer: {
                     email: email,
