@@ -2,37 +2,30 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const { v4: uuidv4 } = require("uuid");
 const axios = require("axios");
-const cors = require("cors");
 
 const app = express();
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname)); // Servir arquivos HTML
-app.use(cors());
 
 // Access Token do Mercado Pago
 const MERCADO_PAGO_ACCESS_TOKEN = "APP_USR-4128571484840245-051411-4e2440590f5e3a407cc718aecec17f6e-1361831608";
 
+// Criar pagamento PIX
 app.post("/create_pix", async (req, res) => {
-    const { nome, sobrenome, email, preco } = req.body;
+    const { nome, sobrenome, email } = req.body;
 
     if (!nome || !sobrenome || !email) {
         return res.status(400).json({ error: "Nome, sobrenome e email são obrigatórios!" });
     }
 
-    // Garantir que o preço seja um número
-    const precoNumerico = parseFloat(preco);
-    if (isNaN(precoNumerico)) {
-        return res.status(400).json({ error: "O valor do preço é inválido." });
-    }
-
-    console.log("📢 Criando pagamento PIX para:", nome, sobrenome, email, precoNumerico);
+    console.log("📢 Criando pagamento PIX para:", nome, sobrenome, email);
 
     try {
         const response = await axios.post(
             "https://api.mercadopago.com/v1/payments",
             {
-                transaction_amount: precoNumerico, // Valor do pagamento, agora garantido como numérico
+                transaction_amount: 0.01, // Valor do pagamento
                 payment_method_id: "pix",
                 payer: {
                     email: email,
@@ -63,7 +56,6 @@ app.post("/create_pix", async (req, res) => {
     }
 });
 
-
 // Verificar status do pagamento usando a API correta
 app.get("/check_payment/:id", async (req, res) => {
     const payment_id = req.params.id;
@@ -87,8 +79,6 @@ app.get("/check_payment/:id", async (req, res) => {
         res.status(500).json({ error: "Erro ao verificar pagamento", details: error.response?.data });
     }
 });
-
-
 
 // Iniciar o servidor
 const PORT = process.env.PORT || 3001;
