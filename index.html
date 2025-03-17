@@ -8,8 +8,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Checkout PIX - Mercado Pago</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-database.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <title>Checkout PIX - Mercado Pago</title>
 </head>
 
 <body>
@@ -73,13 +75,72 @@
 
     <script>
         let paymentId = null;
+        let produto = null;
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyB0DFXPILXxKAkjaKOHvgnppV3CY7xR9Cs",
+            authDomain: "meu-checkout-web.firebaseapp.com",
+            databaseURL: "https://meu-checkout-web-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "meu-checkout-web",
+            storageBucket: "meu-checkout-web.firebasestorage.app",
+            messagingSenderId: "422699934016",
+            appId: "1:422699934016:web:7910537a1f8d5457929aa5",
+            measurementId: "G-VRKRL1MR9S"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+
+        // Função para pegar parâmetros da URL
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        const productId = getQueryParam("pv");
+
+        if (productId) {
+            console.log("🔍 Buscando produto com ID:", productId);
+
+            const productRef = firebase.database().ref("produtos/" + productId);
+
+            productRef.once("value")
+                .then(snapshot => {
+                    if (snapshot.exists()) {
+                        produto = snapshot.val();
+
+                        $("#detalhes-prod").text(produto.nome);
+                        $("#preco-prod").text("R$" + produto.preco.toFixed(2));
+                        $("#img-head").attr("src", produto.imagem);
+
+                        console.log("✅ Produto encontrado:", produto);
+                    } else {
+                        console.error("❌ Produto não encontrado.");
+                        alert("Produto não encontrado!");
+                    }
+                })
+                .catch(error => {
+                    console.error("❌ Erro ao buscar produto:", error);
+                    alert("Erro ao carregar o produto.");
+                });
+        } else {
+            console.error("❌ Nenhum ID de produto foi fornecido na URL.");
+            alert("Produto inválido!");
+        }
+
+
+
+
 
         $("#checkout-form").submit(function (event) {
             event.preventDefault();
             $.post("https://versel-5pxj.onrender.com/create_pix", { // Alterado para Render
                 nome: $("#nome").val(),
                 sobrenome: $("#sobrenome").val(),
-                email: $("#email").val()
+                email: $("#email").val(),
+                preco: produto.preco.toFixed(2)
             }, function (data) {
                 $("#pix-qr").attr("src", 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + data.pix_code);
                 $("#pix-code").text(data.pix_code);

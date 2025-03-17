@@ -16,7 +16,7 @@ const MERCADO_PAGO_ACCESS_TOKEN = "APP_USR-4128571484840245-051411-4e2440590f5e3
 
 // Criar pagamento PIX
 app.post("/create_pix", async (req, res) => {
-    const { nome, sobrenome, email } = req.body;
+    const { nome, sobrenome, email, preco } = req.body;
 
     if (!nome || !sobrenome || !email) {
         return res.status(400).json({ error: "Nome, sobrenome e email são obrigatórios!" });
@@ -24,11 +24,18 @@ app.post("/create_pix", async (req, res) => {
 
     console.log("📢 Criando pagamento PIX para:", nome, sobrenome, email);
 
+    const precoNumerico = parseFloat(preco);
+    if (isNaN(precoNumerico)) {
+        return res.status(400).json({ error: "O valor do preço é inválido." });
+    }
+
+    console.log("📢 Criando pagamento PIX para:", nome, sobrenome, email, precoNumerico);
+
     try {
         const response = await axios.post(
             "https://api.mercadopago.com/v1/payments",
             {
-                transaction_amount: 0.01, // Valor do pagamento
+                transaction_amount: precoNumerico, // Valor do pagamento, agora garantido como numérico
                 payment_method_id: "pix",
                 payer: {
                     email: email,
@@ -81,10 +88,6 @@ app.get("/check_payment/:id", async (req, res) => {
         console.error("❌ Erro ao verificar pagamento:", error.response ? error.response.data : error.message);
         res.status(500).json({ error: "Erro ao verificar pagamento", details: error.response?.data });
     }
-});
-
-const transporter = nodemailer.createTransport({
-    
 });
 
 app.post('/send-email', (req, res) => {
