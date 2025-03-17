@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const { v4: uuidv4 } = require("uuid");
 const axios = require("axios");
 const cors = require("cors"); // 🔥 Importando CORS
+const nodemailer = require("nodemailer");
 
 const app = express();
 app.use(cors()); // 🔥 Habilitando CORS
@@ -81,6 +82,37 @@ app.get("/check_payment/:id", async (req, res) => {
         res.status(500).json({ error: "Erro ao verificar pagamento", details: error.response?.data });
     }
 });
+
+const transporter = nodemailer.createTransport({
+    
+});
+
+app.post('/send-email', (req, res) => {
+    const { nome, email } = req.body;
+
+    // Configurar o envio de e-mail aqui (com NodeMailer, SendGrid, etc)
+    // Exemplo com Nodemailer:
+    const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: "joaopaulojd021@gmail.com", // Seu e-mail
+            pass: "jnkurgeunpbzkhbq" // Senha de aplicativo
+        }});
+    const mailOptions = {
+        from: 'joaopaulojd021@gmail.com',
+        to: email,
+        subject: `Confirmação de compra!`,
+        text: `Olá ${nome}, seu pagamento foi confirmado para Devs APP.`
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            return res.status(500).send('Erro ao enviar e-mail');
+        }
+        res.status(200).send('E-mail enviado com sucesso');
+    });
+});
+
 
 // Iniciar o servidor
 const PORT = process.env.PORT || 3001;

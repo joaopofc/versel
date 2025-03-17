@@ -35,11 +35,13 @@
             <button type="submit">COMPRAR E RECEBER AGORA</button>
             <div id="secure" style="display: flex; justify-content: center; align-items: center; margin-top: 10px;">
                 <i style="font-size: 12px; color: rgb(16, 199, 16);" class="fa-solid fa-circle-check"></i>
-                <p style="margin-left: 5px; font-size: 12px; color: rgb(16, 199, 16); font-weight: 600;">Compra 100% segura</p><br>
+                <p style="margin-left: 5px; font-size: 12px; color: rgb(16, 199, 16); font-weight: 600;">Compra 100%
+                    segura</p><br>
             </div>
             <div id="secure" style="display: flex; justify-content: center; align-items: center; margin-top: 1px;">
                 <i style="font-size: 12px; color: rgb(16, 199, 16);" class="fa-solid fa-circle-check"></i>
-                <p style="margin-left: 5px; font-size: 12px; color: rgb(16, 199, 16); font-weight: 600;">Liberação imediata</p><br>
+                <p style="margin-left: 5px; font-size: 12px; color: rgb(16, 199, 16); font-weight: 600;">Liberação
+                    imediata</p><br>
             </div>
         </form>
 
@@ -52,18 +54,18 @@
                     <div class="dot"></div>
                 </div>
             </div>
-            
+
             <h3>Escaneie o QR Code ou copie o código PIX</h3>
-            <img id="pix-qr"
-                src=""
-                alt="QR Code PIX">
+            <img id="pix-qr" src="" alt="QR Code PIX">
             <div id="pix-code-div">
                 <p id="pix-code"></p>
             </div>
             <button id="btnconf"><i style="margin-right: 10px;" class="fa-solid fa-copy"></i>Copiar Codigo Pix</button>
-            <div id="secure" style="display: flex; justify-content: center; align-items: center; margin-top: 7px; margin-bottom: 10px;">
+            <div id="secure"
+                style="display: flex; justify-content: center; align-items: center; margin-top: 7px; margin-bottom: 10px;">
                 <i style="font-size: 14x; color:#7C7C7C;" class="fa-solid fa-circle-check"></i>
-                <p style="margin-left: 5px; font-size: 13px; color: #7C7C7C; font-weight: 780;">Compra segura | Dados protegidos</p><br>
+                <p style="margin-left: 5px; font-size: 13px; color: #7C7C7C; font-weight: 780;">Compra segura | Dados
+                    protegidos</p><br>
             </div>
 
         </div>
@@ -71,7 +73,7 @@
 
     <script>
         let paymentId = null;
-    
+
         $("#checkout-form").submit(function (event) {
             event.preventDefault();
             $.post("https://versel-5pxj.onrender.com/create_pix", { // Alterado para Render
@@ -83,7 +85,7 @@
                 $("#pix-code").text(data.pix_code);
                 $("#pix-container").show();
                 $("#checkout-form").hide();
-    
+
                 // Salva o ID do pagamento para verificação automática
                 paymentId = data.payment_id;
                 checkPaymentStatus();
@@ -91,11 +93,11 @@
                 alert("Erro ao criar pagamento. Tente novamente.");
             });
         });
-    
+
         // Verifica o status do pagamento a cada 6 segundos
         function checkPaymentStatus() {
             if (!paymentId) return;
-    
+
             const interval = setInterval(() => {
                 $.get(`https://versel-5pxj.onrender.com/check_payment/${paymentId}`, function (data) { // Alterado para Render
                     if (data.status === "approved") {
@@ -103,6 +105,16 @@
                         $("#pix-qr").attr("src", 'https://firebasestorage.googleapis.com/v0/b/loginxepa.appspot.com/o/img%2FDesign%20sem%20nome%20(9).png?alt=media&token=0dc8b3f5-48cf-43e3-a4af-d8ecb33f8dab');
                         $("#pix-code-div").hide();
                         $("#status").text("Pagamento aprovado! Aguarde 1 segundo.");
+
+                        $.post("https://versel-5pxj.onrender.com/send-email", {
+                            nome: $("#nome").val(),
+                            email: $("#email").val()
+                        }).done(function () {
+                            console.log("✅ E-mail enviado com sucesso!");
+                        }).fail(function (xhr, status, error) {
+                            console.error("❌ Erro ao enviar e-mail:", error);
+                        });
+
                         setTimeout(() => {
                             window.location.href = "https://ipat.shop";
                         }, 4000);
@@ -117,11 +129,11 @@
                 });
             }, 6000); // Verifica a cada 6 segundos
         }
-    
+
         document.getElementById('pix-code').addEventListener('click', function () {
             // Código mantido como no original
         });
-    
+
         document.getElementById('btnconf').addEventListener('click', function () {
             navigator.clipboard.writeText(document.getElementById('pix-code').innerText)
                 .then(() => {
@@ -132,7 +144,7 @@
                 });
         });
     </script>
-    
+
 </body>
 
 </html>
