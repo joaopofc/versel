@@ -40,11 +40,10 @@ app.post("/create_pix", async (req, res) => {
             {
                 transaction_amount: parseFloat(preco),
                 payment_method_id: "pix",
-                description: `Compra do Produto ${produto_id}`,
+                description: `Compra do Produto dev`,
                 external_reference: `PEDIDO_${uuidv4()}`,
                 date_of_expiration: new Date(Date.now() + 600000).toISOString(),
                 metadata: {
-                    produto_id: produto_id,
                     cliente_email: email
                 },
                 payer: {
