@@ -32,13 +32,13 @@ app.post("/create_pix", async (req, res) => {
         return res.status(400).json({ error: "O valor do preço é inválido." });
     }
 
-    console.log("📢 Criando pagamento PIX para:", nome, sobrenome, email, precoNumerico);
+    console.log("📢 Criando pagamento PIX para:", first_name, last_name, email, precoNumerico); // 🔥 Correção aqui!
 
     try {
         const response = await axios.post(
             "https://api.mercadopago.com/v1/payments",
             {
-                transaction_amount: parseFloat(preco),
+                transaction_amount: precoNumerico,
                 payment_method_id: "pix",
                 description: `Compra do Produto dev`,
                 external_reference: `PEDIDO_${uuidv4()}`,
@@ -48,15 +48,15 @@ app.post("/create_pix", async (req, res) => {
                 },
                 payer: {
                     email: email,
-                    first_name: first_name,  // 🔥 Envia apenas o primeiro nome
-                    last_name: last_name      // 🔥 Envia o restante do nome
+                    first_name: first_name,  // 🔥 Corrigido para usar `first_name`
+                    last_name: last_name      // 🔥 Corrigido para usar `last_name`
                 }
             },
             {
                 headers: {
                     "Authorization": `Bearer ${MERCADO_PAGO_ACCESS_TOKEN}`,
                     "Content-Type": "application/json",
-                    "X-Idempotency-Key": uuidv4() // Evita pagamentos duplicados
+                    "X-Idempotency-Key": uuidv4()
                 }
             }
         );
@@ -64,7 +64,7 @@ app.post("/create_pix", async (req, res) => {
         console.log("✅ Pagamento criado com sucesso!", response.data);
 
         res.json({
-            payment_id: response.data.id, // ID do pagamento gerado
+            payment_id: response.data.id,
             qr_code_base64: response.data.point_of_interaction.transaction_data.qr_code_base64,
             pix_code: response.data.point_of_interaction.transaction_data.qr_code
         });
@@ -74,6 +74,7 @@ app.post("/create_pix", async (req, res) => {
         res.status(500).json({ error: "Erro ao criar pagamento PIX", details: error.response?.data });
     }
 });
+
 
 // Verificar status do pagamento usando a API correta
 app.get("/check_payment/:id", async (req, res) => {
