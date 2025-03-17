@@ -102,7 +102,7 @@ app.post('/send-email', (req, res) => {
             pass: "jnkurgeunpbzkhbq" // Senha de aplicativo
         }});
     const mailOptions = {
-        from: 'joaopaulojd021@gmail.com',
+        from: '"Supra" <joaopaulojd021@gmail.com>',
         to: email,
         subject: `Confirmação de compra!`,
         text: `Olá ${nome}, seu pagamento foi confirmado para Devs APP.`
