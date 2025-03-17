@@ -16,13 +16,16 @@ const MERCADO_PAGO_ACCESS_TOKEN = "APP_USR-4128571484840245-051411-4e2440590f5e3
 
 // Criar pagamento PIX
 app.post("/create_pix", async (req, res) => {
-    const { nome, sobrenome, email, preco } = req.body;
+    let { nome_completo, email, preco, produto_id } = req.body;
 
-    if (!nome || !sobrenome || !email) {
-        return res.status(400).json({ error: "Nome, sobrenome e email são obrigatórios!" });
+    if (!nome_completo || !email) {
+        return res.status(400).json({ error: "Nome completo e email são obrigatórios!" });
     }
 
-    console.log("📢 Criando pagamento PIX para:", nome, sobrenome, email);
+    // 🔥 Dividindo o nome completo automaticamente
+    const nomeArray = nome_completo.trim().split(" ");
+    const first_name = nomeArray[0]; // Primeiro nome
+    const last_name = nomeArray.slice(1).join(" ") || "N/A"; // Restante do nome ou "N/A" se não houver sobrenome
 
     const precoNumerico = parseFloat(preco);
     if (isNaN(precoNumerico)) {
@@ -35,12 +38,19 @@ app.post("/create_pix", async (req, res) => {
         const response = await axios.post(
             "https://api.mercadopago.com/v1/payments",
             {
-                transaction_amount: precoNumerico, // Valor do pagamento, agora garantido como numérico
+                transaction_amount: parseFloat(preco),
                 payment_method_id: "pix",
+                description: `Compra do Produto ${produto_id}`,
+                external_reference: `PEDIDO_${uuidv4()}`,
+                date_of_expiration: new Date(Date.now() + 600000).toISOString(),
+                metadata: {
+                    produto_id: produto_id,
+                    cliente_email: email
+                },
                 payer: {
                     email: email,
-                    first_name: nome,
-                    last_name: sobrenome
+                    first_name: first_name,  // 🔥 Envia apenas o primeiro nome
+                    last_name: last_name      // 🔥 Envia o restante do nome
                 }
             },
             {
@@ -100,7 +110,8 @@ app.post('/send-email', (req, res) => {
         auth: {
             user: "joaopaulojd021@gmail.com", // Seu e-mail
             pass: "jnkurgeunpbzkhbq" // Senha de aplicativo
-        }});
+        }
+    });
     const mailOptions = {
         from: '"Supra" <joaopaulojd021@gmail.com>',
         to: email,
