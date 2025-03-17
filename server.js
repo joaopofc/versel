@@ -2,8 +2,10 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const { v4: uuidv4 } = require("uuid");
 const axios = require("axios");
+const cors = require("cors"); // 🔥 Importando CORS
 
 const app = express();
+app.use(cors()); // 🔥 Habilitando CORS
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname)); // Servir arquivos HTML
