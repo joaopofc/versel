@@ -122,23 +122,32 @@ app.post('/send-email', (req, res) => {
         }
     });
     const mailOptions = {
-        from: '"Panda" <joaopaulojd021@gmail.com>',
+        from: '"Pago" <joaopaulojd021@gmail.com>',
         to: email,
         subject: `Confirmação de compra!`,
-        html: `<div style="max-width: 600px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); text-align: center;">
+        html: `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra Confirmada</title>
+</head>
+<body style="margin: 0; padding: 15px; background-color: #f4f4f4; text-align: center; font-family: Arial, sans-serif;">
+
+    <div style="max-width: 600px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); text-align: center;">
         
-        <h1 style="color: #333; font-size: 24px; margin-bottom: 10px;">Chegou voando!</h1>
+        <h1 style="color: #333; font-size: 24px; margin-bottom: 10px;">Viu só ${first_name}}? Chegou voando!</h1>
         
         <p style="font-size: 16px; color: #555; line-height: 1.6; margin-bottom: 20px;">
-            ${first_name} seu pedido foi confirmado! Para acessar seu produto agora, clique no botão abaixo:
+            Seu pedido foi <b>confirmado</b>. Para acessar seu produto agora, clique no botão abaixo:
         </p>
 
-        <a href="https://ipat.shop/" style="display: inline-block; background-color: #28a745; color: #fff; font-size: 16px; font-weight: bold; text-decoration: none; padding: 14px 24px; border-radius: 8px; transition: 0.3s ease;">
-            Acessar Produto
+    <a href="" style="display: inline-block;  box-shadow: inset 0 -4px #0002; background-color: #28a745; color: #fff; font-size: 16px; font-weight: bold; text-decoration: none; padding: 14px 24px; border-radius: 8px; transition: 0.3s ease;">
+        Acessar Produto
         </a>
 
         <p style="margin-top: 30px; font-size: 14px; color: #777;">
-            Se precisar de ajuda, basta responder este e-mail. Estamos aqui para te ajudar! 😊
+            Se <b>precisar de ajuda</b>, basta responder este e-mail. Estamos aqui para te ajudar! 😊
         </p>
 
         <hr style="border: none; border-top: 1px solid #ddd; margin: 25px 0;">
@@ -147,7 +156,11 @@ app.post('/send-email', (req, res) => {
             &copy; 2025 Defpay. Todos os direitos reservados.
         </p>
 
-    </div>`
+    </div>
+
+</body>
+</html>
+`
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
