@@ -125,7 +125,7 @@ app.post('/send-email', (req, res) => {
         from: '"Panda" <joaopaulojd021@gmail.com>',
         to: email,
         subject: `Confirmação de compra!`,
-        text: `<div style="max-width: 600px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); text-align: center;">
+        html: `<div style="max-width: 600px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); text-align: center;">
         
         <h1 style="color: #333; font-size: 24px; margin-bottom: 10px;">Chegou voando!</h1>
         
