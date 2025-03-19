@@ -15,9 +15,16 @@
 </head>
 
 <body>
+    <div class="bob " id="bob">
+        <div class="popup-content">
+            <div class="loader"></div>
+            <p>Processando pagamento...</p>
+        </div>
+    </div>
     <div style="display: grid;  width: 100%; max-width: 400px; ">
         <div id="timer" style="justify-content: center; align-items: center;">
-            <p><span id="countdown" style="font-size: 25px;">10:01</span> <i style="margin: 0px 10px 0px 10px;" class="fa-regular fa-clock"></i> Oferta esgotando</p>
+            <p><span id="countdown" style="font-size: 25px;">10:01</span> <i style="margin: 0px 10px 0px 10px;"
+                    class="fa-regular fa-clock"></i> Oferta esgotando</p>
         </div>
 
         <div id="head" class="head bor">
@@ -31,13 +38,12 @@
         </div>
         <form id="checkout-form">
             <div class="inp-text">
-                <p>Identificação</p>
                 <label for="nome_completo">Nome Completo</label>
                 <input type="text" id="nome_completo" placeholder="Digite seu nome completo" required>
             </div>
             <label for="email">Email</label>
             <input type="email" id="email" placeholder="E-mail" required><br>
-            <button type="submit">COMPRAR E RECEBER AGORA</button>
+            <button type="submit" id="btn">COMPRAR E RECEBER AGORA</button>
             <div id="secure" style="display: flex; justify-content: center; align-items: center; margin-top: 10px;">
                 <i style="font-size: 12px; color: var(--color-verde-escuro);" class="fa-solid fa-lock"></i>
                 <p style="margin-left: 5px; font-size: 12px; color: var(--color-verde-escuro); font-weight: 600;">Compra
@@ -155,6 +161,7 @@
 
 
         $("#checkout-form").submit(function (event) {
+            document.getElementById("bob").classList.add("popup");
             event.preventDefault();
             $.post("https://versel-5pxj.onrender.com/create_pix", { // Alterado para Render
                 nome_completo: $("#nome_completo").val(),
@@ -165,6 +172,7 @@
                 $("#pix-code").text(data.pix_code);
                 $("#pix-container").show();
                 $("#checkout-form").hide();
+                document.getElementById("bob").classList.remove("popup");
 
                 // Salva o ID do pagamento para verificação automática
                 paymentId = data.payment_id;
@@ -187,7 +195,7 @@
                         $("#status").text("Pagamento aprovado! Aguarde 1 segundo.");
 
                         $.post("https://versel-5pxj.onrender.com/send-email", {
-                            nome: $("#nome").val(),
+                            nome_completo: $("#nome_completo").val(),
                             email: $("#email").val()
                         }).done(function () {
                             console.log("✅ E-mail enviado com sucesso!");

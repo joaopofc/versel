@@ -39,6 +39,7 @@ body {
     min-height: 100vh;
     max-width: 100vw;
     padding: 20px;
+    position: relative;
 }
 
 /* Título principal */
@@ -147,7 +148,7 @@ input {
     font-family: var(--font-sat-normal);
     width: 100%;
     padding: 12px;
-    margin-bottom: 16px;
+    margin-bottom: 8px;
     border: .3px solid #c7c7c7;
     border-radius: 8px;
     font-size: 13px;
@@ -155,14 +156,52 @@ input {
     transition: border-color 0.3s ease;
 }
 
-/* input:focus {
-    border-color: #007bff;
-} */
+.bob {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+.bob.popup {
+    visibility: visible;
+    opacity: 1;
+}
+.popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+.loader {
+    border: 7px solid #f3f3f3;
+    border-top: 7px solid #9834db;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 10px auto;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 
 button {
     font-family: Poppins;
     box-shadow: inset 0 -4px #0002;
     width: 100%;
+    margin-top: 10px;
     padding: 14px 14px 14px 14px;
     background-color: var(--color-verde-escuro);
     color: white;
@@ -253,6 +292,7 @@ button:hover {
 @media (max-width: 600px) {
     body {
         padding: 15px;
+        height: auto;
     }
 
     form {

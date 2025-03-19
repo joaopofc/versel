@@ -16,7 +16,7 @@ const MERCADO_PAGO_ACCESS_TOKEN = "APP_USR-4128571484840245-051411-4e2440590f5e3
 
 // Criar pagamento PIX
 app.post("/create_pix", async (req, res) => {
-    let { nome_completo, email, preco, produto_id } = req.body;
+    let { nome_completo, email, preco } = req.body;
 
     if (!nome_completo || !email) {
         return res.status(400).json({ error: "Nome completo e email são obrigatórios!" });
@@ -101,7 +101,16 @@ app.get("/check_payment/:id", async (req, res) => {
 });
 
 app.post('/send-email', (req, res) => {
-    const { nome, email } = req.body;
+    let { nome_completo, email } = req.body;
+
+    if (!nome_completo || !email) {
+        return res.status(400).json({ error: "Nome completo e email são obrigatórios!" });
+    }
+
+    // 🔥 Dividindo o nome completo automaticamente
+    const nomeArray = nome_completo.trim().split(" ");
+    const first_name = nomeArray[0]; // Primeiro nome
+    const last_name = nomeArray.slice(1).join(" ") || "N/A"; // Restante do nome ou "N/A" se não houver sobrenome
 
     // Configurar o envio de e-mail aqui (com NodeMailer, SendGrid, etc)
     // Exemplo com Nodemailer:
@@ -116,7 +125,70 @@ app.post('/send-email', (req, res) => {
         from: '"Supra" <joaopaulojd021@gmail.com>',
         to: email,
         subject: `Confirmação de compra!`,
-        text: `Olá ${nome}, seu pagamento foi confirmado para Devs APP.`
+        text: `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra Confirmada</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.5;
+        }
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            background-color: #28a745;
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            padding: 14px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #218838;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Obrigado pela sua compra!</h1>
+        <p>${first_name}, seu pedido foi confirmado e está sendo processado. Acesse o link abaixo para baixar seu produto.</p>
+        
+        <a href="https://ipat.shop/" class="btn">Acessar Produto</a>
+
+        <p class="footer">Se você tiver alguma dúvida, responda este e-mail.</p>
+    </div>
+
+</body>
+</html>`
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
