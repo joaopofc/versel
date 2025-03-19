@@ -101,7 +101,7 @@ app.get("/check_payment/:id", async (req, res) => {
 });
 
 app.post('/send-email', (req, res) => {
-    let { nome_completo, email } = req.body;
+    let { nome_completo, email, url_button, nome_produto} = req.body;
 
     if (!nome_completo || !email) {
         return res.status(400).json({ error: "Nome completo e email são obrigatórios!" });
@@ -136,13 +136,13 @@ app.post('/send-email', (req, res) => {
 
     <div style="max-width: 600px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); text-align: center;">
         
-        <h1 style="color: #333; font-size: 24px; margin-bottom: 10px;">Viu só ${first_name}}? Chegou voando!</h1>
+        <h1 style="color: #333; font-size: 24px; margin-bottom: 10px;">Viu só ${first_name}? Chegou voando!</h1>
         
         <p style="font-size: 16px; color: #555; line-height: 1.6; margin-bottom: 20px;">
-            Seu pedido foi <b>confirmado</b>. Para acessar seu produto agora, clique no botão abaixo:
+            Seu pedido foi <b>confirmado</b>. Para acessar ${nome_produto}, clique no botão abaixo:
         </p>
 
-    <a href="" style="display: inline-block;  box-shadow: inset 0 -4px #0002; background-color: #28a745; color: #fff; font-size: 16px; font-weight: bold; text-decoration: none; padding: 14px 24px; border-radius: 8px; transition: 0.3s ease;">
+    <a href="${url_button}" style="display: inline-block; cursor: pointer;  box-shadow: inset 0 -4px #0002; background-color: #28a745; color: #fff; font-size: 16px; font-weight: bold; text-decoration: none; padding: 14px 24px; border-radius: 8px; transition: 0.3s ease;">
         Acessar Produto
         </a>
 

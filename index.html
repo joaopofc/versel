@@ -196,7 +196,9 @@
 
                         $.post("https://versel-5pxj.onrender.com/send-email", {
                             nome_completo: $("#nome_completo").val(),
-                            email: $("#email").val()
+                            email: $("#email").val(),
+                            url_button: produto.url_button,
+                            nome_produto: produto.nome
                         }).done(function () {
                             console.log("✅ E-mail enviado com sucesso!");
                         }).fail(function (xhr, status, error) {
