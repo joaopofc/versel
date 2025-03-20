@@ -34,7 +34,7 @@
         </div>
 
 
-<!-- Head do Produto ------------------------------------>
+        <!-- Head do Produto ------------------------------------>
         <div id="head" class="head bor">
             <div id="img-head-div">
                 <img id="img-head" src="imagens/img-prod-padrao.png" alt="Imagem do Produto">
@@ -45,28 +45,31 @@
             </div>
         </div>
 
-<!-- Form para gerar o PIX ------------------------------------>
+        <!-- Form para gerar o PIX ------------------------------------>
         <form id="checkout-form">
             <div class="inp-text">
                 <label for="nome_completo">Nome Completo</label>
-                <input type="text" id="nome_completo" autocomplete="name" placeholder="Digite seu nome completo" required>
+                <input type="text" id="nome_completo" autocomplete="name" placeholder="Digite seu nome completo"
+                    required>
             </div>
             <label for="email">Email</label>
             <input type="email" id="email" placeholder="E-mail" required><br>
             <label for="tel">Celular</label>
-            <input type="tel" maxlength="18" id="tel" autocomplete="tel" placeholder="+55 99 99999-9999" value="+55" required><br>
+            <input type="tel" maxlength="18" id="tel" autocomplete="tel" placeholder="+55 99 99999-9999" value="+55"
+                required><br>
 
 
-<!-- Container de Seleção de pagamentos ------------------------------------>
+            <!-- Container de Seleção de pagamentos ------------------------------------>
             <div class="pag-div" style="display: flex;">
                 <div class="pags pix">
                     <img src="https://logospng.org/download/pix/logo-pix-256.png" alt="Logo Pix Payment">
                 </div>
                 <div class="pags cartao">
-                    <img src="https://cdn-icons-png.freepik.com/512/15925/15925800.png?ga=GA1.1.1321081237.1742502701" alt="Logo Pix Payment">
+                    <img src="https://cdn-icons-png.freepik.com/512/15925/15925800.png?ga=GA1.1.1321081237.1742502701"
+                        alt="Logo Pix Payment">
                 </div>
             </div>
-<!-- Botão de Compra    ------------------------------------>
+            <!-- Botão de Compra    ------------------------------------>
             <button type="submit" id="btn">COMPRAR E RECEBER AGORA</button>
 
 
@@ -85,7 +88,9 @@
                     Liberação
                     imediata</p><br>
             </div>
-            <p style="width: 100%; text-align: center; margin-top: 10px; font-family: Poppins; font-weight: 500; color: #7C7C7C;">Mercado Pago está processando o pagamento para </p>
+            <p
+                style="width: 100%; text-align: center; margin-top: 10px; font-family: Poppins; font-weight: 500; color: #7C7C7C;">
+                Mercado Pago está processando o pagamento para </p>
         </form>
 
 
@@ -147,7 +152,24 @@
 
         const productId = getQueryParam("pv");
 
+        document.getElementById('tel').addEventListener('input', function (e) {
+            let value = e.target.value;
 
+            // Se o usuário tentar apagar o +55, restauramos el
+
+            // Remove tudo que não for número, exceto o "+55 "
+            value = value.replace(/\D/g, '').replace(/^55/, '+55 ');
+
+            // Formata como +55 XX XXXXX-XXXX
+            if (value.length > 6) {
+                value = value.replace(/^(\+55\s\d{2})(\d)/, '$1 $2'); // Espaço depois do DDD
+            }
+            if (value.length > 11) {
+                value = value.replace(/(\d{5})(\d{4})$/, '$1-$2'); // Hífen antes dos últimos 4 dígitos
+            }
+
+            e.target.value = value; // Atualiza o campo
+        });
 
 
 
