@@ -22,7 +22,7 @@ app.post("/create_pix", async (req, res) => {
         return res.status(400).json({ error: "Nome completo e email são obrigatórios!" });
     }
 
-    // 🔥 Dividindo o nome completo automaticamente
+    //  Dividindo o nome completo automaticamente
     const nomeArray = nome_completo.trim().split(" ");
     const first_name = nomeArray[0]; // Primeiro nome
     const last_name = nomeArray.slice(1).join(" ") || "N/A"; // Restante do nome ou "N/A" se não houver sobrenome
