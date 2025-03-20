@@ -16,6 +16,7 @@
 :root {
     --color-verde-escuro: #16A34A;
     --font-sat-normal: Satoshi;
+    --inpt-color: #dee1e4;
 }
 
 .poppins-regular {
@@ -41,6 +42,7 @@ body {
     max-width: 100vw;
     padding: 20px;
     position: relative;
+    top: 0;
 }
 
 /* Título principal */
@@ -131,6 +133,39 @@ h3 {
 
     }
 }
+
+.pags {
+    height: 40px;
+    width: 70px;
+    border: 1.6px solid var(--inpt-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    margin: 10px 10px 5px 0;
+}
+
+.pags.pix {
+    border: 2px solid rgb(29, 20, 52);
+    box-shadow: inset 0 -4px #0002;
+    cursor: pointer;
+}
+
+.pags.pix:hover{
+    border: 2px solid black;
+    cursor: pointer;
+}
+
+.pags.pix img {
+    height: 130%;
+    width: auto;
+}
+.pags.cartao img {
+    height: 80%;
+    width: auto;
+}
+
+
 .corp {
     display: grid;
     width: 100%;
@@ -183,7 +218,7 @@ input {
     width: 100%;
     padding: 12px;
     margin-bottom: 8px;
-    border: .3px solid #c7c7c7;
+    border: .3px solid  var(--inpt-color);
     border-radius: 8px;
     font-size: 13px;
     outline: none;
@@ -344,5 +379,8 @@ button:hover {
 
     h2 {
         font-size: 20px;
+    }
+    input {
+        font-size: 16px;
     }
 }
