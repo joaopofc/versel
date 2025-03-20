@@ -11,7 +11,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-database.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <title>Checkout PIX - Mercado Pago</title>
+    <title>Carregando produto..</title>
 </head>
 
 <body>
@@ -21,7 +21,13 @@
             <p>Processando pagamento...</p>
         </div>
     </div>
-    <div style="display: grid;  width: 100%; max-width: 400px; ">
+    <div id="error-prod" class="error-prod hide">
+        <img style="height: 150px;" src="imagens/error-code.png" alt="Imagem de Erro.">
+        <h2 style="font-family: Poppins;">Ops, algo está errado.</h2>
+        <p style="color: rgb(107 114 128 1);font-family: Poppins; text-align: center;">Produto não disponível, inativo
+            ou bloqueado. Contate o suporte para mais informações.</p>
+    </div>
+    <div id="corp" class="corp ">
         <div id="timer" style="justify-content: center; align-items: center;">
             <p><span id="countdown" style="font-size: 25px;">10:01</span> <i style="margin: 0px 10px 0px 10px;"
                     class="fa-regular fa-clock"></i> Oferta esgotando</p>
@@ -29,7 +35,7 @@
 
         <div id="head" class="head bor">
             <div id="img-head-div">
-                <img id="img-head" src="seu pet (4).png" alt="Imagem do Produto">
+                <img id="img-head" src="imagens/img-prod-padrao.png" alt="Imagem do Produto">
             </div>
             <div id="detalhes-prod-div">
                 <h4 id="detalhes-prod"></h4>
@@ -113,10 +119,16 @@
 
         const productId = getQueryParam("pv");
 
+
+
+
+
         if (productId) {
             console.log("🔍 Buscando produto com ID:", productId);
 
             const productRef = firebase.database().ref("produtos/" + productId);
+            const corp = document.getElementById("corp");
+            const errorProd = document.getElementById("error-prod");
 
             productRef.once("value")
                 .then(snapshot => {
@@ -125,6 +137,7 @@
 
                         $("#detalhes-prod").text(produto.nome);
                         $("#preco-prod").text("R$" + produto.preco.toFixed(2));
+                        document.title = produto.nome;
 
                         const imgElement = document.getElementById("img-head");
 
@@ -143,17 +156,19 @@
                         console.log("✅ Produto encontrado:", produto);
                     } else {
                         console.error("❌ Produto não encontrado.");
-                        alert("Produto não encontrado!");
+                        document.getElementById("corp").classList.add('hide');
+                        document.getElementById("error-prod").classList.remove('hide');
                     }
                 })
                 .catch(error => {
                     console.error("❌ Erro ao buscar produto:", error);
-                    alert("Erro ao carregar o produto.");
+
                 });
 
         } else {
             console.error("❌ Nenhum ID de produto foi fornecido na URL.");
             alert("Produto inválido!");
+
         }
 
 
