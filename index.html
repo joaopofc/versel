@@ -22,7 +22,7 @@
         </div>
     </div>
     <div id="error-prod" class="error-prod hide">
-        <img style="height: 150px;" src="imagens/error-code.png" alt="Imagem de Erro.">
+        <img style="height: 150px;" src="imagens/Logo2pay.png" alt="Imagem de Erro.">
         <h2 style="font-family: Poppins;">Ops, algo está errado..</h2>
         <p style="color: rgb(107 114 128 1);font-family: Poppins; text-align: center;">Produto não disponível, inativo
             ou bloqueado. Contate o suporte para mais informações.</p>
@@ -98,14 +98,14 @@
         <div id="pix-container">
             <div style="display: flex; align-items: center; justify-content: center;">
                 <h2 id="status">Aguardando pagamento</h2>
-                <div class="loading">
+                <div id="loading" class="loading">
                     <div class="dot"></div>
                     <div class="dot"></div>
                     <div class="dot"></div>
                 </div>
             </div>
 
-            <h3>Escaneie o QR Code ou copie o código PIX</h3>
+            <h3 id="scan">Escaneie o QR Code ou copie o código PIX</h3>
             <img id="pix-qr" src="" alt="QR Code PIX">
             <div id="pix-code-div">
                 <p id="pix-code"></p>
@@ -116,7 +116,7 @@
             <!-- Lista de Coisa Boa -->
             <div id="secure"
                 style="display: flex; justify-content: center; align-items: center; margin-top: 7px; margin-bottom: 10px;">
-                <i style="font-size: 14x; color:#7C7C7C;" class="fa-solid fa-circle-check"></i>
+                <i style="font-size: 14x; color:#7C7C7C;" class="fa-solid fa-lock"></i>
                 <p style="margin-left: 5px; font-size: 13px; color: #7C7C7C; font-weight: 780;">Compra segura | Dados
                     protegidos</p><br>
             </div>
@@ -257,9 +257,12 @@
                 $.get(`https://versel-5pxj.onrender.com/check_payment/${paymentId}`, function (data) { // Alterado para Render
                     if (data.status === "approved") {
                         clearInterval(interval);
-                        $("#pix-qr").attr("src", 'https://firebasestorage.googleapis.com/v0/b/loginxepa.appspot.com/o/img%2FDesign%20sem%20nome%20(9).png?alt=media&token=0dc8b3f5-48cf-43e3-a4af-d8ecb33f8dab');
+                        $("#pix-qr").attr("src", 'https://firebasestorage.googleapis.com/v0/b/loginxepa.appspot.com/o/img%2Fpago-transp3-150x150.png?alt=media&token=1bbb9be8-3a00-4678-b975-7a1a29ec64d5');
                         $("#pix-code-div").hide();
                         $("#status").text("Pagamento aprovado! Aguarde 1 segundo.");
+                        $("#scan").text("Você receberá um email.");
+                        $("#loading").hide();
+                        $("#btnconf").hide();
 
                         $.post("https://versel-5pxj.onrender.com/send-email", {
                             nome_completo: $("#nome_completo").val(),
@@ -273,7 +276,7 @@
                         });
 
                         setTimeout(() => {
-                            window.location.href = "https://ipat.shop";
+                            window.location.href = produto.url_button;
                         }, 4000);
                     } else if (data.status === "rejected") {
                         clearInterval(interval);
