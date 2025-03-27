@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@400;500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@400;500&display=swap');
+
 /* Reset global */
 * {
     margin: 0;
@@ -32,7 +33,7 @@
 
 
 body {
-    background-color: #EFEFEF;
+    background-color: #fcfcfc;
     color: #333;
     display: flex;
     justify-content: center;
@@ -66,7 +67,7 @@ h3 {
     color: white;
     font-size: 19px;
     font-weight: bold;
-    font-family: Poppins;
+    font-family: 'Inter';
     text-align: center;
     border-radius: 6px;
     padding: 25px 30px;
@@ -122,9 +123,16 @@ h3 {
     font-family: 'Montserrat';
 }
 
+#detalhes-prod {
+    margin-bottom: 5px;
+    margin-right: 5px;
+    font-weight: bold;
+}
+
+
 #descricao-prod {
     font-weight: 420;
-    color: black;
+    color: #636363; 
     font-size: 13px;
     font-family: 'Montserrat';
 }
@@ -147,14 +155,19 @@ h3 {
     display: flex;
     flex-direction: column;
 }
+
 .error-prod img {
-    animation: baix 2s infinite; 
+    animation: baix 2s infinite;
 }
+
 @keyframes baix {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateY(-30px);
         visibility: .4;
     }
+
     50% {
         transform: translateY(0px);
         visibility: 1;
@@ -179,7 +192,7 @@ h3 {
     cursor: pointer;
 }
 
-.pags.pix:hover{
+.pags.pix:hover {
     border: 2px solid black;
     cursor: pointer;
 }
@@ -188,6 +201,7 @@ h3 {
     height: 130%;
     width: auto;
 }
+
 .pags.cartao img {
     height: 80%;
     width: auto;
@@ -199,6 +213,7 @@ h3 {
     width: 100%;
     max-width: 400px;
 }
+
 .hide {
     display: none;
 }
@@ -243,10 +258,13 @@ form p {
 
 input {
     font-family: var(--font-sat-normal);
+    /* color: #636363; */
+    color: #2c2c2c;
+
     width: 100%;
     padding: 12px;
     margin-bottom: 8px;
-    border: .3px solid  var(--inpt-color);
+    border: 1.5px solid var(--inpt-color);
     border-radius: 8px;
     font-size: 13px;
     outline: none;
@@ -367,7 +385,7 @@ button:hover {
 .dot {
     width: 7px;
     height: 7px;
-    background-color: rgb(63, 156, 10);
+    background-color: rgb(255, 187, 0);
     border-radius: 50%;
     animation: pulse 1.5s infinite ease-in-out;
 }
@@ -393,6 +411,24 @@ button:hover {
 }
 
 
+/* Estilo do botão WhatsApp */
+.whatsapp-button {
+    position: fixed; /* Fixa o botão na tela */
+    bottom: 20px; /* Distância do fundo da tela */
+    right: 20px; /* Distância da lateral direita da tela */
+    z-index: 1000; /* Garantir que o botão fique acima de outros conteúdos */
+}
+
+.whatsapp-button img {
+    width: 60px; /* Tamanho da imagem do botão */
+    height: 60px; /* Tamanho da imagem do botão */
+    border-radius: 50%; /* Tornar a imagem redonda */
+    transition: transform 0.3s ease-in-out; /* Efeito de transição para quando o botão for clicado */
+}
+
+.whatsapp-button img:hover {
+    transform: scale(1.1); /* Aumenta um pouco o tamanho do botão quando o cursor passar sobre ele */
+}
 
 
 
@@ -427,7 +463,8 @@ button:hover {
     border-radius: 50px;
     background-color: #08BE4B;
     font-weight: bold;
-    margin-right: 4px; /* Reduz o espaço entre o número e o texto */
+    margin-right: 4px;
+    /* Reduz o espaço entre o número e o texto */
 }
 
 
@@ -457,14 +494,50 @@ button:hover {
     h2 {
         font-size: 20px;
     }
+
     input {
         font-size: 16px;
     }
+
     #img-head-div {
-        margin: 6px;
+        margin: 10px;
         max-width: 110px;
         max-height: 110px;
     }
+
+    #img-head {
+        height: 100%;
+        width: 100%;
+        border-radius: 10px;
+    }
+}
+
+
+@media (max-width: 480px) {
+    body {
+        padding: 15px;
+        height: auto;
+    }
+
+    form {
+        padding: 20px;
+        width: 100%;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    input {
+        font-size: 16px;
+    }
+
+    #img-head-div {
+        margin: 10px;
+        max-width: 110px;
+        max-height: 110px;
+    }
+
     #img-head {
         height: 100%;
         width: 100%;

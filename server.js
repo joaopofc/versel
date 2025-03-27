@@ -42,7 +42,6 @@ app.post("/create_pix", async (req, res) => {
                 payment_method_id: "pix",
                 description: `Compra do Produto dev`,
                 external_reference: `PEDIDO_${uuidv4()}`,
-                date_of_expiration: new Date(Date.now() + 600000).toISOString(),
                 metadata: {
                     cliente_email: email
                 },
@@ -177,7 +176,7 @@ app.post('/send-email', (req, res) => {
 
        
         
-        <p style="margin-top: 30px; font-size: 15px; color: #777;">
+        <p style="margin-top: 30px; font-size: 14px; color: #777;">
             Se <b>precisar de ajuda</b>, entre em contato com ${nome_vendedor} nesse email: <a
                 href="mailto:${email_vendedor}">${email_vendedor}</a>
         </p>

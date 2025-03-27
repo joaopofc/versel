@@ -16,6 +16,13 @@
 </head>
 
 <body>
+    <div class="whatsapp-button">
+        <a href="https://wa.me/5584994239716?text=Preciso+de+ajuda" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="">
+        </a>
+    </div>
+
+
     <div class="bob " id="bob">
         <div class="popup-content">
             <div class="loader"></div>
@@ -54,10 +61,9 @@
                 <h4 id="detalhes-prod"></h4>
                 <p id="descricao-prod">Com order bump e pixel de rastreamento meta, otimizado para conversões diretas
                 </p>
-                <p style="margin-right: 4px; font-size: 11px; margin-top: 7px; font-style: tachado;"><s>De R$ 55,00</s>
+                <p style="margin-right: 4px; font-size: 11px; margin-top: 7px; font-style: tachado;">de <s style="color: #7C7C7C; font-weight: 600;">R$ 97,00</s> por
                 </p>
                 <div style="display: flex; align-items: baseline;">
-                    <p style="margin-right: 4px; font-size: 11px;">por</p>
                     <h2 id="preco-prod"></h2>
                 </div>
             </div>
@@ -111,13 +117,19 @@
                     Liberação
                     imediata</p><br>
             </div>
+
+            <!-- Logo Twopay -->
+            <div id="logo-div" style="display: flex; justify-content: center; align-items: center; margin-top: 10px; width: 100%; height: auto;">
+                <img style="width: 50px; height: 19px; filter: grayscale(1);" src="imagens/Logo2pay.png"></img>
+            </div>
+
+
             <div style="width: 100%; display: flex; text-align: center; justify-content: center;">
 
-                <p
-                    style="width: 90%; text-align: center; margin-top: 10px;  font-family: Poppins; font-weight: 500; color: #7C7C7C;">
-                    Seu pagamento está sendo processado por <b>Twopay</b> para o vendedor <span
-                        id="nome_vendedor">NomeDoVende</span>. Ambiente 100% seguro. </p>
+                <p style="width: 90%; text-align: center;   font-family: Poppins; font-weight: 500; color: #7C7C7C;">
+                    Seu pagamento está sendo processado por <b>Twopay</b> para o vendedor <span id="nome_vendedor">NomeDoVendedor</span>. Ambiente 100% seguro. </p>
             </div>
+            
         </form>
 
 
@@ -155,6 +167,11 @@
                 <p style="margin-left: 5px; font-size: 13px; color: #7C7C7C; font-weight: 780; font-family: 'Inter';">
                     Compra segura | Dados
                     protegidos</p><br>
+            </div>
+
+            <!-- Logo Twopay -->
+            <div id="logo-div" style="display: flex; justify-content: center; align-items: center; margin-top: 10px; width: 100%; height: auto;">
+                <img style="width: 50px; height: 19px; filter: grayscale(1);" src="imagens/Logo2pay.png"></img>
             </div>
 
         </div>
@@ -231,7 +248,9 @@
                         $("#detalhes-prod").text(produto.nome);
                         $("#descricao-prod").text(produto.descricao);
                         $("#nome_vendedor").text(produto.nome_vendedor);
-                        $("#preco-prod").text("R$" + produto.preco.toFixed(2));
+                        let precoFormatado = `R$ ${produto.preco.toFixed(2).replace(".", ",")}`;
+                        $("#preco-prod").text(`${precoFormatado}`);
+
                         document.title = produto.nome;
 
                         const imgElement = document.getElementById("img-head");
@@ -281,8 +300,8 @@
             document.getElementById("error-prod").classList.remove('hide');
 
         }
-        
-        
+
+
         $("#checkout-form").submit(function (event) {
             document.getElementById("bob").classList.add("popup");
             event.preventDefault();
@@ -308,7 +327,7 @@
                 let agora = new Date();
                 let dataAtu = agora.toLocaleDateString("pt-BR"); // Formato: DD/MM/AAAA
                 let horaAtu = agora.toLocaleTimeString("pt-BR"); // Formato: HH:MM:SS
-                
+
                 // Cria um novo pedido no Firebase
                 pedidosRef.child(paymentId).set({
 
@@ -347,6 +366,7 @@
                         $("#scan").text("Você receberá um email.");
                         $("#loading").hide();
                         $("#btnconf").hide();
+                        $("#como-pagar").hide();
 
                         // Atualiza o status do pedido no Firebase
                         let agora = new Date();
