@@ -122,7 +122,7 @@ app.post('/send-email', (req, res) => {
         }
     });
     const mailOptions = {
-        from: '"Twopay - Aprovado" <joaopaulojd021@gmail.com>',
+        from: '"Twopay" <joaopaulojd021@gmail.com>',
         to: email,
         subject: `Pagamento aprovado!`,
         html: `<!DOCTYPE html>
@@ -147,29 +147,29 @@ app.post('/send-email', (req, res) => {
         </p>
 
         <a href="${url_button}"
-            style="display: inline-block; cursor: pointer;  box-shadow: inset 0 -4px #0002; background-color: #28a745; color: #fff; font-size: 16px; font-weight: bold; text-decoration: none; padding: 16px 34px; border-radius: 8px; transition: 0.3s ease;">
+            style="display: inline-block; cursor: pointer;  box-shadow: inset 0 -4px #0002; background-color: #28a745; color: #fff; font-size: 17px; font-weight: bold; text-decoration: none; padding: 16px 34px; border-radius: 8px; transition: 0.3s ease;">
             Acessar Produto
         </a>
 
 
         <p
-            style="margin-top: 30px; font-size: 16px; color: #777; width: 100%; display: flex; align-items: center; justify-content: start;">
+            style="margin-top: 30px; font-size: 15px; color: #777; width: 100%; display: flex; align-items: center; justify-content: start;">
             Veja os detalhes abaixo:
         </p>
         <p
-            style="margin-top: 0px; font-size: 16px; color: #777; display: flex; align-items: center; justify-content: start;">
+            style="margin-top: 0px; font-size: 15px; color: #777; display: flex; align-items: center; justify-content: start;">
             <b style="color: #525F7F; margin-right: 3px;">Produto:</b> ${nome_produto}
         </p>
         <p
-            style="margin-top: -6px; font-size: 16px; color: #777; display: flex; align-items: center; justify-content: start;">
+            style="margin-top: -6px; font-size: 15px; color: #777; display: flex; align-items: center; justify-content: start;">
             <b style="color: #525F7F; margin-right: 3px;">Valor:</b> R$ ${preco}
         </p>
         <p
-            style="margin-top: -6px; font-size: 16px; color: #777; display: flex; align-items: center; justify-content: start;">
+            style="margin-top: -6px; font-size: 15px; color: #777; display: flex; align-items: center; justify-content: start;">
             <b style="color: #525F7F; margin-right: 3px;">Método de pagamento:</b> Pix
         </p>
         <p
-            style="margin-top: -6px; font-size: 16px; color: #777; display: flex; align-items: center; justify-content: start;">
+            style="margin-top: -6px; font-size: 15px; color: #777; display: flex; align-items: center; justify-content: start;">
             <b style="color: #525F7F; margin-right: 3px;">Email usado:</b> ${email}
         </p>
 
@@ -177,7 +177,7 @@ app.post('/send-email', (req, res) => {
 
        
         
-        <p style="margin-top: 30px; font-size: 16px; color: #777;">
+        <p style="margin-top: 30px; font-size: 15px; color: #777;">
             Se <b>precisar de ajuda</b>, entre em contato com ${nome_vendedor} nesse email: <a
                 href="mailto:${email_vendedor}">${email_vendedor}</a>
         </p>
@@ -185,7 +185,7 @@ app.post('/send-email', (req, res) => {
         <hr style="border: none; border-top: 1px solid #ddd; margin: 25px 0;">
 
         <p style="font-size: 12px; color: #999;">
-            &copy; 2025 <a href="https://ipat.shop/help>Twopay</a>. Todos os direitos reservados.
+            &copy; 2025 <a href="https://ipat.shop/help">Twopay</a>. Todos os direitos reservados.
         </p>
 
     </div>
