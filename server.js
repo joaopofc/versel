@@ -138,15 +138,16 @@ app.post('/send-email', (req, res) => {
 
     <div
         style="max-width: 600px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); text-align: center;">
+        
 
-        <h1 style="color: #333; font-size: 24px; margin-bottom: 10px;">Eae ${first_name}, tudo certo?</h1>
+        <h1 style="color: #333; font-size: 25px; margin-bottom: 10px; margin-top: 30px;">Eae ${first_name}, tudo certo?</h1>
 
         <p style="font-size: 16px; color: #555; line-height: 1.6; margin-bottom: 20px;">
             Seu pedido foi <b>confirmado</b>. Para acessar <b>${nome_produto}</b>, clique no botão abaixo:
         </p>
 
         <a href="${url_button}"
-            style="display: inline-block; cursor: pointer;  box-shadow: inset 0 -4px #0002; background-color: #28a745; color: #fff; font-size: 16px; font-weight: bold; text-decoration: none; padding: 14px 24px; border-radius: 8px; transition: 0.3s ease;">
+            style="display: inline-block; cursor: pointer;  box-shadow: inset 0 -4px #0002; background-color: #28a745; color: #fff; font-size: 16px; font-weight: bold; text-decoration: none; padding: 16px 34px; border-radius: 8px; transition: 0.3s ease;">
             Acessar Produto
         </a>
 
@@ -160,28 +161,23 @@ app.post('/send-email', (req, res) => {
             <b style="color: #525F7F; margin-right: 3px;">Produto:</b> ${nome_produto}
         </p>
         <p
-            style="margin-top: -4px; font-size: 14px; color: #777; display: flex; align-items: center; justify-content: start;">
+            style="margin-top: -6px; font-size: 16px; color: #777; display: flex; align-items: center; justify-content: start;">
             <b style="color: #525F7F; margin-right: 3px;">Valor:</b> R$ ${preco}
         </p>
         <p
-            style="margin-top: -4px; font-size: 14px; color: #777; display: flex; align-items: center; justify-content: start;">
+            style="margin-top: -6px; font-size: 16px; color: #777; display: flex; align-items: center; justify-content: start;">
             <b style="color: #525F7F; margin-right: 3px;">Método de pagamento:</b> Pix
         </p>
         <p
-            style="margin-top: -4px; font-size: 14px; color: #777; display: flex; align-items: center; justify-content: start;">
+            style="margin-top: -6px; font-size: 16px; color: #777; display: flex; align-items: center; justify-content: start;">
             <b style="color: #525F7F; margin-right: 3px;">Email usado:</b> ${email}
         </p>
 
 
 
-        <!-- 
-            Produto: Clube Santo - Curso
-            Vendedor: Juan Roberto de Oliveira
-
-            Valor: R$5,00
-            Método de pagamento: pix -->
+       
         
-        <p style="margin-top: 30px; font-size: 14px; color: #777;">
+        <p style="margin-top: 30px; font-size: 16px; color: #777;">
             Se <b>precisar de ajuda</b>, entre em contato com ${nome_vendedor} nesse email: <a
                 href="mailto:${email_vendedor}">${email_vendedor}</a>
         </p>
@@ -189,7 +185,7 @@ app.post('/send-email', (req, res) => {
         <hr style="border: none; border-top: 1px solid #ddd; margin: 25px 0;">
 
         <p style="font-size: 12px; color: #999;">
-            &copy; 2025 <a href="https://ipat.shop/pv=1">Twopay</a>. Todos os direitos reservados.
+            &copy; 2025 <a href="https://ipat.shop/help>Twopay</a>. Todos os direitos reservados.
         </p>
 
     </div>

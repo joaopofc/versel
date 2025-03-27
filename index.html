@@ -281,32 +281,8 @@
             document.getElementById("error-prod").classList.remove('hide');
 
         }
-
-
-        function atualizarHora() {
-            const agora = new Date();
-            let horas = String(agora.getHours()).padStart(2, '0');
-            let minutos = String(agora.getMinutes()).padStart(2, '0');
-            let dia = String(agora.getDate()).padStart(2, '0');
-            let mes = String(agora.getMonth() + 1).padStart(2, '0'); // Meses começam do 0, então somamos 1
-            let ano = agora.getFullYear();
-            // Formatação da data e hora
-            var hora = `${horas}:${minutos}`;
-            var dataF = `${dia}/${mes}/${ano}`;
-        }
-
-        const agora = new Date();
-        let horas = String(agora.getHours()).padStart(2, '0');
-        let minutos = String(agora.getMinutes()).padStart(2, '0');
-        let dia = String(agora.getDate()).padStart(2, '0');
-        let mes = String(agora.getMonth() + 1).padStart(2, '0'); // Meses começam do 0, então somamos 1
-        let ano = agora.getFullYear();
-        // Formatação da data e hora
-        var hora = `${horas}:${minutos}`;
-        var dataF = `${dia}/${mes}/${ano}`;
-
-
-
+        
+        
         $("#checkout-form").submit(function (event) {
             document.getElementById("bob").classList.add("popup");
             event.preventDefault();
