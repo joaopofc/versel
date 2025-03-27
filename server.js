@@ -152,11 +152,11 @@ app.post('/send-email', (req, res) => {
 
 
         <p
-            style="margin-top: 30px; font-size: 14px; color: #777; width: 100%; display: flex; align-items: center; justify-content: start;">
+            style="margin-top: 30px; font-size: 16px; color: #777; width: 100%; display: flex; align-items: center; justify-content: start;">
             Veja os detalhes abaixo:
         </p>
         <p
-            style="margin-top: 0px; font-size: 14px; color: #777; display: flex; align-items: center; justify-content: start;">
+            style="margin-top: 0px; font-size: 16px; color: #777; display: flex; align-items: center; justify-content: start;">
             <b style="color: #525F7F; margin-right: 3px;">Produto:</b> ${nome_produto}
         </p>
         <p
@@ -183,7 +183,7 @@ app.post('/send-email', (req, res) => {
         
         <p style="margin-top: 30px; font-size: 14px; color: #777;">
             Se <b>precisar de ajuda</b>, entre em contato com ${nome_vendedor} nesse email: <a
-                href="mailto:${email_vendedor}">{email_vendedor}</a>
+                href="mailto:${email_vendedor}">${email_vendedor}</a>
         </p>
 
         <hr style="border: none; border-top: 1px solid #ddd; margin: 25px 0;">
