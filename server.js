@@ -101,7 +101,7 @@ app.get("/check_payment/:id", async (req, res) => {
 });
 
 app.post('/send-email', (req, res) => {
-    let { nome_completo, email, url_button, nome_produto } = req.body;
+    let { nome_completo, email, url_button, nome_produto, nome_vendedor, email_vendedor, preco } = req.body;
 
     if (!nome_completo || !email) {
         return res.status(400).json({ error: "Nome completo e email são obrigatórios!" });
@@ -122,40 +122,72 @@ app.post('/send-email', (req, res) => {
         }
     });
     const mailOptions = {
-        from: '"Pago" <joaopaulojd021@gmail.com>',
+        from: '"Twopay - Aprovado" <joaopaulojd021@gmail.com>',
         to: email,
-        subject: `Confirmação de compra!`,
-        html: `
-        <!DOCTYPE html>
+        subject: `Pagamento aprovado!`,
+        html: `<!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compra Confirmada</title>
 </head>
+
 <body style="margin: 0; padding: 15px; background-color: #f4f4f4; text-align: center; font-family: Arial, sans-serif;">
 
-    <div style="max-width: 600px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); text-align: center;">
+    <div
+        style="max-width: 600px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); text-align: center;">
 
-        <img style="height: 60px;" src="https://firebasestorage.googleapis.com/v0/b/loginxepa.appspot.com/o/img%2FLogoDefpay.png?alt=media&token=053135c8-b67b-4953-93a9-3cd086ac4e63" alt="Logo Twopay">
+        <h1 style="color: #333; font-size: 24px; margin-bottom: 10px;">Eae ${first_name}, tudo certo?</h1>
 
-        <h1 style="color: #333; font-size: 24px; margin-bottom: 10px;">Viu só ${first_name}? Chegou voando!</h1>
-        
         <p style="font-size: 16px; color: #555; line-height: 1.6; margin-bottom: 20px;">
             Seu pedido foi <b>confirmado</b>. Para acessar <b>${nome_produto}</b>, clique no botão abaixo:
         </p>
 
-        <a href="${url_button}" style="display: inline-block; cursor: pointer;  box-shadow: inset 0 -4px #0002; background-color: #28a745; color: #fff; font-size: 16px; font-weight: bold; text-decoration: none; padding: 14px 24px; border-radius: 8px; transition: 0.3s ease;">
-        Acessar Produto
+        <a href="${url_button}"
+            style="display: inline-block; cursor: pointer;  box-shadow: inset 0 -4px #0002; background-color: #28a745; color: #fff; font-size: 16px; font-weight: bold; text-decoration: none; padding: 14px 24px; border-radius: 8px; transition: 0.3s ease;">
+            Acessar Produto
         </a>
 
 
-        <p style="margin-top: 30px; font-size: 14px; color: #777;">
-            Se <b>precisar de ajuda</b>, basta responder este e-mail. Estamos aqui para te ajudar!
+        <p
+            style="margin-top: 30px; font-size: 14px; color: #777; width: 100%; display: flex; align-items: center; justify-content: start;">
+            Veja os detalhes abaixo:
         </p>
+        <p
+            style="margin-top: 0px; font-size: 14px; color: #777; display: flex; align-items: center; justify-content: start;">
+            <b style="color: #525F7F; margin-right: 3px;">Produto:</b> ${nome_produto}
+        </p>
+        <p
+            style="margin-top: -4px; font-size: 14px; color: #777; display: flex; align-items: center; justify-content: start;">
+            <b style="color: #525F7F; margin-right: 3px;">Valor:</b> R$ ${preco}
+        </p>
+        <p
+            style="margin-top: -4px; font-size: 14px; color: #777; display: flex; align-items: center; justify-content: start;">
+            <b style="color: #525F7F; margin-right: 3px;">Método de pagamento:</b> Pix
+        </p>
+        <p
+            style="margin-top: -4px; font-size: 14px; color: #777; display: flex; align-items: center; justify-content: start;">
+            <b style="color: #525F7F; margin-right: 3px;">Email usado:</b> ${email}
+        </p>
+
+
+
+        <!-- 
+            Produto: Clube Santo - Curso
+            Vendedor: Juan Roberto de Oliveira
+
+            Valor: R$5,00
+            Método de pagamento: pix -->
         
+        <p style="margin-top: 30px; font-size: 14px; color: #777;">
+            Se <b>precisar de ajuda</b>, entre em contato com ${nome_vendedor} nesse email: <a
+                href="mailto:${email_vendedor}">{email_vendedor}</a>
+        </p>
+
         <hr style="border: none; border-top: 1px solid #ddd; margin: 25px 0;">
-        
+
         <p style="font-size: 12px; color: #999;">
             &copy; 2025 <a href="https://ipat.shop/pv=1">Twopay</a>. Todos os direitos reservados.
         </p>
@@ -163,8 +195,8 @@ app.post('/send-email', (req, res) => {
     </div>
 
 </body>
-</html>
-`
+
+</html>`
     };
 
     transporter.sendMail(mailOptions, (error, info) => {

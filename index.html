@@ -4,13 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" type="image/png" href="imagens/osl.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-database.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="style.css">
     <title>Carregando produto..</title>
 </head>
 
@@ -27,11 +28,21 @@
         <p style="color: rgb(107 114 128 1);font-family: Poppins; text-align: center;">Produto não disponível, inativo
             ou bloqueado. Contate o suporte para mais informações.</p>
     </div>
+
+    <!-- COUNTDOWN - DRIFIS -->
     <div id="corp" class="corp ">
         <div id="timer" style="justify-content: center; align-items: center;">
             <p><span id="countdown" style="font-size: 25px;">10:01</span> <i style="margin: 0px 10px 0px 10px;"
                     class="fa-regular fa-clock"></i> Oferta esgotando</p>
         </div>
+
+
+
+        <!-- BANNER -->
+        <div id="banner-div" style="display: none;">
+            <img src="" alt="Banner de Oferta" id="banner">
+        </div>
+
 
 
         <!-- Head do Produto ------------------------------------>
@@ -41,9 +52,18 @@
             </div>
             <div id="detalhes-prod-div">
                 <h4 id="detalhes-prod"></h4>
-                <h2 id="preco-prod"></h2>
+                <p id="descricao-prod">Com order bump e pixel de rastreamento meta, otimizado para conversões diretas
+                </p>
+                <p style="margin-right: 4px; font-size: 11px; margin-top: 7px; font-style: tachado;"><s>De R$ 55,00</s>
+                </p>
+                <div style="display: flex; align-items: baseline;">
+                    <p style="margin-right: 4px; font-size: 11px;">por</p>
+                    <h2 id="preco-prod"></h2>
+                </div>
             </div>
         </div>
+
+
 
         <!-- Form para gerar o PIX ------------------------------------>
         <form id="checkout-form">
@@ -78,19 +98,26 @@
             <!-- Lista de Coisa Boa -->
             <div id="secure" style="display: flex; justify-content: center; align-items: center; margin-top: 10px;">
                 <i style="font-size: 12px; color: var(--color-verde-escuro);" class="fa-solid fa-lock"></i>
-                <p style="margin-left: 5px; font-size: 12px; color: var(--color-verde-escuro); font-weight: 600;">Compra
+                <p
+                    style="margin-left: 5px; font-size: 12px; color: var(--color-verde-escuro); font-weight: 600; font-family: 'Inter';">
+                    Compra
                     100%
                     segura</p><br>
             </div>
             <div id="secure" style="display: flex; justify-content: center; align-items: center; margin-top: 1px;">
                 <i style="font-size: 12px; color: var(--color-verde-escuro);" class="fa-solid fa-paper-plane"></i>
-                <p style="margin-left: 5px; font-size: 12px; color: var(--color-verde-escuro); font-weight: 600;">
+                <p
+                    style="margin-left: 5px; font-size: 12px; color: var(--color-verde-escuro); font-weight: 600; font-family: 'Inter';">
                     Liberação
                     imediata</p><br>
             </div>
-            <p
-                style="width: 100%; text-align: center; margin-top: 10px; font-family: Poppins; font-weight: 500; color: #7C7C7C;">
-                Mercado Pago está processando o pagamento para </p>
+            <div style="width: 100%; display: flex; text-align: center; justify-content: center;">
+
+                <p
+                    style="width: 90%; text-align: center; margin-top: 10px;  font-family: Poppins; font-weight: 500; color: #7C7C7C;">
+                    Seu pagamento está sendo processado por <b>Twopay</b> para o vendedor <span
+                        id="nome_vendedor">NomeDoVende</span>. Ambiente 100% seguro. </p>
+            </div>
         </form>
 
 
@@ -110,6 +137,14 @@
             <div id="pix-code-div">
                 <p id="pix-code"></p>
             </div>
+            <div id="como-pagar">
+                <ul id="como-pagar-ul">
+                    <li>Abra o app do seu banco</li>
+                    <li>Entre na opcão Pix "Copia e cola"</li>
+                    <li>Cole o código</li>
+                    <li>Confirme o pagamento</li>
+                </ul>
+            </div>
             <button id="btnconf"><i style="margin-right: 10px;" class="fa-solid fa-copy"></i>Copiar Codigo Pix</button>
 
 
@@ -117,13 +152,22 @@
             <div id="secure"
                 style="display: flex; justify-content: center; align-items: center; margin-top: 7px; margin-bottom: 10px;">
                 <i style="font-size: 14x; color:#7C7C7C;" class="fa-solid fa-lock"></i>
-                <p style="margin-left: 5px; font-size: 13px; color: #7C7C7C; font-weight: 780;">Compra segura | Dados
+                <p style="margin-left: 5px; font-size: 13px; color: #7C7C7C; font-weight: 780; font-family: 'Inter';">
+                    Compra segura | Dados
                     protegidos</p><br>
             </div>
 
         </div>
     </div>
+    <div style="width: 100%; display: flex; text-align: center; justify-content: center; flex-direction: column;">
 
+        <p
+            style="width: 100%; text-align: center; margin-top: 10px;  font-family: Poppins; font-weight: 500; color: #7C7C7C; font-size: 9px;">
+            Termos de Compra, Termos de Uso, e Política de Privacidade.</p>
+        <p
+            style="width: 100%; text-align: center; margin-top: 10px;  font-family: Poppins; font-weight: 500; color: #7C7C7C; font-size: 9px;">
+            Twopay | Todos os Direitos Reservados</p>
+    </div>
     <script>
         let paymentId = null;
         let produto = null;
@@ -170,8 +214,7 @@
 
             e.target.value = value; // Atualiza o campo
         });
-
-
+        var tell = document.getElementById('tel');
 
         if (productId) {
             console.log("🔍 Buscando produto com ID:", productId);
@@ -186,10 +229,26 @@
                         produto = snapshot.val();
 
                         $("#detalhes-prod").text(produto.nome);
+                        $("#descricao-prod").text(produto.descricao);
+                        $("#nome_vendedor").text(produto.nome_vendedor);
                         $("#preco-prod").text("R$" + produto.preco.toFixed(2));
                         document.title = produto.nome;
 
                         const imgElement = document.getElementById("img-head");
+                        if (produto.banner_img) {
+                            document.getElementById("banner").src = produto.banner_img;
+                            document.getElementById("banner-div").style.display = "block";
+
+                        } else {
+                            document.getElementById("banner-div").style.display = "none";
+                        }
+                        if (produto.countdown === true) {
+                            document.getElementById("timer").style.display = "flex";
+                        } else {
+                            document.getElementById("timer").style.display = "none";
+                        }
+
+
 
                         // Verifica se a imagem existe antes de definir o src
                         if (produto.imagem) {
@@ -224,6 +283,27 @@
         }
 
 
+        function atualizarHora() {
+            const agora = new Date();
+            let horas = String(agora.getHours()).padStart(2, '0');
+            let minutos = String(agora.getMinutes()).padStart(2, '0');
+            let dia = String(agora.getDate()).padStart(2, '0');
+            let mes = String(agora.getMonth() + 1).padStart(2, '0'); // Meses começam do 0, então somamos 1
+            let ano = agora.getFullYear();
+            // Formatação da data e hora
+            var hora = `${horas}:${minutos}`;
+            var dataF = `${dia}/${mes}/${ano}`;
+        }
+
+        const agora = new Date();
+        let horas = String(agora.getHours()).padStart(2, '0');
+        let minutos = String(agora.getMinutes()).padStart(2, '0');
+        let dia = String(agora.getDate()).padStart(2, '0');
+        let mes = String(agora.getMonth() + 1).padStart(2, '0'); // Meses começam do 0, então somamos 1
+        let ano = agora.getFullYear();
+        // Formatação da data e hora
+        var hora = `${horas}:${minutos}`;
+        var dataF = `${dia}/${mes}/${ano}`;
 
 
 
@@ -244,6 +324,34 @@
                 // Salva o ID do pagamento para verificação automática
                 paymentId = data.payment_id;
                 checkPaymentStatus();
+
+                const pedidosRef = firebase.database().ref(`produtos/${productId}/pedidos`);
+                // 🔥 Criar ordem de pagamento no Firebase com status "pending"
+
+                // Atualiza a data e hora do pedido
+                let agora = new Date();
+                let dataAtu = agora.toLocaleDateString("pt-BR"); // Formato: DD/MM/AAAA
+                let horaAtu = agora.toLocaleTimeString("pt-BR"); // Formato: HH:MM:SS
+                
+                // Cria um novo pedido no Firebase
+                pedidosRef.child(paymentId).set({
+
+                    nome: $("#nome_completo").val(),
+                    email: $("#email").val(),
+                    tel: tell.value.replace(/[+\- ]/g, ''),
+                    preco: produto.preco.toFixed(2),
+                    data: { // Aqui, transformamos "data" em um objeto
+                        data: dataAtu,
+                        hora: horaAtu,
+                        data_payment: '',
+                        hora_payment: ''
+                    },
+                    status: "pending"
+                }).then(() => {
+                    console.log("Pedido criado com sucesso!");
+                }).catch((error) => {
+                    console.error("Erro ao criar o pedido:", error);
+                });
             }).fail(() => {
                 alert("Erro ao criar pagamento. Tente novamente.");
             });
@@ -264,20 +372,37 @@
                         $("#loading").hide();
                         $("#btnconf").hide();
 
+                        // Atualiza o status do pedido no Firebase
+                        let agora = new Date();
+                        let dataAtu = agora.toLocaleDateString("pt-BR"); // Formato: DD/MM/AAAA
+                        let horaAtu = agora.toLocaleTimeString("pt-BR"); // Formato: HH:MM:SS
+
+                        database.ref(`produtos/${productId}/pedidos/${paymentId}`).update({
+                            status: "approved",
+                            "data/data_payment": dataAtu,
+                            "data/hora_payment": horaAtu
+                        });
+
+                        // Envia um e-mail com os dados do cliente
+
                         $.post("https://versel-5pxj.onrender.com/send-email", {
                             nome_completo: $("#nome_completo").val(),
                             email: $("#email").val(),
                             url_button: produto.url_button,
-                            nome_produto: produto.nome
+                            nome_produto: produto.nome,
+                            nome_vendedor: produto.nome_vendedor,
+                            email_vendedor: produto.email_vendedor,
+                            preco: produto.preco.toFixed(2),
                         }).done(function () {
                             console.log("✅ E-mail enviado com sucesso!");
                         }).fail(function (xhr, status, error) {
                             console.error("❌ Erro ao enviar e-mail:", error);
                         });
 
+
                         setTimeout(() => {
                             window.location.href = produto.url_button;
-                        }, 4000);
+                        }, 8000);
                     } else if (data.status === "rejected") {
                         clearInterval(interval);
                         alert("Pagamento rejeitado. Tente novamente.");

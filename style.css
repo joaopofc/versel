@@ -1,11 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@400;500&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@400;500&display=swap');
 /* Reset global */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Inter;
 }
 
 @font-face {
@@ -43,6 +42,7 @@ body {
     padding: 20px;
     position: relative;
     top: 0;
+    flex-direction: column;
 }
 
 /* Título principal */
@@ -61,6 +61,7 @@ h3 {
 }
 
 #timer {
+    display: none;
     background-color: #E55858;
     color: white;
     font-size: 19px;
@@ -69,23 +70,41 @@ h3 {
     text-align: center;
     border-radius: 6px;
     padding: 25px 30px;
+    margin-bottom: 5px;
+}
+
+
+#banner-div {
+    display: flex;
+    width: 100%;
+    height: auto;
+    justify-content: center;
+    border-radius: 8px;
+    align-items: center;
     margin-bottom: 10px;
+}
+
+#banner {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
 }
 
 #head,
 .head {
     width: 100%;
     background-color: #ffffff;
-    border-radius: 8px;
+    border-radius: 10px;
     margin-bottom: 10px;
     display: flex;
     min-height: 100px;
     padding: 6px;
     align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 #img-head-div {
-    padding: 10px;
+    margin: 10px;
     max-width: 100px;
     max-height: 100px;
 }
@@ -97,13 +116,22 @@ h3 {
 }
 
 #detalhes-prod-div {
-    margin-top: -6px;
+    margin-top: 10px;
+    font-size: 16px;
     display: grid;
+    font-family: 'Montserrat';
+}
 
+#descricao-prod {
+    font-weight: 420;
+    color: black;
+    font-size: 13px;
+    font-family: 'Montserrat';
 }
 
 #preco-prod {
-    color: #475569;
+    color: #009846;
+    font-size: 17px;
     justify-self: start;
 }
 
@@ -297,8 +325,9 @@ button:hover {
 
 /* Container do QR Code */
 #pix-container {
-    display: none;
+    font-family: 'Inter';
     max-width: 100%;
+    display: none;
     text-align: center;
     justify-content: center;
     background-color: #ffffff;
@@ -362,6 +391,54 @@ button:hover {
         opacity: 1;
     }
 }
+
+
+
+
+
+
+#como-pagar {
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    display: flex;
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1);
+    justify-content: start;
+}
+
+#como-pagar-ul {
+    list-style: none;
+    padding: 0;
+    counter-reset: item;
+}
+
+#como-pagar-ul li {
+    font-size: 14px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+}
+
+#como-pagar-ul li::before {
+    counter-increment: item;
+    content: counter(item);
+    color: #fdfdfd;
+    padding: 3px 7px;
+    border-radius: 50px;
+    background-color: #08BE4B;
+    font-weight: bold;
+    margin-right: 4px; /* Reduz o espaço entre o número e o texto */
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
