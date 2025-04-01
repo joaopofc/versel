@@ -1,0 +1,188 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@400;500&display=swap'); 
+
+body{
+  background: #111111;
+  font-family: "Poppins";
+}
+.center-box, #reset-password-div{
+  position: absolute;
+  background: #1E1E1E;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  border-radius: 20px;
+  width:25%;
+  height:60%;
+  text-align: center;
+  color:white;
+  align-items: center;
+  justify-content: center;
+}
+h2 {
+  margin: 15px;
+  color: #ffffff;
+  font-family: "Poppins";
+}
+.text-field, #reset-email {
+  width: 80%;
+  padding: 10px 30px;
+  margin: 7px 0;
+  font-family: "Poppins";
+  background-color: #333;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  font-size: 12pt;
+  color:rgb(246, 246, 246);
+  
+}
+#error-login, #error-regis {
+  color: rgb(255, 255, 255);
+  margin: 0 10px;
+  letter-spacing:-.4;
+  font-weight: bold;
+  padding-bottom: 30px;
+}
+.btn-style, #reset-password-btn{
+  margin-top: 20px;
+  padding: 10px 30px;
+  width: 80%;
+  border: none;
+  border-radius: 20px;
+  background-color: rgb(19, 26, 237);
+  color:rgb(255, 255, 255);
+  font-weight: bold;
+  font-family: "Poppins";
+}
+.btn-style:hover{
+  cursor: pointer;
+  /*
+  background-color: transparent;
+  border: 2px solid white;
+  color:white;
+  */
+}
+#forgot-password-btn {
+  color: rgb(204, 204, 204); 
+  cursor: pointer;
+}
+#forgot-password-btn:hover{
+  text-decoration: 1px underline rgb(15, 76, 52);
+  transition: 1s ease-in;
+}
+.an-btn{
+  margin-top: 10px;
+  padding: 3px 9px;
+  border: 0;
+  background-color: rgb(24, 9, 70);
+  border-radius: 5px;
+  color:white;
+  font-size: 11pt;
+  font-family: "Poppins";
+  cursor: pointer;
+}
+#register-div{
+  display:none;
+}
+#result-box{
+  display:none;
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  font-size: 16pt;
+  color: white;
+}
+
+.loading-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner {
+  width: 30px;
+  height: 30px;
+  border: 5px solid rgba(255, 255, 255, 0.3);
+  border-top: 5px solid #fff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+img {
+  filter: brightness(0) invert(1);
+}
+
+@media (max-width: 1024px) {
+  .center-box {
+    width: 40%; /* Ajuste para telas menores */
+    
+    
+  }
+}
+
+
+@media (max-width: 768px) {
+  .center-box {
+    width: 80%; /* Ajuste para telas menores */
+    
+  }
+  .text-field, #reset-email {
+    font-size: 16px; /* Fonte menor */
+    width: 80%;
+  }
+}
+
+
+@media (max-width: 330px) {
+  body {
+    height: auto;
+    width: 100%;
+  
+  }
+  .center-box {
+    width: 100%; /* Ajuste para telas menores */
+    padding: 20px;
+    border-radius: 10px;
+    height: auto;
+    
+  }
+  #reset-password-div {
+    width: 50%; /* Ajuste para telas menores */
+   
+    
+  }
+
+
+
+  .text-field, #reset-email {
+    font-size: 30px; /* Fonte menor */
+    width: 80%;
+  }
+
+
+  #error-login{
+		font-size: 22px;
+    padding-bottom: 30px;
+  }
+
+
+}
+.at {
+  display: none;
+}

@@ -1,0 +1,501 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@400;500&display=swap');
+
+
+/* ============ RESET GLOBAL ============ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    background: #f4f4f7;
+    color: #333;
+}
+
+/* ============ SIDEBAR ============ */
+.sidebar {
+    width: 250px;
+    background: #fff;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    border-right: 1px solid #e0e0e0;
+}
+
+.sidebar h2 {
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #444;
+    text-align: center;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    margin: 15px 0;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #000000;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+}
+
+.sidebar ul li a:hover {
+    background: #f0f0f5;
+    color: #000;
+}
+
+/* ============ CONTEÚDO PRINCIPAL ============ */
+.main {
+    flex: 1;
+    width: 100%;
+    padding: 40px;
+}
+
+/* ============ HEADER ============ */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* ============ SEÇÃO DE MÉTRICAS ============ */
+.metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* ============ CARDS MINIMALISTAS ============ */
+.card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+}
+
+.card h3 {
+    font-size: 16px;
+    font-weight: 500;
+    color: #666;
+}
+
+.card p {
+    font-size: 22px;
+    font-weight: bold;
+    color: #111;
+}
+
+/* ============ DARK MODE ============ */
+@media (prefers-color-scheme: dark) {
+    body {
+        background: #161C24;
+        color: #ddd;
+    }
+    
+    .sidebar {
+        background: #212B36;
+        border-right: 1px solid #333;
+    }
+
+    .sidebar h2 {
+        color: #fff;
+    }
+
+    .sidebar ul li a {
+        color: #bbb;
+    }
+
+    .sidebar ul li a:hover {
+        background: #333;
+        color: #fff;
+    }
+
+    .card {
+        background: #212B36;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .card h3 {
+        color: #bbb;
+    }
+
+    .card p {
+        color: #fff;
+    }
+}
+
+
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.btn {
+    font-family: Inter;
+    box-shadow: inset 0 -4px #0002;
+    width: auto + 53px;
+    margin-top: 10px;
+    padding: 14px 14px 14px 14px;
+    background-color: #007bff;
+    color: white;
+    font-size: 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: 700;
+    transition: background 0.3s;
+}
+
+.btn:hover {
+    background: #0056b3;
+}
+
+/* ============ TABELA DE PRODUTOS ============ */
+.table-container {
+    background: rgb(225, 225, 225);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #454545;
+}
+
+th {
+    background: transparent;
+}
+
+.actions button {
+    margin-right: 5px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-edit {
+    background: #28a745;
+    color: white;
+}
+
+.btn-delete {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-edit:hover {
+    background: #218838;
+}
+
+.btn-delete:hover {
+    background: #c82333;
+}
+
+/* ============ MODAL DE FORMULÁRIO ============ */
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #212B36;
+    padding: 30px;
+    max-width: 700px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    height: fit-content;
+}
+
+.modal.active {
+    display: block;
+}
+
+.modal h2 {
+    margin-bottom: 15px;
+}
+
+.modal input, .modal textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: .1px solid #626262;
+    border-radius: 5px;
+    color: #f0f0f5;
+    outline: none;
+    background: transparent;
+    min-width: 100%;
+    max-width: 100%;
+}
+
+
+.modal .div-url-link input{
+    min-width: 2% !important;
+}
+
+
+.btn-edit, .btn-delete, .btn-link {
+    color: #fff;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.btn-edit {
+    background: #28a745;
+}	
+.btn-delete {
+    background: #dc3545;
+}
+.btn-link {
+    background: #007bff;
+}
+
+
+
+
+/* Estilo do TOAST */
+#toast-container {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 9999;
+}
+
+.toast {
+    font-family: monospace;
+    padding: 15px;
+    margin: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #fff;
+    opacity: 0;
+    animation: fadeInOut 4s forwards;
+}
+
+.toast.success {
+    background-color: #4CAF50;
+}
+
+.toast.error {
+    background-color: #f44336;
+}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    10% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    90% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+}
+
+
+
+/* Estilo do Toggle */
+.toggle-wrapper {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    width: 50px;
+    border-radius: 30px;
+
+}
+
+.toggle {
+    width: 50px;
+    height: 25px;
+    position: relative;
+    appearance: none;
+    background-color: #ccc;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.toggle:checked {
+    background-color: #16A34A;
+    border-radius: 30px;
+}
+.toggle:not(:checked) {
+    border-radius: 30px;
+}
+
+.toggle:before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.toggle:checked:before {
+    transform: translateX(25px);
+    
+}
+
+.toggle-label {
+    margin-left: 10px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Troca o texto do toggle de acordo com o estado */
+.toggle:checked + .toggle-label {
+    content: "Ativo";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* Estilo do Toggle */
+
+input, textarea, .price-div{
+    color: #fff;
+    border: 1px solid #333; /* Borda mais suave */
+    border-radius: 8px; /* Bordas arredondadas para um look mais moderno */
+    padding: 10px 14px;
+    font-size: 16px; /* Aumenta o tamanho da fonte para mais legibilidade */
+    width: 100%;
+    margin: 4px 0;
+    box-sizing: border-box;
+    transition: all 0.3s ease; /* Suaviza a transição de foco */
+}
+.price-div {
+    margin: 0 0 10px 0 !important;
+    padding: 0;
+    border: 1px solid #535353; /* Borda mais suave */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 15px;
+
+}
+.price-div input{
+    border: none;
+    height: auto;
+    margin: 0 !important;
+    padding: 10px 4px;
+
+}
+.price-div span{
+    font-size: 16px;
+    color: #717070;
+    margin-left: 10px;
+    font-weight: 500;
+    font-family: Inter, sans-serif;
+}
+/* Efeito de foco nos inputs e textarea */
+input:focus, textarea:focus, .price-div:focus {
+    border-color: #4c61af; /* Borda verde suave para o foco */
+    outline: none;
+}
+
+/* Placeholder - melhora a visibilidade */
+input::placeholder, textarea::placeholder {
+    color: #888; /* Placeholder em um tom de cinza mais claro */
+    font-style: normal; /* Removido o italic do placeholder */
+}
+
+
+
+
+/* ============ RESPONSIVIDADE ============ */
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 220px;
+    }
+    .main {
+        margin-left: 240px;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        position: absolute;
+        left: -100%;
+        transition: all 0.3s ease;
+    }
+    .sidebar.active {
+        left: 0;
+    }
+    .main {
+        margin-left: 0;
+    }
+    .modal {
+        width: 90%;
+    }
+}

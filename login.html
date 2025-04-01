@@ -1,0 +1,58 @@
+<html>
+
+<head>
+  <title>BlockNote</title>
+  <link rel="shortcut icon" type="image/png" href="imgs/log-notes.ico">
+  <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-database.js"></script>
+  <link rel="stylesheet" href="form/form.css">
+  <script type="module" src="form/form.js"></script>
+</head>
+
+<body>
+  <div class="center-box" id="login-div">
+    <h2>Entrar</h2>
+    <input type="email" id="login-email" class="text-field" name="login-email" placeholder="Email" required /><br>
+    <input type="password" id="login-password" class="text-field" name="login-password" placeholder="Senha"
+      required /><br>
+    <!-- Seção para redefinir senha -->
+
+    <!-- Botão para mostrar a opção de redefinir senha -->
+    <a id="forgot-password-btn">Esqueceu sua senha?</a></br>
+
+    <button id="login-btn" class="btn-style">Entrar</button><br>
+    <button id="reg-btn" class="an-btn">Não possui conta? REGISTRE-SE</button></br>
+    <p id="error-login"></p>
+  </div>
+
+  <div id="reset-password-div" style="display: none;">
+    <div style="justify-content: center; display: flex; align-items: center;">
+      <img src="imagens/back.png" id="back" style="height: 24px; width: 24px; transform: rotate(180deg); margin-right: 20px; cursor: pointer;" alt="back"><h2>Redefinir Senha</h2>
+    </div>
+    <input type="email" id="reset-email" placeholder="Digite seu email"></br>
+    <button id="reset-password-btn" style="cursor: pointer;">Redefinir Senha</button><br>
+    <p id="reset-message" style="display: none; font-size: 18px;"></p>
+  </div>
+
+  <div class="center-box" id="register-div">
+    <h2>Registrar</h2>
+    <input type="email" id="register-email" class="text-field" name="register-email" placeholder="Email" required /><br>
+    <input type="password" id="register-password" class="text-field" name="register-password" placeholder="Senha"
+      required /><br>
+    <button id="register-btn" class="btn-style">Registrar</button><br>
+    <button id="log-btn" class="an-btn">Já possui conta? ENTRAR</button></br>
+    <p id="error-regis"></p>
+  </div>
+
+
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+  </div>
+
+  <div id="result-box">
+    <h3 id="result"></h3><br>
+    <button id="log-out-btn" class="btn-style">VOLTAR</button>
+  </div>
+</body>
+
+</html>
