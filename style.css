@@ -132,14 +132,14 @@ h3 {
 
 #descricao-prod {
     font-weight: 420;
-    color: #636363; 
-    font-size: 13px;
+    color: #636363;
+    font-size: 14px;
     font-family: 'Montserrat';
 }
 
 #preco-prod {
     color: #009846;
-    font-size: 17px;
+    font-size: 22px;
     justify-self: start;
 }
 
@@ -226,7 +226,30 @@ label {
     margin-left: 5px;
 }
 
+
+
+#form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #39ac7b;
+    /* #4dd59b  #1E1E1E*/
+    padding-top: 1px;
+    border-radius: 8px;
+
+}
+
+#form-container p {
+    margin: 3px;
+    font-size: 11px;
+    font-family: 'Montserrat';
+    color: aliceblue;
+    font-weight: 600;
+}
+
 /* Estilo do formulário */
+
 form {
     background-color: #ffffff;
     padding: 17px 18px;
@@ -271,7 +294,7 @@ input {
     transition: border-color 0.3s ease;
 }
 
-.bob {
+.bob, .copy {
     position: fixed;
     top: 0;
     left: 0;
@@ -287,7 +310,7 @@ input {
     z-index: 1000;
 }
 
-.bob.popup {
+.bob.popup, .copy.popup {
     visibility: visible;
     opacity: 1;
 }
@@ -413,21 +436,30 @@ button:hover {
 
 /* Estilo do botão WhatsApp */
 .whatsapp-button {
-    position: fixed; /* Fixa o botão na tela */
-    bottom: 20px; /* Distância do fundo da tela */
-    right: 20px; /* Distância da lateral direita da tela */
-    z-index: 1000; /* Garantir que o botão fique acima de outros conteúdos */
+    position: fixed;
+    /* Fixa o botão na tela */
+    bottom: 20px;
+    /* Distância do fundo da tela */
+    right: 20px;
+    /* Distância da lateral direita da tela */
+    z-index: 1000;
+    /* Garantir que o botão fique acima de outros conteúdos */
 }
 
 .whatsapp-button img {
-    width: 60px; /* Tamanho da imagem do botão */
-    height: 60px; /* Tamanho da imagem do botão */
-    border-radius: 50%; /* Tornar a imagem redonda */
-    transition: transform 0.3s ease-in-out; /* Efeito de transição para quando o botão for clicado */
+    width: 60px;
+    /* Tamanho da imagem do botão */
+    height: 60px;
+    /* Tamanho da imagem do botão */
+    border-radius: 50%;
+    /* Tornar a imagem redonda */
+    transition: transform 0.3s ease-in-out;
+    /* Efeito de transição para quando o botão for clicado */
 }
 
 .whatsapp-button img:hover {
-    transform: scale(1.1); /* Aumenta um pouco o tamanho do botão quando o cursor passar sobre ele */
+    transform: scale(1.1);
+    /* Aumenta um pouco o tamanho do botão quando o cursor passar sobre ele */
 }
 
 
@@ -499,6 +531,11 @@ button:hover {
         font-size: 16px;
     }
 
+    button {
+        padding: 17px 24px 17px 24px;
+        font-size: 18px;
+    }
+
     #img-head-div {
         margin: 10px;
         max-width: 110px;
@@ -530,6 +567,11 @@ button:hover {
 
     input {
         font-size: 16px;
+    }
+
+    button {
+        padding: 17px 24px 17px 24px;
+        font-size: 18px;
     }
 
     #img-head-div {

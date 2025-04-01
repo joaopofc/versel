@@ -22,13 +22,22 @@
         </a>
     </div>
 
-
+    <!-- PopUp Loading -->
     <div class="bob " id="bob">
         <div class="popup-content">
             <div class="loader"></div>
             <p>Processando pagamento...</p>
         </div>
     </div>
+
+    <!-- Popup copiado -->
+    <div class="copy " id="copy">
+        <div class="popup-content">
+            <i class="fa-solid fa-circle-check" style="font-size: 44px; margin-bottom: 5px;"></i>
+            <p>Copiado com sucesso</p>
+        </div>
+    </div>
+
     <div id="error-prod" class="error-prod hide">
         <img style="height: 150px;" src="imagens/Logo2pay.png" alt="Imagem de Erro.">
         <h2 style="font-family: Poppins;">Ops, algo está errado..</h2>
@@ -61,7 +70,8 @@
                 <h4 id="detalhes-prod"></h4>
                 <p id="descricao-prod">Com order bump e pixel de rastreamento meta, otimizado para conversões diretas
                 </p>
-                <p style="margin-right: 4px; font-size: 11px; margin-top: 7px; font-style: tachado;">de <s style="color: #7C7C7C; font-weight: 600;">R$ 97,00</s> por
+                <p style="margin-right: 4px; font-size: 11px; margin-top: 7px; font-style: tachado;">de <s
+                        id="preco-original" style="color: #7C7C7C; font-weight: 600;">R$ 97,00</s> por
                 </p>
                 <div style="display: flex; align-items: baseline;">
                     <h2 id="preco-prod"></h2>
@@ -72,65 +82,80 @@
 
 
         <!-- Form para gerar o PIX ------------------------------------>
-        <form id="checkout-form">
-            <div class="inp-text">
-                <label for="nome_completo">Nome Completo</label>
-                <input type="text" id="nome_completo" autocomplete="name" placeholder="Digite seu nome completo"
-                    required>
+        <div id="form-container">
+            <div style="display: flex; align-items: center;">
+                <i class="fa-solid fa-envelope-circle-check"
+                    style="color:aliceblue; margin-right: 4px; font-size: 11px;"></i>
+                <p id="text-p" class="text-p">Verifique seus dados. Você receberá no seu Email</p>
             </div>
-            <label for="email">Email</label>
-            <input type="email" id="email" placeholder="E-mail" required><br>
-            <label for="tel">Celular</label>
-            <input type="tel" maxlength="18" id="tel" autocomplete="tel" placeholder="+55 99 99999-9999" value="+55"
-                required><br>
-
-
-            <!-- Container de Seleção de pagamentos ------------------------------------>
-            <div class="pag-div" style="display: flex;">
-                <div class="pags pix">
-                    <img src="https://logospng.org/download/pix/logo-pix-256.png" alt="Logo Pix Payment">
+            <form id="checkout-form">
+                <div class="inp-text">
+                    <label for="nome_completo">Nome Completo</label>
+                    <input type="text" id="nome_completo" autocomplete="name" placeholder="Digite seu nome completo"
+                        required>
                 </div>
-                <div class="pags cartao">
-                    <img src="https://cdn-icons-png.freepik.com/512/15925/15925800.png?ga=GA1.1.1321081237.1742502701"
-                        alt="Logo Pix Payment">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="E-mail" required><br>
+                <label for="tel">Celular</label>
+                <input type="tel" maxlength="18" id="tel" autocomplete="tel" placeholder="+55 99 99999-9999" value="+55"
+                    required><br>
+
+
+                <!-- Container de Seleção de pagamentos ------------------------------------>
+                <div class="pag-div" style="display: flex;">
+                    <div class="pags pix">
+                        <img src="https://logospng.org/download/pix/logo-pix-256.png" alt="Logo Pix Payment">
+                    </div>
+                    <!-- <div class="pags cartao">
+                        <img src="https://cdn-icons-png.freepik.com/512/15925/15925800.png?ga=GA1.1.1321081237.1742502701"
+                            alt="Logo Pix Payment">
+                    </div> -->
                 </div>
-            </div>
-            <!-- Botão de Compra    ------------------------------------>
-            <button type="submit" id="btn">COMPRAR E RECEBER AGORA</button>
+                <div id="como-pagar" style="font-family: Satoshi; display: flex; flex-direction: column;">
+                    <ul id="como-pagar-ul">
+                        <li>Vamos gerar um codigo pix</li>
+                    </ul>
+                </div>
+                <!-- Botão de Compra    ------------------------------------>
+                <button type="submit" id="btn">COMPRAR E RECEBER AGORA</button>
 
 
 
 
-            <!-- Lista de Coisa Boa -->
-            <div id="secure" style="display: flex; justify-content: center; align-items: center; margin-top: 10px;">
-                <i style="font-size: 12px; color: var(--color-verde-escuro);" class="fa-solid fa-lock"></i>
-                <p
-                    style="margin-left: 5px; font-size: 12px; color: var(--color-verde-escuro); font-weight: 600; font-family: 'Inter';">
-                    Compra
-                    100%
-                    segura</p><br>
-            </div>
-            <div id="secure" style="display: flex; justify-content: center; align-items: center; margin-top: 1px;">
-                <i style="font-size: 12px; color: var(--color-verde-escuro);" class="fa-solid fa-paper-plane"></i>
-                <p
-                    style="margin-left: 5px; font-size: 12px; color: var(--color-verde-escuro); font-weight: 600; font-family: 'Inter';">
-                    Liberação
-                    imediata</p><br>
-            </div>
+                <!-- Lista de Coisa Boa -->
+                <div id="secure" style="display: flex; justify-content: center; align-items: center; margin-top: 10px;">
+                    <i style="font-size: 12px; color: var(--color-verde-escuro);" class="fa-solid fa-lock"></i>
+                    <p
+                        style="margin-left: 5px; font-size: 12px; color: var(--color-verde-escuro); font-weight: 600; font-family: 'Inter';">
+                        Compra
+                        100%
+                        segura</p><br>
+                </div>
+                <div id="secure" style="display: flex; justify-content: center; align-items: center; margin-top: 1px;">
+                    <i style="font-size: 12px; color: var(--color-verde-escuro);" class="fa-solid fa-paper-plane"></i>
+                    <p
+                        style="margin-left: 5px; font-size: 12px; color: var(--color-verde-escuro); font-weight: 600; font-family: 'Inter';">
+                        Liberação
+                        imediata</p><br>
+                </div>
 
-            <!-- Logo Twopay -->
-            <div id="logo-div" style="display: flex; justify-content: center; align-items: center; margin-top: 10px; width: 100%; height: auto;">
-                <img style="width: 50px; height: 19px; filter: grayscale(1);" src="imagens/Logo2pay.png"></img>
-            </div>
+                <!-- Logo Twopay -->
+                <div id="logo-div"
+                    style="display: flex; justify-content: center; align-items: center; margin-top: 10px; width: 100%; height: auto;">
+                    <img style="width: 50px; height: 19px; filter: grayscale(1);" src="imagens/Logo2pay.png"></img>
+                </div>
 
 
-            <div style="width: 100%; display: flex; text-align: center; justify-content: center;">
+                <div style="width: 100%; display: flex; text-align: center; justify-content: center;">
 
-                <p style="width: 90%; text-align: center;   font-family: Poppins; font-weight: 500; color: #7C7C7C;">
-                    Seu pagamento está sendo processado por <b>Twopay</b> para o vendedor <span id="nome_vendedor">NomeDoVendedor</span>. Ambiente 100% seguro. </p>
-            </div>
-            
-        </form>
+                    <p
+                        style="width: 90%; text-align: center;   font-family: Poppins; font-weight: 500; color: #7C7C7C;">
+                        Seu pagamento está sendo processado por <b>Twopay</b> para o vendedor <span
+                            id="nome_vendedor">NomeDoVendedor</span>. Ambiente 100% seguro. </p>
+                </div>
+
+            </form>
+        </div>
 
 
         <!-- Container Do Pix // Geração do Pix -->
@@ -170,7 +195,8 @@
             </div>
 
             <!-- Logo Twopay -->
-            <div id="logo-div" style="display: flex; justify-content: center; align-items: center; margin-top: 10px; width: 100%; height: auto;">
+            <div id="logo-div"
+                style="display: flex; justify-content: center; align-items: center; margin-top: 10px; width: 100%; height: auto;">
                 <img style="width: 50px; height: 19px; filter: grayscale(1);" src="imagens/Logo2pay.png"></img>
             </div>
 
@@ -212,26 +238,29 @@
         }
 
         const productId = getQueryParam("pv");
+        const orderId = getQueryParam("order");
 
-        document.getElementById('tel').addEventListener('input', function (e) {
-            let value = e.target.value;
 
-            // Se o usuário tentar apagar o +55, restauramos el
 
-            // Remove tudo que não for número, exceto o "+55 "
-            value = value.replace(/\D/g, '').replace(/^55/, '+55 ');
+        if (orderId) {
+            const orderRef = firebase.database().ref("produtos/" + productId + "/pedidos/" + orderId + "/pix_info/");
+            orderRef.once("value")
+                .then(snapshot => {
+                    if (snapshot.exists()) {
+                        const order = snapshot.val();
+                        console.log("Dados do pedido:", order);
 
-            // Formata como +55 XX XXXXX-XXXX
-            if (value.length > 6) {
-                value = value.replace(/^(\+55\s\d{2})(\d)/, '$1 $2'); // Espaço depois do DDD
-            }
-            if (value.length > 11) {
-                value = value.replace(/(\d{5})(\d{4})$/, '$1-$2'); // Hífen antes dos últimos 4 dígitos
-            }
+                        $("#pix-container").show();
+                        $("#checkout-form").hide();
+                    } else {
+                        console.error("❌ Pedido não encontrado.");
+                    }
+                })
+                .catch(error => {
+                    console.error("❌ Erro ao buscar pedido:", error);
+                });
+        }
 
-            e.target.value = value; // Atualiza o campo
-        });
-        var tell = document.getElementById('tel');
 
         if (productId) {
             console.log("🔍 Buscando produto com ID:", productId);
@@ -248,6 +277,7 @@
                         $("#detalhes-prod").text(produto.nome);
                         $("#descricao-prod").text(produto.descricao);
                         $("#nome_vendedor").text(produto.nome_vendedor);
+                        $("#preco-original").text(produto.preco_original);
                         let precoFormatado = `R$ ${produto.preco.toFixed(2).replace(".", ",")}`;
                         $("#preco-prod").text(`${precoFormatado}`);
 
@@ -281,7 +311,7 @@
                             alert("⚠️ Produto não possui uma imagem.");
                         }
 
-                        console.log("✅ Produto encontrado:", produto);
+                        console.log("✅ Produto encontrado");
                     } else {
                         console.error("❌ Produto não encontrado.");
                         document.getElementById("corp").classList.add('hide');
@@ -300,6 +330,9 @@
             document.getElementById("error-prod").classList.remove('hide');
 
         }
+
+
+
 
 
         $("#checkout-form").submit(function (event) {
@@ -330,7 +363,6 @@
 
                 // Cria um novo pedido no Firebase
                 pedidosRef.child(paymentId).set({
-
                     nome: $("#nome_completo").val(),
                     email: $("#email").val(),
                     tel: tell.value.replace(/[+\- ]/g, ''),
@@ -340,6 +372,13 @@
                         hora: horaAtu,
                         data_payment: '',
                         hora_payment: ''
+                    },
+                    pix_info: {
+                        pix_pago: 'pending',
+                        pix_id: paymentId,
+                        pix_code: data.pix_code,
+                        pix_qr: 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + data.pix_code,
+                        url_pix: window.location.href + '&order=' + paymentId,
                     },
                     status: "pending"
                 }).then(() => {
@@ -376,7 +415,8 @@
                         database.ref(`produtos/${productId}/pedidos/${paymentId}`).update({
                             status: "approved",
                             "data/data_payment": dataAtu,
-                            "data/hora_payment": horaAtu
+                            "data/hora_payment": horaAtu,
+                            "pix_info/pix_pago": "approved"
                         });
 
                         // Envia um e-mail com os dados do cliente
@@ -418,7 +458,10 @@
         document.getElementById('btnconf').addEventListener('click', function () {
             navigator.clipboard.writeText(document.getElementById('pix-code').innerText)
                 .then(() => {
-                    alert('Texto copiado para a área de transferência!');
+                    document.getElementById("copy").classList.add("popup");
+                    setTimeout(() => {
+                        document.getElementById("copy").classList.remove("popup");
+                    }, 2000);
                 })
                 .catch((error) => {
                     alert('Falha ao copiar texto para a área de transferência:', error);
@@ -451,6 +494,29 @@
         // Define o tempo de contagem regressiva (exemplo: 30 minutos)
         let countdownDuration = 10 * 60; // 30 minutos em segundos
         startCountdown(countdownDuration);
+
+
+
+        // Formatação do campo de telefone
+        document.getElementById('tel').addEventListener('input', function (e) {
+            let value = e.target.value;
+
+            // Se o usuário tentar apagar o +55, restauramos el
+
+            // Remove tudo que não for número, exceto o "+55 "
+            value = value.replace(/\D/g, '').replace(/^55/, '+55 ');
+
+            // Formata como +55 XX XXXXX-XXXX
+            if (value.length > 6) {
+                value = value.replace(/^(\+55\s\d{2})(\d)/, '$1 $2'); // Espaço depois do DDD
+            }
+            if (value.length > 11) {
+                value = value.replace(/(\d{5})(\d{4})$/, '$1-$2'); // Hífen antes dos últimos 4 dígitos
+            }
+
+            e.target.value = value; // Atualiza o campo
+        });
+        var tell = document.getElementById('tel');
 
     </script>
 
