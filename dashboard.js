@@ -23,13 +23,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeModal = document.getElementById("close-modal");
 
     const productName = document.getElementById("name");
+    const name_vendedor = document.getElementById("nome_vendedor");
     const productPrice = document.getElementById("price");
     const productDescription = document.getElementById("description");
     const image = document.getElementById("image");
     const banner = document.getElementById("banner");
     const url_produto = document.getElementById("url_produto");
 
-    const emailVendedor = "joao@pix.com";
+    const emailVendedor = localStorage.getItem('email'); // Substitua pelo email real do vendedor
+
     const productRef = firebase.database().ref("produtos/");
     let editingProductId = null;
 
@@ -48,8 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btnAdd.addEventListener("click", () => {
         modal.classList.add("active");
-        productPrice = '0,00';
-
+        productPrice = "0,00";
         editingProductId = null;
         clearForm();
     });
@@ -62,34 +63,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
     saveProduct.addEventListener("click", async () => {
         const name = productName.value;
+        const nome_vendedor = name_vendedor.value;
         const price = productPrice.value;
 
         if (name && price) {
             if (editingProductId) {
                 await productRef.child(editingProductId).update({
                     banner_img: banner.value,
-                    preco: parseFloat(price),
+                    preco: parseFloat(price.replace(",", ".")),
                     countdown: true,
                     descricao: productDescription.value,
                     email_vendedor: emailVendedor,
                     imagem: image.value,
                     nome: name,
-                    nome_vendedor: 'João',
-                    preco_original: '97',
+                    nome_vendedor: nome_vendedor,
+                    preco_original: 'R$97,00',
                     url_button: url_produto.value,
                 });
             } else {
                 const newProductId = await generateUniqueId();
                 await productRef.child(newProductId).set({
                     banner_img: banner.value,
-                    preco: parseFloat(price).replace(",", "."),
+                    preco: parseFloat(price.replace(",", ".")),
                     countdown: true,
                     descricao: productDescription.value,
                     email_vendedor: emailVendedor,
                     imagem: image.value,
                     nome: name,
-                    nome_vendedor: 'João',
-                    preco_original: '97',
+                    nome_vendedor: nome_vendedor,
+                    preco_original: 'R$97,00',
                     url_button: url_produto.value,
                 });
             }
@@ -164,6 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 image.value = product.imagem;
                 banner.value = product.banner_img;
                 url_produto.value = product.url_button;
+                nome_vendedor.value = product.nome_vendedor;
                 modal.classList.add("active");
                 editingProductId = productId;
             } else {
@@ -181,10 +184,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function clearForm() {
         productName.value = "";
-        productPrice.value = "";
+        productPrice.value = "0,00";
         productDescription.value = "";
         image.value = "";
         banner.value = "";
+        nome_vendedor.value = "";
         url_produto.value = "";
     }
 
@@ -211,8 +215,9 @@ function showToast(message, type) {
 
 
 
-const productRef = firebase.database().ref("produtos/");
-const emailVendedor = "joao@pix.com"; // Substitua pelo email real do vendedor
+const productRef = firebase.database().ref("produtos/")
+let emailVendedor = localStorage.getItem('email'); // Use 'let' para permitir reatribuição, se necessário.
+
 
 async function updateDashboard() {
     let totalFaturamento = 0;
@@ -295,6 +300,12 @@ document.getElementById("price").addEventListener("input", function (event) {
     event.target.value = value;
 });
 
+
+
+
+
+
+
 function getQueryParam(param) {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(param);
@@ -349,8 +360,8 @@ window.onload = () => {
 };
 
 // Logout
-document.getElementById('img2').addEventListener('click', () => {
-    localStorage.removeItem('email');
-    localStorage.removeItem('userid');
-    redirectToLogin();
-});
+//document.getElementById('img2').addEventListener('click', () => {
+//localStorage.removeItem('email');
+//localStorage.removeItem('userid');
+// redirectToLogin();
+//});
