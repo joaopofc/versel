@@ -18,16 +18,26 @@
 <body>
     <div class="supra-side" style="display: flex; width: 100vw; position: relative;">
     <div class="sidebar">
-        <h2>dash Twopay</h2>
+        <h2>Dash Twopay</h2>
+        <p style="font-size: 11px; color: grey; margin-left: 60px;">Versão 1.0.2</p>
         <ul>
-            <li><a href="#">Visão Geral</a></li>
-            <li><a href="https://wa.me/5584994239716?text=Preciso+de+ajuda"><i class="fa-brands fa-whatsapp" style="margin-right: 5px;"></i>Suporte</a></li>
+            <li><a href="#"><i class="fa-regular fa-money-bill-1" style="margin-right: 7px; transform: translateY(1px);"></i>Visão Geral</a></li>
+            <li><a href="https://wa.me/5584994239716?text=Preciso+de+ajuda"><i class="fa-brands fa-whatsapp" style="margin-right: 7px; transform: translateY(1px);"></i>Suporte</a></li>
+            <li id="btn-config"><a href="#"><i class="fa-solid fa-gear" style="margin-right: 7px; transform: translateY(1px);"></i>Configurações</a></li>
         </ul>
     </div>
 
     <div class="main">
         <header>
             <h1>Visão Geral</h1>
+            <div class="user-logger">
+                <div class="user-logger-div">
+                    <img src="imagens/img-prod-padrao.png" alt="User Icon" class="user-icon">
+                    <p id="user-name">Twopay</p>
+                    <button id="logout-btn"><i class="fa-solid fa-right-from-bracket"></i></button>
+                </div>
+                <p id="user-email"></p>
+            </div>
         </header>
         <div id="toast-container"></div>
 
@@ -89,7 +99,7 @@
                     <input type="text" id="nome_vendedor" placeholder="Nome do vendedor*" required>
                     </div>
                     
-                    <input type="text" id="url_produto" placeholder="Link Produto/Drive*" required>
+                    <input type="text" id="url_produto" autocomplete="none" placeholder="Link Produto/Drive*" required>
 
                     <div class="div-url-link" style="display: flex; align-items: center;  width: 100% !important;">
                         <input type="text" id="image" style="margin-right: 5px;" placeholder="Link da Imagem do Produto*" required>
@@ -108,9 +118,28 @@
                         <button class="btn" id="save-product" style="width: 100px;">SALVAR</button>
                     </div>
                 </div>
+
+                <!-- Modal de Configurações -->
+                <div class="config" id="config-modal">
+                    <div style="display: flex; align-items: center; padding: 0px; cursor: pointer;">
+                        <i id="close-modal-config" style="display:flex; padding: 7px 9px; margin-right: 6px; background: rgb(102 102 102); color: white; border-radius: 50px;" class="fa-solid fa-xmark"></i>
+                        <h2>Configurações</h2>
+                    </div>
+                    <input type="password" id="token" placeholder="Public Key/Token do Mercado pago*" required>
+
+                    <!-- <div class="div-url-link" style="display: flex; align-items: center;  width: 100% !important;">
+                        <input type="text" id="image" style="margin-right: 5px;" placeholder="Link da Imagem do Produto*" required>
+                        <input type="text" id="banner" placeholder="Link do Banner (opcional)">
+                    </div> -->
+                    
+                    <div class="btn-div" style="display: flex; width: 100%; align-items: center; justify-content: end;">
+                        <button class="btn" id="btn-config" style="width: 100px;">SALVAR</button>
+                    </div>
+                </div>
+                
         </div>
     </div>
-</div>
+ </div>
     <script src="dashboard.js"></script>
 </body>
 

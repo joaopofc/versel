@@ -33,8 +33,6 @@ body {
 .sidebar h2 {
     font-size: 20px;
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
     color: #444;
     text-align: center;
 }
@@ -63,6 +61,48 @@ body {
 .sidebar ul li a:hover {
     background: #f0f0f5;
     color: #000;
+}
+
+.user-logger{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: Top;
+    width: auto;
+}
+.user-logger-div{
+    display: flex;
+    margin-left: 10px;
+    font-size: 14px;
+    color: #000000;
+    font-weight: 500;
+}
+.user-logger img{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+.user-logger-div p {
+    margin: 0 10px 3px 10px;
+    font-size: 14px;
+    color: #f5f5f5;
+    font-weight: 500;
+}
+.user-logger p {
+    margin: 0 10px 3px 10px;
+    font-size: 13px;
+    color: #f5f5f5;
+    font-weight: 500;
+}
+.user-logger-div button {
+    font-size: 12px;
+    color: #ffffff;
+    background: #f30a3c;
+    font-weight: 500;
+    border: none;
+    border-radius: 50%;
+    padding: 5px 9px;
+    cursor: pointer;
 }
 
 /* ============ CONTEÚDO PRINCIPAL ============ */
@@ -127,7 +167,7 @@ header h1 {
     }
     
     .sidebar {
-        background: #212B36;
+        background-image: linear-gradient(to bottom, #212B36, #161C24);
         border-right: 1px solid #333;
     }
 
@@ -140,8 +180,11 @@ header h1 {
     }
 
     .sidebar ul li a:hover {
-        background: #333;
+        background: #1d1d1d;
         color: #fff;
+    }
+    .td-preco{
+       font-weight: 600;
     }
 
     .card {
@@ -243,7 +286,7 @@ th {
 }
 
 /* ============ MODAL DE FORMULÁRIO ============ */
-.modal {
+.modal, .config {
     display: none;
     position: fixed;
     top: 50%;
@@ -257,15 +300,20 @@ th {
     height: fit-content;
 }
 
-.modal.active {
+.config {
+    width: 400px;
+    height: auto;
+}
+
+.modal.active, .config.active {
     display: block;
 }
 
-.modal h2 {
+.modal h2, .config h2, .modal i, .config i {
     margin-bottom: 15px;
 }
 
-.modal input, .modal textarea {
+.modal input, .config input, .modal textarea {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;

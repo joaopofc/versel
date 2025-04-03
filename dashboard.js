@@ -18,9 +18,12 @@ const database = firebase.database();
 document.addEventListener("DOMContentLoaded", () => {
     const productList = document.getElementById("product-list");
     const modal = document.getElementById("product-modal");
+    const config = document.getElementById("config-modal");
     const btnAdd = document.getElementById("btn-add");
+    const btnConfig = document.getElementById("btn-config");
     const saveProduct = document.getElementById("save-product");
     const closeModal = document.getElementById("close-modal");
+    const closeModalConfig = document.getElementById("close-modal-config");
 
     const productName = document.getElementById("name");
     const name_vendedor = document.getElementById("nome_vendedor");
@@ -54,51 +57,75 @@ document.addEventListener("DOMContentLoaded", () => {
         editingProductId = null;
         clearForm();
     });
+    btnConfig.addEventListener("click", () => {
+        config.classList.add("active");
+        editingProductId = null;
+        clearForm();
+    });
 
     closeModal.addEventListener("click", () => {
         modal.classList.remove("active");
         editingProductId = null;
         clearForm();
     });
+    closeModalConfig.addEventListener("click", () => {
+        config.classList.remove("active");
+        editingProductId = null;
+        clearForm();
+    });
+
 
     saveProduct.addEventListener("click", async () => {
         const name = productName.value;
         const nome_vendedor = name_vendedor.value;
         const price = productPrice.value;
 
-        if (name && price) {
-            if (editingProductId) {
-                await productRef.child(editingProductId).update({
-                    banner_img: banner.value,
-                    preco: parseFloat(price.replace(",", ".")),
-                    countdown: true,
-                    descricao: productDescription.value,
-                    email_vendedor: emailVendedor,
-                    imagem: image.value,
-                    nome: name,
-                    nome_vendedor: nome_vendedor,
-                    preco_original: 'R$97,00',
-                    url_button: url_produto.value,
-                });
-            } else {
-                const newProductId = await generateUniqueId();
-                await productRef.child(newProductId).set({
-                    banner_img: banner.value,
-                    preco: parseFloat(price.replace(",", ".")),
-                    countdown: true,
-                    descricao: productDescription.value,
-                    email_vendedor: emailVendedor,
-                    imagem: image.value,
-                    nome: name,
-                    nome_vendedor: nome_vendedor,
-                    preco_original: 'R$97,00',
-                    url_button: url_produto.value,
-                });
+        const inputs = [
+            document.getElementById('image').value.trim(),
+            document.getElementById('banner').value.trim(),
+            document.getElementById('url_produto').value.trim()
+        ];
+
+        const todosValidos = inputs.every(url => url.startsWith('https'));
+
+        if (todosValidos) {
+            if (name && price) {
+                if (editingProductId) {
+                    await productRef.child(editingProductId).update({
+                        banner_img: banner.value,
+                        preco: parseFloat(price.replace(",", ".")),
+                        countdown: true,
+                        descricao: productDescription.value,
+                        email_vendedor: emailVendedor,
+                        imagem: image.value,
+                        nome: name,
+                        nome_vendedor: nome_vendedor,
+                        preco_original: 'R$97,00',
+                        url_button: url_produto.value,
+                    });
+                } else {
+                    const newProductId = await generateUniqueId();
+                    await productRef.child(newProductId).set({
+                        banner_img: banner.value,
+                        preco: parseFloat(price.replace(",", ".")),
+                        countdown: true,
+                        descricao: productDescription.value,
+                        email_vendedor: emailVendedor,
+                        imagem: image.value,
+                        nome: name,
+                        nome_vendedor: nome_vendedor,
+                        preco_original: 'R$97,00',
+                        url_button: url_produto.value,
+                    });
+                }
+                modal.classList.remove("active");
+                loadProducts(emailVendedor);
             }
-            modal.classList.remove("active");
-            loadProducts(emailVendedor);
-        }
+        } else {
+            showToast("Preencha todos os campos corretamente!", "error");
+        };
     });
+
 
     function loadProducts(vendedorEmail) {
         productList.innerHTML = "";
@@ -109,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const row = document.createElement("tr");
                 row.innerHTML = `
                     <td>${product.nome}</td>
-                    <td>R$ ${product.preco.toFixed(2).replace(".", ",")}</td>
+                    <td class="td-preco">R$ ${product.preco.toFixed(2).replace(".", ",")}</td>
                     <td>Ativo</td>
                     <td>
                         <button class="btn-edit" data-id="${productId}"><i data-id="${productId}" class="fa-solid fa-pen"></i></button>
@@ -335,6 +362,8 @@ if (email) {
 }
 const savedEmail = localStorage.getItem('email');
 if (savedEmail) {
+    const userEmailP = document.getElementById("user-email");
+    userEmailP.textContent = savedEmail;
     console.log(`Bem-vindo de volta, ${savedEmail}!`);
 } else {
     redirectToLogin();
@@ -346,7 +375,7 @@ function redirectToLogin() {
     localStorage.removeItem('userid');
     setTimeout(() => {
         window.location.href = `login.html?logout=true`;
-    },2000);
+    }, 2000);
 }
 
 // Configuração pós-carregamento
@@ -360,8 +389,8 @@ window.onload = () => {
 };
 
 // Logout
-//document.getElementById('img2').addEventListener('click', () => {
-//localStorage.removeItem('email');
-//localStorage.removeItem('userid');
-// redirectToLogin();
-//});
+document.getElementById('logout-btn').addEventListener('click', () => {
+    localStorage.removeItem('email');
+    localStorage.removeItem('userid');
+    redirectToLogin();
+});
