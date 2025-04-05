@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnConfig = document.getElementById("btn-config");
     const saveProduct = document.getElementById("save-product");
     const closeModal = document.getElementById("close-modal");
+    const countProd = document.getElementById("count-prod");
     const closeModalConfig = document.getElementById("close-modal-config");
 
     const productName = document.getElementById("name");
@@ -132,6 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
         productRef.orderByChild("email_vendedor").equalTo(vendedorEmail).once("value", snapshot => {
             snapshot.forEach(childSnapshot => {
                 const product = childSnapshot.val();
+                countProd.innerHTML = snapshot.numChildren(); // Atualiza o contador de produtos
                 const productId = childSnapshot.key; // ID do produto
                 const row = document.createElement("tr");
                 row.innerHTML = `

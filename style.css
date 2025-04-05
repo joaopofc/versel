@@ -215,7 +215,7 @@ h3 {
 }
 
 .hide {
-    display: none;
+    display: none !important;
 }
 
 label {
@@ -465,7 +465,9 @@ button:hover {
 
 
 
-#como-pagar {
+#como-pagar, .como-pagar {
+    display: none;
+
     padding: 15px;
     border-radius: 8px;
     background-color: #ffffff;
@@ -473,6 +475,7 @@ button:hover {
     box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1);
     justify-content: start;
 }
+
 
 #como-pagar-ul {
     list-style: none;

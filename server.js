@@ -98,7 +98,7 @@ app.get("/check_payment/:id", async (req, res) => {
         res.status(500).json({ error: "Erro ao verificar pagamento", details: error.response?.data });
     }
 });
-
+//https://versel-5pxj.onrender.com/send-email-mrk
 app.post('/send-email', (req, res) => {
     let { nome_completo, email, url_button, nome_produto, nome_vendedor, email_vendedor, preco } = req.body;
 
@@ -125,72 +125,65 @@ app.post('/send-email', (req, res) => {
         to: email,
         subject: `Pagamento aprovado!`,
         html: `<!DOCTYPE html>
-<html lang="pt-BR">
+        <html lang="pt-BR">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compra Confirmada</title>
-</head>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Compra Confirmada</title>
+        </head>
 
-<body style="margin: 0; padding: 15px; background-color: #f4f4f4; text-align: center; font-family: Arial, sans-serif;">
-
-    <div
-        style="max-width: 600px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); text-align: center;">
+        <body style="margin: 0; padding: 15px; background-color: #f4f4f4; text-align: center; font-family: Arial, sans-serif;">
+            <div    style="max-width: 600px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); text-align: center;">
         
 
-        <h1 style="color: #333; font-size: 25px; margin-bottom: 10px; margin-top: 30px;">Eae ${first_name}, tudo certo?</h1>
+            <h1 style="color: #333; font-size: 25px; margin-bottom: 10px; margin-top: 30px;">Eae ${first_name}, tudo certo?</h1>
 
-        <p style="font-size: 16px; color: #555; line-height: 1.6; margin-bottom: 20px;">
-            Seu pedido foi <b>confirmado</b>. Para acessar <b>${nome_produto}</b>, clique no botão abaixo:
-        </p>
+            <p style="font-size: 16px; color: #555; line-height: 1.6; margin-bottom: 20px;">
+                Seu pedido foi <b>confirmado</b>. Para acessar <b>${nome_produto}</b>, clique no botão abaixo:
+            </p>
 
-        <a href="${url_button}"
-            style="display: inline-block; cursor: pointer;  box-shadow: inset 0 -4px #0002; background-color: #28a745; color: #fff; font-size: 17px; font-weight: bold; text-decoration: none; padding: 16px 34px; border-radius: 8px; transition: 0.3s ease;">
+            <a href="${url_button}" style="display: inline-block; cursor: pointer;  box-shadow: inset 0 -4px #0002; background-color: #28a745; color: #fff; font-size: 17px; font-weight: bold; text-decoration: none; padding: 16px 34px; border-radius: 8px; transition: 0.3s ease;">
             Acessar Produto
-        </a>
+            </a>
 
 
-        <p
-            style="margin-top: 30px; font-size: 15px; color: #777; width: 100%; display: flex; align-items: center; justify-content: start;">
-            Veja os detalhes abaixo:
-        </p>
-        <p
-            style="margin-top: 0px; font-size: 15px; color: #777; display: flex; align-items: center; justify-content: start;">
-            <b style="color: #525F7F; margin-right: 3px;">Produto:</b> ${nome_produto}
-        </p>
-        <p
-            style="margin-top: -6px; font-size: 15px; color: #777; display: flex; align-items: center; justify-content: start;">
-            <b style="color: #525F7F; margin-right: 3px;">Valor:</b> R$ ${preco}
-        </p>
-        <p
-            style="margin-top: -6px; font-size: 15px; color: #777; display: flex; align-items: center; justify-content: start;">
-            <b style="color: #525F7F; margin-right: 3px;">Método de pagamento:</b> Pix
-        </p>
-        <p
-            style="margin-top: -6px; font-size: 15px; color: #777; display: flex; align-items: center; justify-content: start;">
-            <b style="color: #525F7F; margin-right: 3px;">Email usado:</b> ${email}
-        </p>
+            <p style="margin-top: 30px; font-size: 15px; color: #777; width: 100%; display: flex; align-items: center; justify-content: start;">
+                Veja os detalhes abaixo:
+            </p>
+            <p 
+                style="margin-top: 0px; font-size: 15px; color: #777; display: flex; align-items: center; justify-content: start;">
+                <b style="color: #525F7F; margin-right: 3px;">Produto:</b> ${nome_produto}
+            </p>
+            <p
+                style="margin-top: -6px; font-size: 15px; color: #777; display: flex; align-items: center; justify-content: start;">
+                <b style="color: #525F7F; margin-right: 3px;">Valor:</b> R$ ${preco}
+            </p>
+            <p
+                style="margin-top: -6px; font-size: 15px; color: #777; display: flex; align-items: center; justify-content: start;">
+                <b style="color: #525F7F; margin-right: 3px;">Método de pagamento:</b> Pix
+            </p>
+            <p
+                style="margin-top: -6px; font-size: 15px; color: #777; display: flex; align-items: center; justify-content: start;">
+                <b style="color: #525F7F; margin-right: 3px;">Email usado:</b> ${email}
+            </p>
 
 
 
        
         
-        <p style="margin-top: 30px; font-size: 14px; color: #777;">
-            Se <b>precisar de ajuda</b>, entre em contato com ${nome_vendedor} nesse email: <a
-                href="mailto:${email_vendedor}">${email_vendedor}</a>
-        </p>
+            <p style="margin-top: 30px; font-size: 14px; color: #777;">
+                Se <b>precisar de ajuda</b>, entre em contato com ${nome_vendedor} nesse email: <a
+                    href="mailto:${email_vendedor}">${email_vendedor}</a>
+            </p>
 
-        <hr style="border: none; border-top: 1px solid #ddd; margin: 25px 0;">
+            <hr style="border: none; border-top: 1px solid #ddd; margin: 25px 0;">
 
-        <p style="font-size: 12px; color: #999;">
-            &copy; 2025 <a href="https://ipat.shop/help">Twopay</a>. Todos os direitos reservados.
-        </p>
-
-    </div>
-
-</body>
-
+            <p style="font-size: 12px; color: #999;">
+                &copy; 2025 <a href="https://ipat.shop/help">Twopay</a>. Todos os direitos reservados.
+            </p>
+        </div>
+    </body>
 </html>`
     };
 
@@ -202,6 +195,76 @@ app.post('/send-email', (req, res) => {
     });
 });
 
+app.post('/send-email-marketing', (req, res) => {
+    let { nome_completo, email, url_button, nome_produto, nome_vendedor, email_vendedor} = req.body;
+
+    if (!nome_completo || !email) {
+        return res.status(400).json({ error: "Nome completo e email são obrigatórios!" });
+    }
+
+    // 🔥 Dividindo o nome completo automaticamente
+    const nomeArray = nome_completo.trim().split(" ");
+    const first_name = nomeArray[0]; // Primeiro nome
+    const last_name = nomeArray.slice(1).join(" ") || "N/A"; // Restante do nome ou "N/A" se não houver sobrenome
+
+    // Configurar o envio de e-mail aqui (com NodeMailer, SendGrid, etc)
+    // Exemplo com Nodemailer:
+    const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: "joaopaulojd021@gmail.com", // Seu e-mail
+            pass: "jnkurgeunpbzkhbq" // Senha de aplicativo
+        }
+    });
+    const mailOptions = {
+        from: '"Twopay" <joaopaulojd021@gmail.com>',
+        to: email,
+        subject: `Finalize seu pagamento`,
+        html: `<!DOCTYPE html>
+        <html lang="pt-BR">
+
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Compra Confirmada</title>
+        </head>
+
+        <body style="margin: 0; padding: 15px; background-color: #f4f4f4; text-align: center; font-family: Arial, sans-serif;">
+            <div    style="max-width: 600px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); text-align: center;">
+        
+
+            <h1 style="color: #333; font-size: 25px; margin-bottom: 10px; margin-top: 30px;">Eae ${first_name}, tudo certo?</h1>
+
+            <p style="font-size: 16px; color: #555; line-height: 1.6; margin-bottom: 20px;">
+                Finalize seu pagamento para acessar <b>${nome_produto}</b>! Clique aqui em abaixo:
+            </p>
+
+            <a href="${url_button}" style="display: inline-block; cursor: pointer;  box-shadow: inset 0 -4px #0002; background-color: #28a745; color: #fff; font-size: 17px; font-weight: bold; text-decoration: none; padding: 16px 34px; border-radius: 8px; transition: 0.3s ease;">
+            Finalizar pagamento
+            </a>       
+        
+            <p style="margin-top: 30px; font-size: 14px; color: #777;">
+                Se <b>precisar de ajuda</b>, entre em contato com ${nome_vendedor} nesse email: <a
+                    href="mailto:${email_vendedor}">${email_vendedor}</a>
+            </p>
+
+            <hr style="border: none; border-top: 1px solid #ddd; margin: 25px 0;">
+
+            <p style="font-size: 12px; color: #999;">
+                &copy; 2025 <a href="https://ipat.shop/help">Twopay</a>. Todos os direitos reservados.
+            </p>
+        </div>
+    </body>
+</html>`
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            return res.status(500).send('Erro ao enviar e-mail');
+        }
+        res.status(200).send('E-mail enviado com sucesso');
+    });
+});
 
 // Iniciar o servidor
 const PORT = process.env.PORT || 3001;
