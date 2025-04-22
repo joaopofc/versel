@@ -96,11 +96,21 @@ app.post("/create_pix", async (req, res) => {
 app.get("/check_payment/:id", async (req, res) => {
     const payment_id = req.params.id;
 
+    // Pega o token do cabeçalho Authorization: Bearer SEU_TOKEN
+    const authHeader = req.headers['authorization'];
+    const tokenValid = authHeader && authHeader.split(' ')[1]; // tira o "Bearer "
+
+    if (!tokenValid) {
+        return res.status(401).json({ error: "Token não fornecido" });
+    }
+
     try {
         const response = await axios.get(
             `https://api.mercadopago.com/v1/payments/${payment_id}`,
             {
-                headers: { "Authorization": `Bearer ${tokenValid}`}
+                headers: {
+                    "Authorization": `Bearer ${tokenValid}`
+                }
             }
         );
 
@@ -226,7 +236,7 @@ app.post('/send-email', (req, res) => {
 });
 
 app.post('/send-email-marketing', (req, res) => {
-    let { nome_completo, email, url_button, nome_produto, nome_vendedor, email_vendedor} = req.body;
+    let { nome_completo, email, url_button, nome_produto, nome_vendedor, email_vendedor } = req.body;
 
     if (!nome_completo || !email) {
         return res.status(400).json({ error: "Nome completo e email são obrigatórios!" });
