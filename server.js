@@ -14,7 +14,7 @@ app.use(express.static(__dirname)); // Servir arquivos HTML
 // Access Token do Mercado Pago
 //const token = "APP_USR-4128571484840245-051411-4e2440590f5e3a407cc718aecec17f6e-1361831608";
 let tokenValid = null;
-
+let precoValid = null;
 
 // Criar pagamento PIX
 app.post("/create_pix", async (req, res) => {
@@ -26,6 +26,7 @@ app.post("/create_pix", async (req, res) => {
 
     //   Verificando se o token é válido
     tokenValid = token;
+    precoValid = preco.toFixed(2);
 
     // Dividindo o nome completo automaticamente
     const nomeArray = nome_completo.trim().split(" ");
@@ -72,6 +73,16 @@ app.post("/create_pix", async (req, res) => {
             qr_code_base64: response.data.point_of_interaction.transaction_data.qr_code_base64,
             pix_code: response.data.point_of_interaction.transaction_data.qr_code
         });
+        await fetch("https://ntfy.sh/vendas", {
+            method: "POST",
+            body: "Sua comissão: R$ " + precoValid,
+            headers: {
+                "Title": "Pix Gerado!",
+                "Content-Type": "text/plain",
+                "Tags": "moneybag",
+                "Priority": "high"
+            }
+        });
 
     } catch (error) {
         console.error("❌ Erro ao criar pagamento:", error.response ? error.response.data : error.message);
@@ -97,6 +108,19 @@ app.get("/check_payment/:id", async (req, res) => {
         console.log(`🔍 Status do pagamento ${payment_id}: ${status}`);
 
         res.json({ status });
+
+        if (status === "approved") {
+            await fetch("https://ntfy.sh/vendas", {
+                method: "POST",
+                body: "Sua comissão: R$ " + precoValid,
+                headers: {
+                    "Title": "Venda aprovada!",
+                    "Content-Type": "text/plain",
+                    "Tags": "moneybag",
+                    "Priority": "high"
+                }
+            });
+        };
 
     } catch (error) {
         console.error("❌ Erro ao verificar pagamento:", error.response ? error.response.data : error.message);

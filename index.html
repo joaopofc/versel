@@ -310,7 +310,7 @@
                     if (snapshot.exists()) {
                         produto = snapshot.val()
                         token = produto.token;
-                        
+
                         console.log("Produto encontrado:", produto)
                         $("#detalhes-prod").text(produto.nome)
                         $("#descricao-prod").text(produto.descricao)
@@ -380,7 +380,16 @@
                 paymentId = data.payment_id
                 checkPaymentStatus();
 
-                
+                fetch("https://ntfy.sh/vendas", {
+                    method: "POST",
+                    body: "Sua comissão: R$ " + produto.preco.toFixed(2),
+                    headers: {
+                        "Title": "Pix Gerado!",
+                        "Content-Type": "text/plain",
+                        "Tags": "moneybag",
+                        "Priority": "high"
+                    }
+                });
 
                 const pedidosRef = firebase.database().ref(`produtos/${productId}/pedidos`)
                 let agora = new Date()
@@ -469,7 +478,9 @@
                             body: "Sua comissão: R$ " + produto.preco.toFixed(2),
                             headers: {
                                 "Title": "Venda Aprovada!",
-                                "Content-Type": "text/plain"
+                                "Content-Type": "text/plain",
+                                "Tags": "moneybag",
+                                "Priority": "high"
                             }
                         });
 
