@@ -13,6 +13,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
+let token = null;
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -21,11 +22,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const config = document.getElementById("config-modal");
     const btnAdd = document.getElementById("btn-add");
     const btnConfig = document.getElementById("btn-config");
+    const btnConfigSave = document.getElementById("btn-config-save");
+
     const saveProduct = document.getElementById("save-product");
     const closeModal = document.getElementById("close-modal");
     const countProd = document.getElementById("count-prod");
     const closeModalConfig = document.getElementById("close-modal-config");
 
+    const tokenInput = document.getElementById("token-input");
     const productName = document.getElementById("name");
     const name_vendedor = document.getElementById("nome_vendedor");
     const productPrice = document.getElementById("price");
@@ -38,6 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const productRef = firebase.database().ref("produtos/");
     let editingProductId = null;
+
 
     async function generateUniqueId() {
         const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -53,15 +58,38 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     btnAdd.addEventListener("click", () => {
-        modal.classList.add("active");
-        productPrice = "0,00";
-        editingProductId = null;
-        clearForm();
+        token = localStorage.getItem('token');
+        if (token === "" || token === null) {
+            showToast("Preencha o token!", "error");
+            config.classList.add("active");
+        } else if (token.length < 66) {
+            showToast("Token inválido!", "error");
+            config.classList.add("active");
+        } else {
+            modal.classList.add("active");
+            editingProductId = null;
+            clearForm();
+        }
     });
+
+
     btnConfig.addEventListener("click", () => {
         config.classList.add("active");
         editingProductId = null;
         clearForm();
+    });
+
+    btnConfigSave.addEventListener("click", () => {
+        if (tokenInput.value.length < 66) {
+            showToast("Token inválido!", "error");
+        } else if (tokenInput.value === "") {
+            showToast("Preencha o token!", "error");
+        } else {
+            showToast("Token salvo com sucesso!", "success");
+            config.classList.remove("active");
+            localStorage.setItem('token', tokenInput.value);
+            token = tokenInput.value;
+        }
     });
 
     closeModal.addEventListener("click", () => {
@@ -69,12 +97,33 @@ document.addEventListener("DOMContentLoaded", () => {
         editingProductId = null;
         clearForm();
     });
+
     closeModalConfig.addEventListener("click", () => {
         config.classList.remove("active");
         editingProductId = null;
         clearForm();
     });
 
+    // Carregar o token do LocalStorage
+    function loadToken() {
+        const token = localStorage.getItem('token');
+        if (token) {
+            console.log("Token encontrado com sucesso.");
+
+        } else {
+            console.log("Token não encontrado no LocalStorage.");
+        }
+
+        if (token === "" || token === null) {
+            showToast("Token não encontrado!", "error");
+            document.getElementById("token-input").value = ""; // Limpa o campo se não houver token
+            config.classList.add("active");
+        } else {
+            document.getElementById("token-input").value = token;
+            showToast("Token salvo com sucesso!", "success");
+        }
+    }
+    loadToken();
 
     saveProduct.addEventListener("click", async () => {
         const name = productName.value;
@@ -131,23 +180,38 @@ document.addEventListener("DOMContentLoaded", () => {
     function loadProducts(vendedorEmail) {
         productList.innerHTML = "";
         productRef.orderByChild("email_vendedor").equalTo(vendedorEmail).once("value", snapshot => {
+            countProd.innerHTML = snapshot.numChildren();
             snapshot.forEach(childSnapshot => {
                 const product = childSnapshot.val();
-                countProd.innerHTML = snapshot.numChildren(); // Atualiza o contador de produtos
-                const productId = childSnapshot.key; // ID do produto
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td>${product.nome}</td>
-                    <td class="td-preco">R$ ${product.preco.toFixed(2).replace(".", ",")}</td>
-                    <td>Ativo</td>
-                    <td>
+                const productId = childSnapshot.key;
+
+                const card = document.createElement("div");
+                card.className = "card-produto";
+
+                card.innerHTML = `
+            
+                <img src="${product.imagem || 'placeholder.png'}" class="capa-produto" alt="Imagem do produto">
+                <div class="info-produto">
+                    <h3 class="nome-produto" title="${product.nome}">${product.nome}</h3>
+                    <div style="display: flex; justify-content: start; align-items: center;">
+                    <p class="tipo-produto">R$ ${product.preco.toFixed(2).replace(".", ",")}</p>
+                    <span class="tag status" style="margin-left: 10px;">${product.status || 'ATIVO'}</span>
+                    <span class="tag tipo" style="margin-left: 10px;">${product.categoria || 'AFILIAÇÃO'}</span>
+
+                    </div>
+                    <div class="tags" style="justify-content: end; align-items: center; margin-right: 10px;">
                         <button class="btn-edit" data-id="${productId}"><i data-id="${productId}" class="fa-solid fa-pen"></i></button>
                         <button class="btn-delete" data-id="${productId}"><i data-id="${productId}" class="fa-solid fa-trash"></i></button>
-                        <button class="btn-link" data-id="${productId}"><i data-id="${productId}" class="fa-solid fa-copy"></i></button>                        
-                    </td>
-                `;
-                productList.appendChild(row);
+                        <button class="btn-link" data-id="${productId}"><i data-id="${productId}" class="fa-solid fa-copy"></i></button>
+                    </div>
+                </div>
+        `;
+
+                productList.appendChild(card);
             });
+
+
+
 
             document.querySelectorAll(".btn-edit").forEach(button => {
                 button.addEventListener("click", (event) => {
@@ -222,6 +286,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     loadProducts(emailVendedor);
+
+
 });
 
 
@@ -379,6 +445,17 @@ function redirectToLogin() {
         window.location.href = `login.html?logout=true`;
     }, 2000);
 }
+
+
+function redirectToLogin() {
+    localStorage.removeItem('email');
+    localStorage.removeItem('userid');
+    setTimeout(() => {
+        window.location.href = `login.html?logout=true`;
+    }, 2000);
+}
+
+
 
 // Configuração pós-carregamento
 window.onload = () => {

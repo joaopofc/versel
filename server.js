@@ -12,17 +12,18 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname)); // Servir arquivos HTML
 
 // Access Token do Mercado Pago
-const MERCADO_PAGO_ACCESS_TOKEN = "APP_USR-4128571484840245-051411-4e2440590f5e3a407cc718aecec17f6e-1361831608";
+//const token = "APP_USR-4128571484840245-051411-4e2440590f5e3a407cc718aecec17f6e-1361831608";
 
 // Criar pagamento PIX
 app.post("/create_pix", async (req, res) => {
-    let { nome_completo, email, preco } = req.body;
+    let { nome_completo, email, preco, token } = req.body;
 
     if (!nome_completo || !email) {
         return res.status(400).json({ error: "Nome completo e email são obrigatórios!" });
     }
 
     // 🔥 Dividindo o nome completo automaticamente
+    const tokenValid = token;
     const nomeArray = nome_completo.trim().split(" ");
     const first_name = nomeArray[0]; // Primeiro nome
     const last_name = nomeArray.slice(1).join(" ") || "N/A"; // Restante do nome ou "N/A" se não houver sobrenome
@@ -53,7 +54,7 @@ app.post("/create_pix", async (req, res) => {
             },
             {
                 headers: {
-                    "Authorization": `Bearer ${MERCADO_PAGO_ACCESS_TOKEN}`,
+                    "Authorization": `Bearer ${tokenValid}`,
                     "Content-Type": "application/json",
                     "X-Idempotency-Key": uuidv4()
                 }
@@ -83,7 +84,7 @@ app.get("/check_payment/:id", async (req, res) => {
         const response = await axios.get(
             `https://api.mercadopago.com/v1/payments/${payment_id}`,
             {
-                headers: { "Authorization": `Bearer ${MERCADO_PAGO_ACCESS_TOKEN}` }
+                headers: { "Authorization": `Bearer ${tokenValid}` }
             }
         );
 

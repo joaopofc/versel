@@ -63,37 +63,42 @@ body {
     color: #000;
 }
 
-.user-logger{
+.user-logger {
     margin-top: 10px;
     display: flex;
     flex-direction: column;
     align-items: Top;
     width: auto;
 }
-.user-logger-div{
+
+.user-logger-div {
     display: flex;
     margin-left: 10px;
     font-size: 14px;
     color: #000000;
     font-weight: 500;
 }
-.user-logger img{
+
+.user-logger img {
     width: 30px;
     height: 30px;
     border-radius: 50%;
 }
+
 .user-logger-div p {
     margin: 0 10px 3px 10px;
     font-size: 14px;
     color: #f5f5f5;
     font-weight: 500;
 }
+
 .user-logger p {
     margin: 0 10px 3px 10px;
     font-size: 13px;
     color: #f5f5f5;
     font-weight: 500;
 }
+
 .user-logger-div button {
     font-size: 12px;
     color: #ffffff;
@@ -104,6 +109,7 @@ body {
     padding: 5px 9px;
     cursor: pointer;
 }
+
 
 /* ============ CONTEÚDO PRINCIPAL ============ */
 .main {
@@ -165,7 +171,7 @@ header h1 {
         background: #161C24;
         color: #ddd;
     }
-    
+
     .sidebar {
         background-image: linear-gradient(to bottom, #212B36, #161C24);
         border-right: 1px solid #333;
@@ -183,8 +189,9 @@ header h1 {
         background: #1d1d1d;
         color: #fff;
     }
-    .td-preco{
-       font-weight: 600;
+
+    .td-preco {
+        font-weight: 600;
     }
 
     .card {
@@ -249,7 +256,8 @@ table {
     border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
     padding: 12px;
     text-align: left;
     border-bottom: 1px solid #454545;
@@ -286,7 +294,8 @@ th {
 }
 
 /* ============ MODAL DE FORMULÁRIO ============ */
-.modal, .config {
+.modal,
+.config {
     display: none;
     position: fixed;
     top: 50%;
@@ -305,15 +314,21 @@ th {
     height: auto;
 }
 
-.modal.active, .config.active {
+.modal.active,
+.config.active {
     display: block;
 }
 
-.modal h2, .config h2, .modal i, .config i {
+.modal h2,
+.config h2,
+.modal i,
+.config i {
     margin-bottom: 15px;
 }
 
-.modal input, .config input, .modal textarea {
+.modal input,
+.config input,
+.modal textarea {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
@@ -327,12 +342,14 @@ th {
 }
 
 
-.modal .div-url-link input{
+.modal .div-url-link input {
     min-width: 2% !important;
 }
 
 
-.btn-edit, .btn-delete, .btn-link {
+.btn-edit,
+.btn-delete,
+.btn-link {
     color: #fff;
     border: none;
     padding: 6px 14px;
@@ -340,15 +357,100 @@ th {
     cursor: pointer;
     transition: background 0.3s;
 }
+
 .btn-edit {
-    background: #28a745;
-}	
+    background: #1db954;
+}
+
 .btn-delete {
     background: #dc3545;
 }
+
 .btn-link {
     background: #007bff;
 }
+
+
+/* ============ CARD DE PRODUTOS ============ */
+
+
+
+#product-list {
+    display: flex !important;
+    flex-wrap: wrap;
+    /* Quebra linha quando não couber */
+    gap: 10px;
+    /* Espaço entre os cards */
+    overflow-x: hidden;
+    /* Impede scroll lateral */
+}
+
+.card-produto {
+    background-color: #272c31;
+    border-radius: 10px;
+    padding: 15px;
+    width: 300px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+.capa-produto {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.info-produto {
+    flex: 1;
+}
+
+.nome-produto {
+    margin: 0;
+    font-size: 15px;
+    color: white;
+
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+
+.tipo-produto {
+    margin: 2px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #bbb;
+}
+
+.tags {
+    display: flex;
+    gap: 8px;
+    margin-top: 5px;
+}
+
+.tag {
+    display: flex;
+    flex-direction: column;
+    padding: 4px 8px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: bold;
+    color: white;
+}
+
+.status {
+    background-color: #1db954;
+    /* verde */
+}
+
+.tipo {
+    background-color: #444;
+}
+
 
 
 
@@ -385,14 +487,17 @@ th {
         opacity: 0;
         transform: translateY(-10px);
     }
+
     10% {
         opacity: 1;
         transform: translateY(0);
     }
+
     90% {
         opacity: 1;
         transform: translateY(0);
     }
+
     100% {
         opacity: 0;
         transform: translateY(10px);
@@ -426,6 +531,7 @@ th {
     background-color: #16A34A;
     border-radius: 30px;
 }
+
 .toggle:not(:checked) {
     border-radius: 30px;
 }
@@ -444,7 +550,7 @@ th {
 
 .toggle:checked:before {
     transform: translateX(25px);
-    
+
 }
 
 .toggle-label {
@@ -454,7 +560,7 @@ th {
 }
 
 /* Troca o texto do toggle de acordo com o estado */
-.toggle:checked + .toggle-label {
+.toggle:checked+.toggle-label {
     content: "Ativo";
 }
 
@@ -471,51 +577,68 @@ th {
 
 /* Estilo do Toggle */
 
-input, textarea, .price-div{
+input,
+textarea,
+.price-div {
     color: #fff;
-    border: 1px solid #333; /* Borda mais suave */
-    border-radius: 8px; /* Bordas arredondadas para um look mais moderno */
+    border: 1px solid #333;
+    /* Borda mais suave */
+    border-radius: 8px;
+    /* Bordas arredondadas para um look mais moderno */
     padding: 10px 14px;
-    font-size: 16px; /* Aumenta o tamanho da fonte para mais legibilidade */
+    font-size: 16px;
+    /* Aumenta o tamanho da fonte para mais legibilidade */
     width: 100%;
     margin: 4px 0;
     box-sizing: border-box;
-    transition: all 0.3s ease; /* Suaviza a transição de foco */
+    transition: all 0.3s ease;
+    /* Suaviza a transição de foco */
 }
+
 .price-div {
     margin: 0 0 10px 0 !important;
     padding: 0;
-    border: 1px solid #535353; /* Borda mais suave */
+    border: 1px solid #535353;
+    /* Borda mais suave */
     display: flex;
     align-items: center;
     justify-content: center;
     padding-left: 15px;
 
 }
-.price-div input{
+
+.price-div input {
     border: none;
     height: auto;
     margin: 0 !important;
     padding: 10px 4px;
 
 }
-.price-div span{
+
+.price-div span {
     font-size: 16px;
     color: #717070;
     margin-left: 10px;
     font-weight: 500;
     font-family: Inter, sans-serif;
 }
+
 /* Efeito de foco nos inputs e textarea */
-input:focus, textarea:focus, .price-div:focus {
-    border-color: #4c61af; /* Borda verde suave para o foco */
+input:focus,
+textarea:focus,
+.price-div:focus {
+    border-color: #4c61af;
+    /* Borda verde suave para o foco */
     outline: none;
 }
 
 /* Placeholder - melhora a visibilidade */
-input::placeholder, textarea::placeholder {
-    color: #888; /* Placeholder em um tom de cinza mais claro */
-    font-style: normal; /* Removido o italic do placeholder */
+input::placeholder,
+textarea::placeholder {
+    color: #888;
+    /* Placeholder em um tom de cinza mais claro */
+    font-style: normal;
+    /* Removido o italic do placeholder */
 }
 
 
@@ -526,6 +649,7 @@ input::placeholder, textarea::placeholder {
     .sidebar {
         width: 220px;
     }
+
     .main {
         margin-left: 240px;
     }
@@ -537,12 +661,15 @@ input::placeholder, textarea::placeholder {
         left: -100%;
         transition: all 0.3s ease;
     }
+
     .sidebar.active {
         left: 0;
     }
+
     .main {
         margin-left: 0;
     }
+
     .modal {
         width: 90%;
     }

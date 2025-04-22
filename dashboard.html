@@ -18,7 +18,7 @@
 <body>
     <div class="supra-side" style="display: flex; width: 100vw; position: relative;">
     <div class="sidebar">
-        <h2>Dash Twopay</h2>
+        <h2>Dash Tawros</h2>
         <p style="font-size: 11px; color: grey; margin-left: 60px;">Versão 1.0.2</p>
         <ul>
             <li><a href="#"><i class="fa-regular fa-money-bill-1" style="margin-right: 7px; transform: translateY(1px);"></i>Visão Geral</a></li>
@@ -78,10 +78,11 @@
                             <th>Ações</th>
                         </tr>
                     </thead>
-                    <tbody id="product-list">
-                        <!-- Produtos serão adicionados aqui -->
-                    </tbody>
+                    
                 </table>
+                <div id="product-list">
+                        
+                </div>
                 <!-- Modal de Formulário -->
                 <div class="modal" id="product-modal">
                     <div style="display: flex; align-items: center; padding: 0px; cursor: pointer;">
@@ -125,7 +126,7 @@
                         <i id="close-modal-config" style="display:flex; padding: 7px 9px; margin-right: 6px; background: rgb(102 102 102); color: white; border-radius: 50px;" class="fa-solid fa-xmark"></i>
                         <h2>Configurações</h2>
                     </div>
-                    <input type="password" id="token" placeholder="Public Key/Token do Mercado pago*" required>
+                    <input type="text" id="token-input" placeholder="Public Key/Token do Mercado pago*" autocomplete="none" required>
 
                     <!-- <div class="div-url-link" style="display: flex; align-items: center;  width: 100% !important;">
                         <input type="text" id="image" style="margin-right: 5px;" placeholder="Link da Imagem do Produto*" required>
@@ -133,7 +134,7 @@
                     </div> -->
                     
                     <div class="btn-div" style="display: flex; width: 100%; align-items: center; justify-content: end;">
-                        <button class="btn" id="btn-config" style="width: 100px;">SALVAR</button>
+                        <button class="btn" id="btn-config-save" style="width: 100px;">SALVAR</button>
                     </div>
                 </div>
                 
