@@ -4,6 +4,7 @@ const { v4: uuidv4 } = require("uuid");
 const axios = require("axios");
 const cors = require("cors"); // 🔥 Importando CORS
 const nodemailer = require("nodemailer");
+const fetch = require("node-fetch");
 
 const app = express();
 app.use(cors()); // 🔥 Habilitando CORS
@@ -26,7 +27,6 @@ app.post("/create_pix", async (req, res) => {
 
     //   Verificando se o token é válido
     tokenValid = token;
-    precoValid = preco.toFixed(2);
 
     // Dividindo o nome completo automaticamente
     const nomeArray = nome_completo.trim().split(" ");
@@ -37,6 +37,7 @@ app.post("/create_pix", async (req, res) => {
     if (isNaN(precoNumerico)) {
         return res.status(400).json({ error: "O valor do preço é inválido." });
     }
+    precoValid = precoNumerico.toFixed(2);
 
     console.log("📢 Criando pagamento PIX para:", first_name, last_name, email, precoNumerico); // 🔥 Correção aqui!
 
@@ -99,7 +100,7 @@ app.get("/check_payment/:id", async (req, res) => {
         const response = await axios.get(
             `https://api.mercadopago.com/v1/payments/${payment_id}`,
             {
-                headers: { "Authorization": `Bearer ${tokenValid}` }
+                headers: { "Authorization": `Bearer ${tokenValid}`}
             }
         );
 
