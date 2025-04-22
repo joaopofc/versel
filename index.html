@@ -448,70 +448,79 @@
         })
 
         function checkPaymentStatus() {
-            if (!paymentId) return
+            if (!paymentId) return;
 
             const interval = setInterval(() => {
-                $.get(`https://versel-5pxj.onrender.com/check_payment/${paymentId}`, function (data) {
-                    if (data.status === "approved") {
-                        clearInterval(interval)
-                        $("#pix-qr").attr("src", 'https://firebasestorage.googleapis.com/v0/b/loginxepa.appspot.com/o/img%2Fpago-transp3-150x150.png?alt=media&token=1bbb9be8-3a00-4678-b975-7a1a29ec64d5')
-                        $("#pix-code-div").hide()
-                        $("#status").text("Pagamento aprovado! Aguarde 1 segundo.")
-                        $("#scan").text("Você receberá um email.")
-                        $("#loading").hide()
-                        $("#btnconf").hide()
-                        $("#como-pagar").hide()
+                $.ajax({
+                    url: `https://versel-5pxj.onrender.com/check_payment/${paymentId}`,
+                    method: "GET",
+                    headers: {
+                        "Authorization": "Bearer " + token // ← Coloque seu token real aqui
+                    },
+                    success: function (data) {
+                        if (data.status === "approved") {
+                            clearInterval(interval);
+                            $("#pix-qr").attr("src", 'https://firebasestorage.googleapis.com/v0/b/loginxepa.appspot.com/o/img%2Fpago-transp3-150x150.png?alt=media&token=1bbb9be8-3a00-4678-b975-7a1a29ec64d5');
+                            $("#pix-code-div").hide();
+                            $("#status").text("Pagamento aprovado! Aguarde 1 segundo.");
+                            $("#scan").text("Você receberá um email.");
+                            $("#loading").hide();
+                            $("#btnconf").hide();
+                            $("#como-pagar").hide();
 
-                        let agora = new Date()
-                        let dataAtu = agora.toLocaleDateString("pt-BR")
-                        let horaAtu = agora.toLocaleTimeString("pt-BR")
+                            let agora = new Date();
+                            let dataAtu = agora.toLocaleDateString("pt-BR");
+                            let horaAtu = agora.toLocaleTimeString("pt-BR");
 
-                        database.ref(`produtos/${productId}/pedidos/${paymentId}`).update({
-                            status: "approved",
-                            "data/data_payment": dataAtu,
-                            "data/hora_payment": horaAtu,
-                            "pix_info/pix_pago": "approved"
-                        })
+                            database.ref(`produtos/${productId}/pedidos/${paymentId}`).update({
+                                status: "approved",
+                                "data/data_payment": dataAtu,
+                                "data/hora_payment": horaAtu,
+                                "pix_info/pix_pago": "approved"
+                            });
 
-                        fetch("https://ntfy.sh/vendas", {
-                            method: "POST",
-                            body: "Sua comissão: R$ " + produto.preco.toFixed(2),
-                            headers: {
-                                "Title": "Venda Aprovada!",
-                                "Content-Type": "text/plain",
-                                "Tags": "moneybag",
-                                "Priority": "high"
-                            }
-                        });
+                            fetch("https://ntfy.sh/vendas", {
+                                method: "POST",
+                                body: "Sua comissão: R$ " + produto.preco.toFixed(2),
+                                headers: {
+                                    "Title": "Venda Aprovada!",
+                                    "Content-Type": "text/plain",
+                                    "Tags": "moneybag",
+                                    "Priority": "high"
+                                }
+                            });
 
-                        $.post("https://versel-5pxj.onrender.com/send-email", {
-                            nome_completo: $("#nome_completo").val(),
-                            email: $("#email").val(),
-                            url_button: produto.url_button,
-                            nome_produto: produto.nome,
-                            nome_vendedor: produto.nome_vendedor,
-                            email_vendedor: produto.email_vendedor,
-                            preco: produto.preco.toFixed(2),
-                        }).done(function () {
-                            console.log("✅ E-mail enviado com sucesso!")
-                        }).fail(function (xhr, status, error) {
-                            console.error("❌ Erro ao enviar e-mail:", error)
-                        })
+                            $.post("https://versel-5pxj.onrender.com/send-email", {
+                                nome_completo: $("#nome_completo").val(),
+                                email: $("#email").val(),
+                                url_button: produto.url_button,
+                                nome_produto: produto.nome,
+                                nome_vendedor: produto.nome_vendedor,
+                                email_vendedor: produto.email_vendedor,
+                                preco: produto.preco.toFixed(2),
+                            }).done(function () {
+                                console.log("✅ E-mail enviado com sucesso!");
+                            }).fail(function (xhr, status, error) {
+                                console.error("❌ Erro ao enviar e-mail:", error);
+                            });
 
-                        setTimeout(() => {
-                            window.location.href = produto.url_button
-                        }, 8000)
-                    } else if (data.status === "rejected") {
-                        clearInterval(interval)
-                        alert("Pagamento rejeitado. Tente novamente.")
-                        location.reload()
+                            setTimeout(() => {
+                                window.location.href = produto.url_button;
+                            }, 8000);
+                        } else if (data.status === "rejected") {
+                            clearInterval(interval);
+                            alert("Pagamento rejeitado. Tente novamente.");
+                            location.reload();
+                        }
+                    },
+                    error: function () {
+                        clearInterval(interval);
+                        alert("Erro ao verificar pagamento.");
                     }
-                }).fail(() => {
-                    clearInterval(interval)
-                    alert("Erro ao verificar pagamento.")
-                })
-            }, 6000)
+                });
+            }, 6000);
         }
+
 
         document.getElementById('pix-code').addEventListener('click', function () { })
 
