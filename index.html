@@ -219,7 +219,8 @@
         let paymentId = null
         let produto = null
         let order = null
-    
+        let token = null
+
         const firebaseConfig = {
             apiKey: "AIzaSyB0DFXPILXxKAkjaKOHvgnppV3CY7xR9Cs",
             authDomain: "meu-checkout-web.firebaseapp.com",
@@ -230,34 +231,34 @@
             appId: "1:422699934016:web:7910537a1f8d5457929aa5",
             measurementId: "G-VRKRL1MR9S"
         }
-    
+
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig)
         const database = firebase.database()
-    
+
         // Função para pegar parâmetros da URL
         function getQueryParam(param) {
             const urlParams = new URLSearchParams(window.location.search)
             return urlParams.get(param)
         }
-    
+
         // Novo método: pega o ID do produto da pathname
         const productId = window.location.pathname.slice(1)
         const orderId = getQueryParam("order")
-    
+
         if (orderId) {
             const orderRef = firebase.database().ref("produtos/" + productId + "/pedidos/" + orderId + "/pix_info/")
             orderRef.once("value")
                 .then(snapshot => {
                     if (snapshot.exists()) {
                         order = snapshot.val()
-    
+
                         console.log("Dados do pedido:", order)
                         $("#pix-qr").attr("src", order.pix_qr)
                         $("#pix-code").text(order.pix_code)
                         $("#pix-container").show()
                         $("#checkout-form").hide()
-    
+
                         const interValCheck = setInterval(() => {
                             $.get(`https://versel-5pxj.onrender.com/check_payment/${order.pix_id}`, function (data) {
                                 if (data.status === "cancelled") {
@@ -274,7 +275,7 @@
                     console.error("❌ Erro ao buscar pedido:", error)
                 })
         }
-    
+
         function pagExp() {
             $("#status").text("Pagamento cancelado")
             $("#scan").hide()
@@ -287,37 +288,39 @@
             document.getElementById("form-container").classList.add('hide')
             const urlParams = new URLSearchParams(window.location.search)
             urlParams.delete("order")
-    
+
             document.getElementById("btnewf").addEventListener("click", function () {
                 const novaUrl = window.location.origin + window.location.pathname + '?' + urlParams.toString()
                 window.location.href = novaUrl
             })
-    
+
             $("#como-pagar").hide()
             console.log("❌ Pagamento expirado.")
         }
-    
+
         if (productId) {
             console.log("🔍 Buscando produto com ID:", productId)
-    
+
             const productRef = firebase.database().ref("produtos/" + productId)
             const corp = document.getElementById("corp")
             const errorProd = document.getElementById("error-prod")
-    
+
             productRef.once("value")
                 .then(snapshot => {
                     if (snapshot.exists()) {
                         produto = snapshot.val()
-    
+                        token = produto.token;
+                        
+                        console.log("Produto encontrado:", produto)
                         $("#detalhes-prod").text(produto.nome)
                         $("#descricao-prod").text(produto.descricao)
                         $("#nome_vendedor").text(produto.nome_vendedor)
                         $("#preco-original").text(produto.preco_original)
                         let precoFormatado = `R$ ${produto.preco.toFixed(2).replace(".", ",")}`
                         $("#preco-prod").text(`${precoFormatado}`)
-    
+
                         document.title = produto.nome
-    
+
                         const imgElement = document.getElementById("img-head")
                         if (produto.banner_img) {
                             document.getElementById("banner").src = produto.banner_img
@@ -330,7 +333,7 @@
                         } else {
                             document.getElementById("timer").style.display = "none"
                         }
-    
+
                         if (produto.imagem) {
                             imgElement.src = produto.imagem
                             imgElement.onload = function () {
@@ -339,7 +342,7 @@
                         } else {
                             alert("⚠️ Produto não possui uma imagem.")
                         }
-    
+
                         console.log("✅ Produto encontrado")
                     } else {
                         console.error("❌ Produto não encontrado.")
@@ -357,14 +360,15 @@
             document.getElementById("corp").classList.add('hide')
             document.getElementById("error-prod").classList.remove('hide')
         }
-    
+
         $("#checkout-form").submit(function (event) {
             document.getElementById("bob").classList.add("popup")
             event.preventDefault()
             $.post("https://versel-5pxj.onrender.com/create_pix", {
                 nome_completo: $("#nome_completo").val(),
                 email: $("#email").val(),
-                preco: produto.preco.toFixed(2)
+                preco: produto.preco.toFixed(2),
+                token: token
             }, function (data) {
                 $("#pix-qr").attr("src", 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + data.pix_code)
                 $("#pix-code").text(data.pix_code)
@@ -372,15 +376,17 @@
                 $("#checkout-form").hide()
                 document.getElementById("form-container").classList.add('hide')
                 document.getElementById("bob").classList.remove("popup")
-    
+
                 paymentId = data.payment_id
-                checkPaymentStatus()
-    
+                checkPaymentStatus();
+
+                
+
                 const pedidosRef = firebase.database().ref(`produtos/${productId}/pedidos`)
                 let agora = new Date()
                 let dataAtu = agora.toLocaleDateString("pt-BR")
                 let horaAtu = agora.toLocaleTimeString("pt-BR")
-    
+
                 pedidosRef.child(paymentId).set({
                     nome: $("#nome_completo").val(),
                     email: $("#email").val(),
@@ -397,7 +403,7 @@
                         pix_id: paymentId,
                         pix_code: data.pix_code,
                         pix_qr: 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + data.pix_code,
-                        url_pix: window.location.href + '&order=' + paymentId,
+                        url_pix: window.location.href + '?order=' + paymentId,
                     },
                     status: "pending"
                 }).then(() => {
@@ -405,7 +411,7 @@
                 }).catch((error) => {
                     console.error("Erro ao criar o pedido:", error)
                 })
-    
+
                 const orderRefEmas = firebase.database().ref("produtos/" + productId + "/pedidos/" + orderId + "/pix_info/")
                 orderRefEmas.once("value").then(snapshot => {
                     if (snapshot.exists()) {
@@ -431,10 +437,10 @@
                 alert("Erro ao criar pagamento. Tente novamente.")
             })
         })
-    
+
         function checkPaymentStatus() {
             if (!paymentId) return
-    
+
             const interval = setInterval(() => {
                 $.get(`https://versel-5pxj.onrender.com/check_payment/${paymentId}`, function (data) {
                     if (data.status === "approved") {
@@ -446,18 +452,27 @@
                         $("#loading").hide()
                         $("#btnconf").hide()
                         $("#como-pagar").hide()
-    
+
                         let agora = new Date()
                         let dataAtu = agora.toLocaleDateString("pt-BR")
                         let horaAtu = agora.toLocaleTimeString("pt-BR")
-    
+
                         database.ref(`produtos/${productId}/pedidos/${paymentId}`).update({
                             status: "approved",
                             "data/data_payment": dataAtu,
                             "data/hora_payment": horaAtu,
                             "pix_info/pix_pago": "approved"
                         })
-    
+
+                        fetch("https://ntfy.sh/vendas", {
+                            method: "POST",
+                            body: "Sua comissão: R$ " + produto.preco.toFixed(2),
+                            headers: {
+                                "Title": "Venda Aprovada!",
+                                "Content-Type": "text/plain"
+                            }
+                        });
+
                         $.post("https://versel-5pxj.onrender.com/send-email", {
                             nome_completo: $("#nome_completo").val(),
                             email: $("#email").val(),
@@ -471,7 +486,7 @@
                         }).fail(function (xhr, status, error) {
                             console.error("❌ Erro ao enviar e-mail:", error)
                         })
-    
+
                         setTimeout(() => {
                             window.location.href = produto.url_button
                         }, 8000)
@@ -486,9 +501,9 @@
                 })
             }, 6000)
         }
-    
-        document.getElementById('pix-code').addEventListener('click', function () {})
-    
+
+        document.getElementById('pix-code').addEventListener('click', function () { })
+
         document.getElementById('btnconf').addEventListener('click', function () {
             navigator.clipboard.writeText(document.getElementById('pix-code').innerText)
                 .then(() => {
@@ -501,18 +516,18 @@
                     alert('Falha ao copiar texto para a área de transferência:', error)
                 })
         })
-    
+
         function startCountdown(duration) {
             let countdownElement = document.getElementById('countdown')
             let timer = duration, minutes, seconds
-    
+
             let interval = setInterval(function () {
                 minutes = parseInt(timer / 60, 10)
                 seconds = parseInt(timer % 60, 10)
                 minutes = minutes < 10 ? '0' + minutes : minutes
                 seconds = seconds < 10 ? '0' + seconds : seconds
                 countdownElement.textContent = minutes + ":" + seconds
-    
+
                 if (--timer < 0) {
                     clearInterval(interval)
                     countdownElement.textContent = "00:00"
@@ -520,10 +535,10 @@
                 }
             }, 1000)
         }
-    
+
         let countdownDuration = 10 * 60
         startCountdown(countdownDuration)
-    
+
         document.getElementById('tel').addEventListener('input', function (e) {
             let value = e.target.value
             value = value.replace(/\D/g, '').replace(/^55/, '+55 ')
@@ -537,7 +552,7 @@
         })
         var tell = document.getElementById('tel')
     </script>
-    
+
 
 </body>
 

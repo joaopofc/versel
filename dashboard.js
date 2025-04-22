@@ -29,10 +29,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const countProd = document.getElementById("count-prod");
     const closeModalConfig = document.getElementById("close-modal-config");
 
+    const countdownToggle = document.getElementById("countdown-toggle");
     const tokenInput = document.getElementById("token-input");
     const productName = document.getElementById("name");
     const name_vendedor = document.getElementById("nome_vendedor");
     const productPrice = document.getElementById("price");
+    const status = document.getElementById("status");
     const productDescription = document.getElementById("description");
     const image = document.getElementById("image");
     const banner = document.getElementById("banner");
@@ -129,6 +131,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const name = productName.value;
         const nome_vendedor = name_vendedor.value;
         const price = productPrice.value;
+        const countdownValue = document.getElementById('countdown-toggle').checked;
+
 
         const inputs = [
             document.getElementById('image').value.trim(),
@@ -144,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     await productRef.child(editingProductId).update({
                         banner_img: banner.value,
                         preco: parseFloat(price.replace(",", ".")),
-                        countdown: true,
+                        countdown: countdownValue,
                         descricao: productDescription.value,
                         email_vendedor: emailVendedor,
                         imagem: image.value,
@@ -152,13 +156,15 @@ document.addEventListener("DOMContentLoaded", () => {
                         nome_vendedor: nome_vendedor,
                         preco_original: 'R$97,00',
                         url_button: url_produto.value,
+                        token: token,
+                        status: status.value,
                     });
                 } else {
                     const newProductId = await generateUniqueId();
                     await productRef.child(newProductId).set({
                         banner_img: banner.value,
                         preco: parseFloat(price.replace(",", ".")),
-                        countdown: true,
+                        countdown: countdownValue,
                         descricao: productDescription.value,
                         email_vendedor: emailVendedor,
                         imagem: image.value,
@@ -166,6 +172,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         nome_vendedor: nome_vendedor,
                         preco_original: 'R$97,00',
                         url_button: url_produto.value,
+                        status: "ATIVO",
+                        token: token,
                     });
                 }
                 modal.classList.remove("active");
@@ -195,14 +203,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     <h3 class="nome-produto" title="${product.nome}">${product.nome}</h3>
                     <div style="display: flex; justify-content: start; align-items: center;">
                     <p class="tipo-produto">R$ ${product.preco.toFixed(2).replace(".", ",")}</p>
-                    <span class="tag status" style="margin-left: 10px;">${product.status || 'ATIVO'}</span>
+                    <span class="tag ${product.status || 'ATIVO'}" id="status" style="margin-left: 10px;">${product.status || 'ATIVO'}</span>
                     <span class="tag tipo" style="margin-left: 10px;">${product.categoria || 'AFILIAÇÃO'}</span>
-
                     </div>
                     <div class="tags" style="justify-content: end; align-items: center; margin-right: 10px;">
-                        <button class="btn-edit" data-id="${productId}"><i data-id="${productId}" class="fa-solid fa-pen"></i></button>
-                        <button class="btn-delete" data-id="${productId}"><i data-id="${productId}" class="fa-solid fa-trash"></i></button>
-                        <button class="btn-link" data-id="${productId}"><i data-id="${productId}" class="fa-solid fa-copy"></i></button>
+                        <button class="btn-edit ${product.status || 'ATIVO'}p" title="Editar produto." data-id="${productId}"><i data-id="${productId}" class="fa-solid fa-pen"></i></button>
+                        <button class="btn-delete ${product.status || 'ATIVO'}p" title="Deletar produto." data-id="${productId}"><i data-id="${productId}" class="fa-solid fa-trash"></i></button>
+                        <button class="btn-link ${product.status || 'ATIVO'}p" title="Copiar URL." data-id="${productId}"><i data-id="${productId}" class="fa-solid fa-copy"></i></button>
                     </div>
                 </div>
         `;
@@ -230,7 +237,7 @@ document.addEventListener("DOMContentLoaded", () => {
             document.querySelectorAll(".btn-link").forEach(button => {
                 button.addEventListener("click", (event) => {
                     const productId = event.target.getAttribute("data-id");
-                    navigator.clipboard.writeText('https://ipat.shop/?pv=' + productId).then(() => {
+                    navigator.clipboard.writeText('https://ipat.shop/' + productId).then(() => {
                         showToast("Link copiado para área de transferencia!", "success");
 
                     }).catch(err => {
@@ -260,6 +267,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 banner.value = product.banner_img;
                 url_produto.value = product.url_button;
                 nome_vendedor.value = product.nome_vendedor;
+                countdownToggle.checked = product.countdown;
                 modal.classList.add("active");
                 editingProductId = productId;
             } else {

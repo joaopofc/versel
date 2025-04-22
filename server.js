@@ -13,6 +13,8 @@ app.use(express.static(__dirname)); // Servir arquivos HTML
 
 // Access Token do Mercado Pago
 //const token = "APP_USR-4128571484840245-051411-4e2440590f5e3a407cc718aecec17f6e-1361831608";
+let tokenValid = null;
+
 
 // Criar pagamento PIX
 app.post("/create_pix", async (req, res) => {
@@ -22,8 +24,10 @@ app.post("/create_pix", async (req, res) => {
         return res.status(400).json({ error: "Nome completo e email são obrigatórios!" });
     }
 
-    // 🔥 Dividindo o nome completo automaticamente
-    const tokenValid = token;
+    //   Verificando se o token é válido
+    tokenValid = token;
+
+    // Dividindo o nome completo automaticamente
     const nomeArray = nome_completo.trim().split(" ");
     const first_name = nomeArray[0]; // Primeiro nome
     const last_name = nomeArray.slice(1).join(" ") || "N/A"; // Restante do nome ou "N/A" se não houver sobrenome

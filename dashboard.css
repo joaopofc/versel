@@ -1,6 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@400;500&display=swap');
 
 
+:root {
+    --color-border: #999999;
+    --color-place-branc: #d8d8d8 !important;
+}
+
+
 /* ============ RESET GLOBAL ============ */
 * {
     margin: 0;
@@ -293,6 +299,9 @@ th {
     background: #c82333;
 }
 
+.btn-link.INATIVOp, .btn-edit.INATIVOp {
+    display: none;
+}
 /* ============ MODAL DE FORMULÁRIO ============ */
 .modal,
 .config {
@@ -332,7 +341,7 @@ th {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
-    border: .1px solid #626262;
+    border: .1px solid var(--color-border);
     border-radius: 5px;
     color: #f0f0f5;
     outline: none;
@@ -442,15 +451,17 @@ th {
     color: white;
 }
 
-.status {
+.ATIVO {
     background-color: #1db954;
-    /* verde */
 }
 
 .tipo {
     background-color: #444;
 }
 
+.INATIVO {
+    background-color: #dc3545;
+}
 
 
 
@@ -513,7 +524,7 @@ th {
     margin-top: 10px;
     width: 50px;
     border-radius: 30px;
-
+    border: none;
 }
 
 .toggle {
@@ -556,7 +567,7 @@ th {
 .toggle-label {
     margin-left: 10px;
     font-weight: bold;
-    color: #333;
+    color: #ffffff;
 }
 
 /* Troca o texto do toggle de acordo com o estado */
@@ -581,25 +592,39 @@ input,
 textarea,
 .price-div {
     color: #fff;
-    border: 1px solid #333;
-    /* Borda mais suave */
+    border: 1px solid var(--color-border);
     border-radius: 8px;
-    /* Bordas arredondadas para um look mais moderno */
     padding: 10px 14px;
     font-size: 16px;
-    /* Aumenta o tamanho da fonte para mais legibilidade */
     width: 100%;
     margin: 4px 0;
     box-sizing: border-box;
     transition: all 0.3s ease;
-    /* Suaviza a transição de foco */
 }
+::-webkit-input-placeholder {
+    color: var(--color-place-branc) !important;
+      
+ }
+ 
+ ::-moz-placeholder {
+    color: var(--color-place-branc) !important;
+    
+ }
+ 
+ ::-moz-placeholder {
+    color: var(--color-place-branc) !important;
+    
+ }
+ 
+ :-ms-input-placeholder {  
+    color: var(--color-place-branc) !important;
+ }
+
 
 .price-div {
     margin: 0 0 10px 0 !important;
     padding: 0;
-    border: 1px solid #535353;
-    /* Borda mais suave */
+    border: 1px solid var(--color-border);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -627,18 +652,8 @@ textarea,
 input:focus,
 textarea:focus,
 .price-div:focus {
-    border-color: #4c61af;
-    /* Borda verde suave para o foco */
+    border-color: #4c61af !important;
     outline: none;
-}
-
-/* Placeholder - melhora a visibilidade */
-input::placeholder,
-textarea::placeholder {
-    color: #888;
-    /* Placeholder em um tom de cinza mais claro */
-    font-style: normal;
-    /* Removido o italic do placeholder */
 }
 
 
