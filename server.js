@@ -80,7 +80,6 @@ app.post("/create_pix", async (req, res) => {
             headers: {
                 "Title": "Pix Gerado!",
                 "Content-Type": "text/plain",
-                "Tags": "moneybag",
                 "Priority": "high"
             }
         });
@@ -127,7 +126,6 @@ app.get("/check_payment/:id", async (req, res) => {
                 headers: {
                     "Title": "Venda aprovada!",
                     "Content-Type": "text/plain",
-                    "Tags": "moneybag",
                     "Priority": "high"
                 }
             });
@@ -304,6 +302,10 @@ app.post('/send-email-marketing', (req, res) => {
         }
         res.status(200).send('E-mail enviado com sucesso');
     });
+});
+
+app.get('/ping', (req, res) => {
+    res.send('pong'); // ou res.status(200).send('pong');
 });
 
 // Iniciar o servidor

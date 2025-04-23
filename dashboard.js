@@ -156,8 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         nome_vendedor: nome_vendedor,
                         preco_original: 'R$97,00',
                         url_button: url_produto.value,
-                        token: token,
-                        status: status.value,
+                        token: token
                     });
                 } else {
                     const newProductId = await generateUniqueId();

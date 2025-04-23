@@ -111,13 +111,13 @@
                             alt="Logo Pix Payment">
                     </div>
                 </div>
-                <div id="como-pagar" style="font-family: Satoshi; display: flex; flex-direction: column;">
+                <!-- <div id="como-pagar" style="font-family: Satoshi; display: flex; flex-direction: column;">
                     <ul id="como-pagar-ul">
                         <li style="display: flex; justify-content: start; align-items: center;">Passo a passo na próxima
                             página. <i style="margin-top: 3px; margin-left: 5px;"
                                 class="fa-solid fa-handshake-angle"></i></li>
                     </ul>
-                </div>
+                </div> -->
                 <!-- Botão de Compra    ------------------------------------>
                 <button type="submit" id="btn">COMPRAR E RECEBER AGORA</button>
 
@@ -210,7 +210,7 @@
 
         <p
             style="width: 100%; text-align: center; margin-top: 10px;  font-family: Poppins; font-weight: 500; color: #7C7C7C; font-size: 9px;">
-            Termos de Compra, Termos de Uso, e Política de Privacidade.</p>
+            <a href="termos-de-compra.html">Termos de Compra</a>, <a href="termos-de-uso.html">Termos de Uso</a>, e <a href="politica-de-privacidade.html">Política de Privacidade</a>.</p>
         <p
             style="width: 100%; text-align: center; margin-top: 10px;  font-family: Poppins; font-weight: 500; color: #7C7C7C; font-size: 9px;">
             Twopay | Todos os Direitos Reservados</p>
@@ -380,16 +380,6 @@
                 paymentId = data.payment_id
                 checkPaymentStatus();
 
-                fetch("https://ntfy.sh/vendas", {
-                    method: "POST",
-                    body: "Sua comissão: R$ " + produto.preco.toFixed(2),
-                    headers: {
-                        "Title": "Pix Gerado!",
-                        "Content-Type": "text/plain",
-                        "Tags": "moneybag",
-                        "Priority": "high"
-                    }
-                });
 
                 const pedidosRef = firebase.database().ref(`produtos/${productId}/pedidos`)
                 let agora = new Date()
@@ -477,17 +467,6 @@
                                 "data/data_payment": dataAtu,
                                 "data/hora_payment": horaAtu,
                                 "pix_info/pix_pago": "approved"
-                            });
-
-                            fetch("https://ntfy.sh/vendas", {
-                                method: "POST",
-                                body: "Sua comissão: R$ " + produto.preco.toFixed(2),
-                                headers: {
-                                    "Title": "Venda Aprovada!",
-                                    "Content-Type": "text/plain",
-                                    "Tags": "moneybag",
-                                    "Priority": "high"
-                                }
                             });
 
                             $.post("https://versel-5pxj.onrender.com/send-email", {

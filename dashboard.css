@@ -387,20 +387,21 @@ th {
 #product-list {
     display: flex !important;
     flex-wrap: wrap;
-    /* Quebra linha quando não couber */
     gap: 10px;
-    /* Espaço entre os cards */
     overflow-x: hidden;
-    /* Impede scroll lateral */
+    justify-content: space-between;
+    align-items: center;
+    max-width: 150%;
 }
 
 .card-produto {
     background-color: #272c31;
     border-radius: 10px;
     padding: 15px;
-    width: 300px;
+    width: auto;
+    grid-template-columns: repeat(6, 1fr); /* Três colunas que dividem o espaço igualmente */
     display: flex;
-    gap: 15px;
+    gap: 10px;
     align-items: center;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
 }
@@ -661,6 +662,9 @@ textarea:focus,
 
 /* ============ RESPONSIVIDADE ============ */
 @media (max-width: 1024px) {
+    body{
+        font-family: 'Inter', sans-serif !important;
+    }
     .sidebar {
         width: 220px;
     }
@@ -671,6 +675,9 @@ textarea:focus,
 }
 
 @media (max-width: 768px) {
+    body{
+        font-family: 'Inter', sans-serif !important;
+    }
     .sidebar {
         position: absolute;
         left: -100%;
