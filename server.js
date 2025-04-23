@@ -305,6 +305,7 @@ app.post('/send-email-marketing', (req, res) => {
 });
 
 app.get('/ping', (req, res) => {
+    
     res.send('pong'); // ou res.status(200).send('pong');
 });
 

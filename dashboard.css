@@ -389,7 +389,6 @@ th {
     flex-wrap: wrap;
     gap: 10px;
     overflow-x: hidden;
-    justify-content: space-between;
     align-items: center;
     max-width: 150%;
 }

@@ -299,7 +299,7 @@
         }
 
         if (productId) {
-            console.log("🔍 Buscando produto com ID:", productId)
+            console.log("Buscando produto com ID:", productId)
 
             const productRef = firebase.database().ref("produtos/" + productId)
             const corp = document.getElementById("corp")
@@ -312,6 +312,8 @@
                         token = produto.token;
 
                         console.log("Produto encontrado:", produto)
+                        console.log("Token encontrado:", token)
+
                         $("#detalhes-prod").text(produto.nome)
                         $("#descricao-prod").text(produto.descricao)
                         $("#nome_vendedor").text(produto.nome_vendedor)
