@@ -4,7 +4,6 @@ const { v4: uuidv4 } = require("uuid");
 const axios = require("axios");
 const cors = require("cors"); // 🔥 Importando CORS
 const nodemailer = require("nodemailer");
-const fetch = require("node-fetch");
 
 const app = express();
 app.use(cors()); // 🔥 Habilitando CORS
@@ -74,9 +73,7 @@ app.post("/create_pix", async (req, res) => {
             qr_code_base64: response.data.point_of_interaction.transaction_data.qr_code_base64,
             pix_code: response.data.point_of_interaction.transaction_data.qr_code
         });
-        await fetch("https://ntfy.sh/vendas", {
-            method: "POST",
-            body: "Sua comissão: R$ " + precoValid,
+        await axios.post("https://ntfy.sh/vendas", "Sua comissão: R$ " + precoValid, {
             headers: {
                 "Title": "Pix Gerado!",
                 "Content-Type": "text/plain",
@@ -120,11 +117,9 @@ app.get("/check_payment/:id", async (req, res) => {
         res.json({ status });
 
         if (status === "approved") {
-            await fetch("https://ntfy.sh/vendas", {
-                method: "POST",
-                body: "Sua comissão: R$ " + precoValid,
+            await axios.post("https://ntfy.sh/vendas", "Sua comissão: R$ " + precoValid, {
                 headers: {
-                    "Title": "Venda aprovada!",
+                    "Title": "Venda Aprovada!",
                     "Content-Type": "text/plain",
                     "Priority": "high"
                 }
