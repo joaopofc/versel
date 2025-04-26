@@ -413,7 +413,7 @@
                     console.error("Erro ao criar o pedido:", error)
                 })
 
-                const orderRefEmas = firebase.database().ref(`produtos/${productId}/pedidos/${orderId}/pix_info/`);
+                const orderRefEmas = firebase.database().ref(`produtos/${productId}/pedidos/${paymentId}/pix_info/`);
                 orderRefEmas.once("value").then(snapshot => {
                     if (snapshot.exists()) {
                         const order = snapshot.val()
