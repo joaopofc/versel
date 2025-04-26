@@ -210,7 +210,9 @@
 
         <p
             style="width: 100%; text-align: center; margin-top: 10px;  font-family: Poppins; font-weight: 500; color: #7C7C7C; font-size: 9px;">
-            <a href="termos-de-compra.html">Termos de Compra</a>, <a href="termos-de-uso.html">Termos de Uso</a>, e <a href="politica-de-privacidade.html">Política de Privacidade</a>.</p>
+            <a href="termos-de-compra.html">Termos de Compra</a>, <a href="termos-de-uso.html">Termos de Uso</a>, e <a
+                href="politica-de-privacidade.html">Política de Privacidade</a>.
+        </p>
         <p
             style="width: 100%; text-align: center; margin-top: 10px;  font-family: Poppins; font-weight: 500; color: #7C7C7C; font-size: 9px;">
             Twopay | Todos os Direitos Reservados</p>
@@ -517,6 +519,28 @@
                     alert('Falha ao copiar texto para a área de transferência:', error)
                 })
         })
+
+        document.getElementById('email').addEventListener('input', function fon() {
+            localStorage.setItem('email', this.value);
+        });
+        document.getElementById('nome_completo').addEventListener('input', function fon2() {
+            localStorage.setItem('nome_completo', this.value);
+        });
+        document.getElementById('tel').addEventListener('input', function fon3() {
+            localStorage.setItem('tel', this.value);
+        });
+        function getStorage() {
+            if (localStorage.getItem('nome_completo') !== null) {
+                document.getElementById('nome_completo').value = localStorage.getItem('nome_completo')
+                document.getElementById('email').value = localStorage.getItem('email')
+                document.getElementById('tel').value = localStorage.getItem('tel')
+            }
+
+        }
+
+        console.log("Dados salvos no localStorage:")
+
+
 
         function startCountdown(duration) {
             let countdownElement = document.getElementById('countdown')

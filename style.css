@@ -138,9 +138,10 @@ h3 {
 }
 
 #preco-prod {
-    color: #009846;
+    color: #00b151;
     font-size: 22px;
     justify-self: start;
+    font-family: 'Inter', Montserrat !important;
 }
 
 .bor {

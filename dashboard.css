@@ -54,7 +54,8 @@ body {
     margin: 15px 0;
 }
 
-.sidebar ul li p, .sidebar ul li a {
+.sidebar ul li p,
+.sidebar ul li a {
     cursor: pointer;
     text-decoration: none;
     font-size: 15px;
@@ -66,7 +67,8 @@ body {
     color: #ffff !important;
 }
 
-.sidebar ul li p:hover, .sidebar ul li a:hover {
+.sidebar ul li p:hover,
+.sidebar ul li a:hover {
     background: #f0f0f5 !important;
     color: #000 !important;
 }
@@ -302,13 +304,16 @@ th {
     background: #c82333;
 }
 
-.btn-link.INATIVOp, .btn-edit.INATIVOp {
+.btn-link.INATIVOp,
+.btn-edit.INATIVOp {
     display: none;
 }
+
 /* ============ MODAL DE FORMULÁRIO ============ */
 
 
-.modal-overlay, .config-overlay {
+.modal-overlay,
+.config-overlay {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.6);
@@ -340,7 +345,9 @@ th {
 }
 
 .modal.active,
-.config.active, .modal-overlay.active, .config-overlay.active {
+.config.active,
+.modal-overlay.active,
+.config-overlay.active {
     display: block;
 }
 
@@ -364,8 +371,37 @@ th {
     background: transparent;
     min-width: 100%;
     max-width: 100%;
+
 }
 
+.modal input,
+.config input,
+.modal textarea,
+.modal .price-div {
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    outline: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4),
+        0 0 0 2px rgba(255, 255, 255, 0.05) inset;
+    transition: 0.3s;
+}
+
+.modal .price-div #price {
+    background: transparent;
+    border: none;
+    outline: none;
+    box-shadow: 0 0 0 transparent;
+}
+
+.modal input:focus,
+.modal .price-div:focus-within,
+.config input:focus,
+.config .price-div:focus,
+.modal textarea:focus {
+    box-shadow: 0 4px 20px rgba(0, 255, 170, 0.6),
+        0 0 0 1px rgba(0, 255, 170, 0.8) inset;
+}
 
 .modal .div-url-link input {
     min-width: 2% !important;
@@ -412,65 +448,65 @@ th {
     border-radius: 10px;
     display: flex !important;
     gap: 10px;
-    box-shadow: 0 0 8px rgba(0,0,0,0.05);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
     align-items: center;
-    
-  }
-  
-  .capa-produto-placeholder {
+
+}
+
+.capa-produto-placeholder {
     height: 60px;
     width: 24%;
     border-radius: 8px;
     background-color: #ddd;
-  }
-  
-  .info-produto-placeholder {
+}
+
+.info-produto-placeholder {
     display: flex;
     flex-direction: column;
     gap: 10px;
-  }
-  
-  .nome-placeholder {
+}
+
+.nome-placeholder {
     height: 20px;
     width: 80%;
     border-radius: 5px;
     background-color: #ddd;
-  }
-  
-  .linhas-tags {
+}
+
+.linhas-tags {
     display: flex;
     gap: 8px;
     align-items: center;
-  }
-  
-  .preco-placeholder,
-  .tag-placeholder {
+}
+
+.preco-placeholder,
+.tag-placeholder {
     height: 16px;
     width: 50px;
     border-radius: 4px;
     background-color: #ddd;
-  }
-  
-  .botoes-placeholder {
+}
+
+.botoes-placeholder {
     display: flex;
     justify-content: end;
     gap: 10px;
-  }
-  
-  .botao-placeholder {
+}
+
+.botao-placeholder {
     width: 30px;
     height: 30px;
     border-radius: 50%;
     background-color: #ddd;
-  }
-  
-  /* Efeito shimmer */
-  .shimmer {
+}
+
+/* Efeito shimmer */
+.shimmer {
     position: relative;
     overflow: hidden;
-  }
-  
-  .shimmer::before {
+}
+
+.shimmer::before {
     content: "";
     position: absolute;
     top: 0;
@@ -479,14 +515,14 @@ th {
     width: 100%;
     background: linear-gradient(to right, transparent 0%, rgba(94, 94, 94, 0.4) 50%, transparent 100%);
     animation: shimmer 1.5s infinite;
-  }
-  
-  @keyframes shimmer {
+}
+
+@keyframes shimmer {
     100% {
-      left: 100%;
+        left: 100%;
     }
-  }
-  
+}
+
 
 
 
@@ -509,7 +545,8 @@ th {
     border-radius: 10px;
     padding: 15px;
     width: auto;
-    grid-template-columns: repeat(6, 1fr); /* Três colunas que dividem o espaço igualmente */
+    grid-template-columns: repeat(6, 1fr);
+    /* Três colunas que dividem o espaço igualmente */
     display: flex;
     gap: 10px;
     align-items: center;
@@ -628,8 +665,8 @@ th {
 
 
 
-  
-  
+
+
 
 /* Fundo escuro com desfoque */
 .popup-overlay {
@@ -641,10 +678,10 @@ th {
     justify-content: center;
     align-items: center;
     z-index: 999;
-  }
-  
-  /* Container do popup */
-  .popup {
+}
+
+/* Container do popup */
+.popup {
     background: #1f1f1f;
     color: #fff;
     padding: 30px 25px;
@@ -654,61 +691,69 @@ th {
     text-align: center;
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
     animation: aparecer 0.3s ease;
-  }
-  
-  /* Título e texto */
-  .popup h2 {
+}
+
+/* Título e texto */
+.popup h2 {
     margin-bottom: 10px;
     font-size: 22px;
-  }
-  .popup p {
+}
+
+.popup p {
     font-size: 15px;
     color: #ccc;
-  }
-  
-  /* Botões */
-  .popup-botoes {
+}
+
+/* Botões */
+.popup-botoes {
     margin-top: 20px;
     display: flex;
     justify-content: center;
     gap: 15px;
-  }
-  .popup-botoes button {
+}
+
+.popup-botoes button {
     padding: 10px 18px;
     border: none;
     border-radius: 8px;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
-  }
-  .confirmar {
+}
+
+.confirmar {
     background-color: #e63946;
     color: white;
-  }
-  .confirmar:hover {
+}
+
+.confirmar:hover {
     background-color: #c92433;
-  }
-  .cancelar {
+}
+
+.cancelar {
     background-color: #444;
     color: #eee;
-  }
-  .cancelar:hover {
+}
+
+.cancelar:hover {
     background-color: #666;
-  }
-  
-  /* Animação */
-  @keyframes aparecer {
+}
+
+/* Animação */
+@keyframes aparecer {
     from {
-      opacity: 0;
-      transform: translateY(-20px);
-    } to {
-      opacity: 1;
-      transform: translateY(0);
+        opacity: 0;
+        transform: translateY(-20px);
     }
-  }
-  
-  /* Estilo botão de exemplo */
-  .botao-abrir {
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estilo botão de exemplo */
+.botao-abrir {
     margin: 40px;
     padding: 12px 20px;
     background-color: #444;
@@ -717,11 +762,12 @@ th {
     border-radius: 8px;
     font-weight: bold;
     cursor: pointer;
-  }
-  .botao-abrir:hover {
+}
+
+.botao-abrir:hover {
     background-color: #555;
-  }
-  
+}
+
 
 
 
@@ -811,24 +857,25 @@ textarea,
     box-sizing: border-box;
     transition: all 0.3s ease;
 }
+
 ::-webkit-input-placeholder {
     color: var(--color-place-branc) !important;
-      
- }
- 
- ::-moz-placeholder {
+
+}
+
+::-moz-placeholder {
     color: var(--color-place-branc) !important;
-    
- }
- 
- ::-moz-placeholder {
+
+}
+
+::-moz-placeholder {
     color: var(--color-place-branc) !important;
-    
- }
- 
- :-ms-input-placeholder {  
+
+}
+
+:-ms-input-placeholder {
     color: var(--color-place-branc) !important;
- }
+}
 
 
 .price-div {
@@ -871,9 +918,10 @@ textarea:focus,
 
 /* ============ RESPONSIVIDADE ============ */
 @media (max-width: 1024px) {
-    body{
+    body {
         font-family: 'Inter', sans-serif !important;
     }
+
     .sidebar {
         width: 220px;
     }
@@ -884,9 +932,10 @@ textarea:focus,
 }
 
 @media (max-width: 768px) {
-    body{
+    body {
         font-family: 'Inter', sans-serif !important;
     }
+
     .sidebar {
         position: absolute;
         left: -100%;

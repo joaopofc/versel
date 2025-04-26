@@ -84,9 +84,7 @@
                     <h1>Gerenciar Produtos <span id="count-prod">1</span></h1>
                     <button class="btn" id="btn-add">+ Adicionar Produto</button>
                 </header>
-                <div id="product-list">
-
-                </div>
+                
                 <div id="fake-product-list">
                     <!-- Fake Card Placeholder -->
                     <div class="card-produto-placeholder placeholder">
@@ -146,7 +144,7 @@
                             </div>
                         </div>
                     </div>
-
+                    
 
                     <!-- <div class="card-produto">
                         <img src='https://i.pinimg.com/736x/05/3d/1e/053d1e19206de76b0a758c444db24f68.jpg'
@@ -221,6 +219,9 @@
                         </div>
                     </div> -->
                 </div>
+                <div id="product-list" style="margin-bottom: 150px;">
+
+                </div>
                 <!-- Modal de Formulário -->
                 <div class="modal-overlay" id="modal-overlay">
                     <div class="modal" id="product-modal">
@@ -243,7 +244,7 @@
                             <input type="text" id="nome_vendedor" placeholder="Nome do vendedor*" required>
                         </div>
 
-                        <input type="text" id="url_produto" autocomplete="none" placeholder="Link Produto/Drive*"
+                        <input type="text" id="url_produto" autocomplete="off" placeholder="Link Produto/Drive*"
                             required>
 
                         <div class="div-url-link" style="display: flex; align-items: center;  width: 100% !important;">
@@ -277,8 +278,8 @@
                                 class="fa-solid fa-xmark"></i>
                             <h2>Configurações</h2>
                         </div>
-                        <input type="password" id="token-input" placeholder="Public Key/Token do Mercado pago*"
-                            autocomplete="none" required>
+                        <input type="password" id="token-input" placeholder="Public Key/Token do Mercado pago*" name="NKACNALSDNASKDNASKND"
+                            autocomplete="off" required>
 
                         <!-- <div class="div-url-link" style="display: flex; align-items: center;  width: 100% !important;">
                         <input type="text" id="image" style="margin-right: 5px;" placeholder="Link da Imagem do Produto*" required>
