@@ -154,6 +154,7 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 localStorage.setItem('token', data.token);
                 document.getElementById("token-input").value = data.token;
+                showToast("Token carregado com sucesso!", "success");
             }
         }).catch(error => {
             console.error("Erro ao carregar o token:", error);
