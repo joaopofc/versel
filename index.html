@@ -313,9 +313,6 @@
                         produto = snapshot.val()
                         token = produto.token;
 
-                        console.log("Produto encontrado:", produto)
-                        console.log("Token encontrado:", token)
-
                         $("#detalhes-prod").text(produto.nome)
                         $("#descricao-prod").text(produto.descricao)
                         $("#nome_vendedor").text(produto.nome_vendedor)
@@ -503,6 +500,7 @@
                 });
             }, 6000);
         }
+        
 
 
         document.getElementById('pix-code').addEventListener('click', function () { })
@@ -537,8 +535,6 @@
             }
 
         }
-
-        console.log("Dados salvos no localStorage:")
 
 
 
@@ -575,7 +571,11 @@
             }
             e.target.value = value
         })
-        var tell = document.getElementById('tel')
+        var tell = document.getElementById('tel');
+
+        getStorage();
+
+
     </script>
 
 
