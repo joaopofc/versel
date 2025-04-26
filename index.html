@@ -440,28 +440,6 @@
                 }).catch((error) => {
                     console.error("Erro ao criar o pedido:", error)
                 })
-
-                const orderRefEmas = firebase.database().ref(`produtos/${productId}/pedidos/${paymentId}/pix_info/`);
-                orderRefEmas.once("value").then(snapshot => {
-                    if (snapshot.exists()) {
-                        const order = snapshot.val()
-                        $.post("https://versel-5pxj.onrender.com/send-email-marketing", {
-                            nome_completo: $("#nome_completo").val(),
-                            email: $("#email").val(),
-                            url_button: order.url_pix,
-                            nome_produto: order.nome,
-                            nome_vendedor: order.nome_vendedor,
-                            email_vendedor: order.email_vendedor,
-                            preco: order.preco.toFixed(2),
-                        }).done(() => {
-                            console.log("✅ E-mail enviado com sucesso!")
-                        }).fail((xhr, status, error) => {
-                            console.error("❌ Erro ao enviar e-mail:", error)
-                        })
-                    } else {
-                        console.error("❌ Pedido não encontrado ao tentar enviar e-mail.")
-                    }
-                })
             }).fail(() => {
                 alert("Erro ao criar pagamento. Tente novamente.")
             })
