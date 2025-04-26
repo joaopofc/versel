@@ -524,7 +524,7 @@ updateDashboard();
 setTimeout(() => {
     updateDashboard();
     console.log("Dashboard atualizado.");
-}, 5000); // Atualiza a cada 5 segundos
+}, 3000); // Atualiza a cada 5 segundos
 
 
 document.getElementById("price").addEventListener("input", function (event) {
