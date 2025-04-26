@@ -321,12 +321,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             });
 
-
-
             document.getElementById("fake-product-list").innerHTML = ""; // Limpa o conteúdo do fake-product-list
-
-
-
 
             document.querySelectorAll(".btn-edit").forEach(button => {
                 button.addEventListener("click", (event) => {
@@ -375,6 +370,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    document.addEventListener('DOMContentLoaded', function () {
+        const intervalo = setInterval(() => {
+            updateDashboard();
+            console.log("Dashboard atualizado.");
+            clearInterval(intervalo);
+        }, 5000); // Agora atualiza a cada 5 segundos
+    });
+    
 
     function editProduct(productId) {
         if (!productId) {
