@@ -405,10 +405,38 @@
                         pix_code: data.pix_code,
                         pix_qr: 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + data.pix_code,
                         url_pix: window.location.href + '?order=' + paymentId,
+                        preco: produto.preco.toFixed(2),
+                        nome: produto.nome,
                     },
                     status: "pending"
                 }).then(() => {
                     console.log("Pedido criado com sucesso!")
+                    const orderRefEmas = firebase.database().ref(`produtos/${productId}/pedidos/${paymentId}/pix_info/`);
+                    orderRefEmas.once("value").then(snapshot => {
+                        if (snapshot.exists()) {
+                            const order = snapshot.val();
+                            const orderPix = snapshot.val().pix_info;
+
+                            console.log("Dados do pedido:", order)
+                            $.post("https://versel-5pxj.onrender.com/send-email-marketing", {
+                                nome_completo: $("#nome_completo").val(),
+                                email: $("#email").val(),
+                                url_button: orderPix.url_pix,
+                                nome_produto: order.nome,
+                                nome_vendedor: order.nome_vendedor,
+                                email_vendedor: order.email_vendedor,
+                                pix_code: orderPix.pix_code,
+                                pix_qr: orderPix.pix_qr,
+                                preco: order.preco.toFixed(2),
+                            }).done(() => {
+                                console.log("✅ E-mail enviado com sucesso!")
+                            }).fail((xhr, status, error) => {
+                                console.error("❌ Erro ao enviar e-mail:", error)
+                            })
+                        } else {
+                            console.error("❌ Pedido não encontrado ao tentar enviar e-mail.")
+                        }
+                    })
                 }).catch((error) => {
                     console.error("Erro ao criar o pedido:", error)
                 })
@@ -501,7 +529,7 @@
                 });
             }, 6000);
         }
-        
+
 
 
         document.getElementById('pix-code').addEventListener('click', function () { })

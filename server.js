@@ -154,7 +154,7 @@ app.post('/send-email', (req, res) => {
         }
     });
     const mailOptions = {
-        from: '"Twopay" <joaopaulojd021@gmail.com>',
+        from: '"Tawros Pay" <joaopaulojd021@gmail.com>',
         to: email,
         subject: `Pagamento aprovado!`,
         html: `<!DOCTYPE html>
@@ -229,7 +229,7 @@ app.post('/send-email', (req, res) => {
 });
 
 app.post('/send-email-marketing', (req, res) => {
-    let { nome_completo, email, url_button, nome_produto, nome_vendedor, email_vendedor } = req.body;
+    let { nome_completo, email, url_button, nome_produto, nome_vendedor, email_vendedor, preco, pix_code, pix_qr } = req.body;
 
     if (!nome_completo || !email) {
         return res.status(400).json({ error: "Nome completo e email são obrigatórios!" });
@@ -250,7 +250,7 @@ app.post('/send-email-marketing', (req, res) => {
         }
     });
     const mailOptions = {
-        from: '"Twopay" <joaopaulojd021@gmail.com>',
+        from: '"Tawros Pay" <joaopaulojd021@gmail.com>',
         to: email,
         subject: `Finalize seu pagamento`,
         html: `<!DOCTYPE html>
@@ -269,7 +269,7 @@ app.post('/send-email-marketing', (req, res) => {
             <h1 style="color: #333; font-size: 25px; margin-bottom: 10px; margin-top: 30px;">Eae ${first_name}, tudo certo?</h1>
 
             <p style="font-size: 16px; color: #555; line-height: 1.6; margin-bottom: 20px;">
-                Finalize seu pagamento para acessar <b>${nome_produto}</b>! <br>Clique aqui em abaixo:
+                Finalize seu pagamento para acessar <b>${nome_produto}</b> por apenas <b>R${preco}</b>! Clique aqui em abaixo:
             </p>
 
             <a href="${url_button}" style="display: inline-block; cursor: pointer;  box-shadow: inset 0 -4px #0002; background-color: #28a745; color: #fff; font-size: 17px; font-weight: bold; text-decoration: none; padding: 16px 34px; border-radius: 8px; transition: 0.3s ease;">
