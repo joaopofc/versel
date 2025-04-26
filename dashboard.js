@@ -470,6 +470,8 @@ let emailVendedor = localStorage.getItem('email'); // Use 'let' para permitir re
 
 
 async function updateDashboard() {
+    console.log("Dashboard.");
+
     let totalFaturamento = 0;
     let totalVendas = 0;
     let totalTicketMedio = 0;
@@ -519,7 +521,10 @@ async function updateDashboard() {
 
 // Chama a função para atualizar o dashboard
 updateDashboard();
-
+setTimeout(() => {
+    updateDashboard();
+    console.log("Dashboard atualizado.");
+}, 5000); // Atualiza a cada 5 segundos
 
 
 document.getElementById("price").addEventListener("input", function (event) {

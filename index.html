@@ -246,7 +246,7 @@
 
         // Novo método: pega o ID do produto da pathname
         const productId = window.location.pathname.slice(1)
-        const orderId = getQueryParam("order")
+        orderId = getQueryParam("order");
 
         if (orderId) {
             const orderRef = firebase.database().ref("produtos/" + productId + "/pedidos/" + orderId + "/pix_info/")
@@ -379,6 +379,7 @@
                 document.getElementById("bob").classList.remove("popup")
 
                 paymentId = data.payment_id
+                orderId = data.order_id;
                 checkPaymentStatus();
 
 
@@ -412,14 +413,14 @@
                     console.error("Erro ao criar o pedido:", error)
                 })
 
-                const orderRefEmas = firebase.database().ref("produtos/" + productId + "/pedidos/" + orderId + "/pix_info/")
+                const orderRefEmas = firebase.database().ref(`produtos/${productId}/pedidos/${orderId}/pix_info/`);
                 orderRefEmas.once("value").then(snapshot => {
                     if (snapshot.exists()) {
                         const order = snapshot.val()
                         $.post("https://versel-5pxj.onrender.com/send-email-marketing", {
                             nome_completo: $("#nome_completo").val(),
                             email: $("#email").val(),
-                            url_button: order.pix_info.url_pix,
+                            url_button: order.url_pix,
                             nome_produto: order.nome,
                             nome_vendedor: order.nome_vendedor,
                             email_vendedor: order.email_vendedor,
@@ -436,7 +437,7 @@
             }).fail(() => {
                 alert("Erro ao criar pagamento. Tente novamente.")
             })
-        })
+        });
 
         function checkPaymentStatus() {
             if (!paymentId) return;
