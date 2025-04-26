@@ -97,7 +97,7 @@
                 <label for="email">Email</label>
                 <input type="email" id="email" placeholder="E-mail" required><br>
                 <label for="tel">Celular</label>
-                <input type="tel" maxlength="18" id="tel" autocomplete="tel" placeholder="+55 99 99999-9999" value="+55"
+                <input type="tel" maxlength="17" id="tel" autocomplete="tel" placeholder="+55 99 99999-9999" value="+55"
                     required><br>
 
 
@@ -420,11 +420,11 @@
                         $.post("https://versel-5pxj.onrender.com/send-email-marketing", {
                             nome_completo: $("#nome_completo").val(),
                             email: $("#email").val(),
-                            url_button: produto.pix_info.url_pix,
-                            nome_produto: produto.nome,
-                            nome_vendedor: produto.nome_vendedor,
-                            email_vendedor: produto.email_vendedor,
-                            preco: produto.preco.toFixed(2),
+                            url_button: order.pix_info.url_pix,
+                            nome_produto: order.nome,
+                            nome_vendedor: order.nome_vendedor,
+                            email_vendedor: order.email_vendedor,
+                            preco: order.preco.toFixed(2),
                         }).done(() => {
                             console.log("✅ E-mail enviado com sucesso!")
                         }).fail((xhr, status, error) => {

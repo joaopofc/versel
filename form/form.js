@@ -1,5 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-auth.js";
+import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB0DFXPILXxKAkjaKOHvgnppV3CY7xR9Cs",
@@ -14,6 +15,8 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getDatabase(app);
+
 
 
 document.getElementById("reg-btn").addEventListener('click', function () {
@@ -31,29 +34,76 @@ document.getElementById("login-btn").addEventListener('click', function () {
   const loginEmail = document.getElementById("login-email").value;
   const loginPassword = document.getElementById("login-password").value;
 
-  signInWithEmailAndPassword(auth, loginEmail, loginPassword)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      const loginButton = document.getElementById('loginButton');
-      // Exibir o loading
-      loadingOverlay.style.display = 'flex';
-      // Simular processo de login (ex.: validação de credenciais no servidor)
-      localStorage.setItem('logado', true);
-      setTimeout(() => {
-        loadingOverlay.style.display = 'none';
-        window.location.href = `dashboard.html?email=${loginEmail}&user=${user.uid}`;
-        // Aqui você pode adicionar lógica para redirecionar o usuário ou lidar com o login
-      }, 3000); // Aguarda 3 segundos
 
 
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      document.getElementById("error-login").style.display = "inline";
-      document.getElementById("error-login").innerHTML = "Usuário ou senha incorretos";
-    });
+  // Função para transformar email em chave segura
+  function formatarEmailParaChave(email) {
+    return email.replace(/@/g, "---").replace(/\./g, "--");
+  }
+
+  document.getElementById("login-btn").addEventListener('click', function () {
+    const loginEmail = document.getElementById("login-email").value;
+    const loginPassword = document.getElementById("login-password").value;
+
+    signInWithEmailAndPassword(auth, loginEmail, loginPassword)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        localStorage.setItem('logado', true);
+        loadingOverlay.style.display = 'flex';
+        setTimeout(() => {
+          loadingOverlay.style.display = 'none';
+          window.location.href = `dashboard.html?email=${loginEmail}&user=${user.uid}`;
+        }, 3000);
+        user.getIdToken().then((token) => {
+          const emailChave = formatarEmailParaChave(loginEmail);
+          const db = getDatabase();
+          const dadosRef = ref(db, 'dados/' + emailChave);
+
+          // Verifica se já existe
+          get(dadosRef).then((snapshot) => {
+            if (snapshot.exists()) {
+              console.log("Usuário já registrado no banco. Nada será feito.");
+            } else {
+              // Se não existir, cria
+              set(dadosRef, {
+                email: loginEmail,
+                token: ''
+              }).then(() => {
+                console.log("Email e token salvos com sucesso.")
+              }).catch((error) => {
+                console.error("Erro ao salvar dados:", error);
+              });
+            }
+          }).catch((error) => {
+            console.error("Erro ao verificar existência do caminho:", error);
+          });
+        });
+      })
+      .catch((error) => {
+        showToast("Usuário ou senha incorretos.", "error");
+      });
+
+  });
+
+
 });
+
+function showToast(message, type) {
+  const toastContainer = document.getElementById("toast-container");
+
+  const toast = document.createElement("div");
+  toast.classList.add("toast");
+  toast.classList.add(type);  // Adiciona a classe 'success' ou 'error'
+  toast.textContent = message;
+
+  toastContainer.appendChild(toast);
+
+  // Remove o toast após 4 segundos
+  setTimeout(() => {
+      toast.remove();
+  }, 10000);
+}
 
 
 document.getElementById("register-btn").addEventListener('click', function () {
@@ -91,6 +141,7 @@ document.getElementById("log-out-btn").addEventListener('click', function () {
 
 
 import { sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-auth.js";
+
 
 // Mostrar a interface de redefinição de senha
 document.getElementById("forgot-password-btn").addEventListener("click", () => {
@@ -133,10 +184,12 @@ document.getElementById("reset-password-btn").addEventListener("click", () => {
       message.style.display = "inline";
       if (error.code === "auth/user-not-found") {
         message.innerHTML = "Nenhum usuário encontrado com esse email.";
+        showToast("Nenhum usuário encontrado com esse email.", "error");
 
       } else {
         message.innerHTML = "Erro ao enviar o email. Tente novamente.";
-      }
+        showToast("Erro ao enviar o email. Tente novamente.", "error");
+      } 
       message.style.color = "red";
     });
 });

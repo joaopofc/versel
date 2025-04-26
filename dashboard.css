@@ -26,6 +26,7 @@ body {
 .sidebar {
     width: 250px;
     background: #fff;
+    position: fixed;
     padding: 30px 20px;
     display: flex;
     flex-direction: column;
@@ -53,20 +54,21 @@ body {
     margin: 15px 0;
 }
 
-.sidebar ul li a {
+.sidebar ul li p, .sidebar ul li a {
+    cursor: pointer;
     text-decoration: none;
-    color: #000000;
     font-size: 15px;
     display: flex;
     align-items: center;
     padding: 12px 20px;
     border-radius: 8px;
     transition: background 0.3s ease;
+    color: #ffff !important;
 }
 
-.sidebar ul li a:hover {
-    background: #f0f0f5;
-    color: #000;
+.sidebar ul li p:hover, .sidebar ul li a:hover {
+    background: #f0f0f5 !important;
+    color: #000 !important;
 }
 
 .user-logger {
@@ -122,6 +124,7 @@ body {
     flex: 1;
     width: 100%;
     padding: 40px;
+    margin-left: 250px;
 }
 
 /* ============ HEADER ============ */
@@ -303,6 +306,19 @@ th {
     display: none;
 }
 /* ============ MODAL DE FORMULÁRIO ============ */
+
+
+.modal-overlay, .config-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
 .modal,
 .config {
     display: none;
@@ -324,7 +340,7 @@ th {
 }
 
 .modal.active,
-.config.active {
+.config.active, .modal-overlay.active, .config-overlay.active {
     display: block;
 }
 
@@ -378,6 +394,101 @@ th {
 .btn-link {
     background: #007bff;
 }
+
+#fake-product-list {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 10px;
+    overflow-x: hidden;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 150%;
+}
+
+.card-produto-placeholder.placeholder {
+    width: 304px;
+    padding: 12px;
+    background: #474747;
+    border-radius: 10px;
+    display: flex !important;
+    gap: 10px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.05);
+    align-items: center;
+    
+  }
+  
+  .capa-produto-placeholder {
+    height: 60px;
+    width: 24%;
+    border-radius: 8px;
+    background-color: #ddd;
+  }
+  
+  .info-produto-placeholder {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .nome-placeholder {
+    height: 20px;
+    width: 80%;
+    border-radius: 5px;
+    background-color: #ddd;
+  }
+  
+  .linhas-tags {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  
+  .preco-placeholder,
+  .tag-placeholder {
+    height: 16px;
+    width: 50px;
+    border-radius: 4px;
+    background-color: #ddd;
+  }
+  
+  .botoes-placeholder {
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+  }
+  
+  .botao-placeholder {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #ddd;
+  }
+  
+  /* Efeito shimmer */
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .shimmer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(to right, transparent 0%, rgba(94, 94, 94, 0.4) 50%, transparent 100%);
+    animation: shimmer 1.5s infinite;
+  }
+  
+  @keyframes shimmer {
+    100% {
+      left: 100%;
+    }
+  }
+  
+
+
 
 
 /* ============ CARD DE PRODUTOS ============ */
@@ -514,6 +625,105 @@ th {
         transform: translateY(10px);
     }
 }
+
+
+
+  
+  
+
+/* Fundo escuro com desfoque */
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+  
+  /* Container do popup */
+  .popup {
+    background: #1f1f1f;
+    color: #fff;
+    padding: 30px 25px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+    animation: aparecer 0.3s ease;
+  }
+  
+  /* Título e texto */
+  .popup h2 {
+    margin-bottom: 10px;
+    font-size: 22px;
+  }
+  .popup p {
+    font-size: 15px;
+    color: #ccc;
+  }
+  
+  /* Botões */
+  .popup-botoes {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+  .popup-botoes button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .confirmar {
+    background-color: #e63946;
+    color: white;
+  }
+  .confirmar:hover {
+    background-color: #c92433;
+  }
+  .cancelar {
+    background-color: #444;
+    color: #eee;
+  }
+  .cancelar:hover {
+    background-color: #666;
+  }
+  
+  /* Animação */
+  @keyframes aparecer {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    } to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Estilo botão de exemplo */
+  .botao-abrir {
+    margin: 40px;
+    padding: 12px 20px;
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .botao-abrir:hover {
+    background-color: #555;
+  }
+  
+
+
 
 
 

@@ -13,13 +13,16 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
+let prodSp = null;
 let token = null;
 
 
 document.addEventListener("DOMContentLoaded", () => {
     const productList = document.getElementById("product-list");
     const modal = document.getElementById("product-modal");
+    const modalOverlay = document.getElementById("modal-overlay");
     const config = document.getElementById("config-modal");
+    const configOverlay = document.getElementById("config-overlay");
     const btnAdd = document.getElementById("btn-add");
     const btnConfig = document.getElementById("btn-config");
     const btnConfigSave = document.getElementById("btn-config-save");
@@ -43,6 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const emailVendedor = localStorage.getItem('email'); // Substitua pelo email real do vendedor
 
     const productRef = firebase.database().ref("produtos/");
+
     let editingProductId = null;
 
 
@@ -64,11 +68,15 @@ document.addEventListener("DOMContentLoaded", () => {
         if (token === "" || token === null) {
             showToast("Preencha o token!", "error");
             config.classList.add("active");
+            configOverlay.classList.add("active");
         } else if (token.length < 66) {
             showToast("Token inválido!", "error");
             config.classList.add("active");
+            configOverlay.classList.add("active");
+
         } else {
             modal.classList.add("active");
+            modalOverlay.classList.add("active");
             editingProductId = null;
             clearForm();
         }
@@ -77,6 +85,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btnConfig.addEventListener("click", () => {
         config.classList.add("active");
+        configOverlay.classList.add("active");
+
         editingProductId = null;
         clearForm();
     });
@@ -89,45 +99,74 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             showToast("Token salvo com sucesso!", "success");
             config.classList.remove("active");
-            localStorage.setItem('token', tokenInput.value);
-            token = tokenInput.value;
+            configOverlay.classList.remove("active");
+
+            const dataRef = firebase.database().ref('dados/');
+            dataRef.child(emailVendedor.replace(/@/g, "---").replace(/\./g, "--")).update({
+                token: tokenInput.value
+            }).then(() => {
+                console.log("Token atualizado com sucesso.");
+                localStorage.setItem('token', tokenInput.value);
+                token = tokenInput.value;
+            }).catch(error => {
+                console.error("Erro ao atualizar o token:", error);
+            });
+
+
+
+
+
+
         }
     });
 
     closeModal.addEventListener("click", () => {
         modal.classList.remove("active");
+        modalOverlay.classList.remove("active");
         editingProductId = null;
         clearForm();
     });
 
     closeModalConfig.addEventListener("click", () => {
         config.classList.remove("active");
+        configOverlay.classList.remove("active");
+        modalOverlay.classList.remove("active");
         editingProductId = null;
         clearForm();
     });
 
     // Carregar o token do LocalStorage
     function loadToken() {
-        const token = localStorage.getItem('token');
-        if (token) {
-            console.log("Token encontrado com sucesso.");
+        const dataRef = firebase.database().ref('dados/');
 
-        } else {
-            console.log("Token não encontrado no LocalStorage.");
-        }
+        dataRef.child(emailVendedor.replace(/@/g, "---").replace(/\./g, "--")).once("value").then(snapshot => {
+            const data = snapshot.val();
+            if (!data.token) {
+                console.error("Token não encontrado no banco de dados.");
+                showToast("Token não encontrado no banco de dados. Entrar em contato com suporte.", "error");
+                localStorage.removeItem('token');
+                return;
+            } else if (data.token.length < 66) {
+                console.error("Token inválido no banco de dados.");
+                showToast("Token inválido no banco de dados. Atualize seu Token.", "error");
+                localStorage.removeItem('token');
+                return;
+            } else {
+                localStorage.setItem('token', data.token);
+                document.getElementById("token-input").value = data.token;
+            }
+        }).catch(error => {
+            console.error("Erro ao carregar o token:", error);
+        });
 
-        if (token === "" || token === null) {
-            showToast("Token não encontrado!", "error");
-            document.getElementById("token-input").value = ""; // Limpa o campo se não houver token
-            config.classList.add("active");
-        } else {
-            document.getElementById("token-input").value = token;
-            showToast("Token salvo com sucesso!", "success");
-        }
     }
     loadToken();
 
     saveProduct.addEventListener("click", async () => {
+        saveProduct.disabled = true;
+        setTimeout(() => {
+            saveProduct.disabled = false;
+        }, 3000); // Desabilita o botão por 2 segundos
         const name = productName.value;
         const nome_vendedor = name_vendedor.value;
         const price = productPrice.value;
@@ -143,7 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const todosValidos = inputs.every(url => url.startsWith('https'));
 
         if (todosValidos) {
-            if (name && price) {
+            if (name && price !== "0,00") {
                 if (editingProductId) {
                     await productRef.child(editingProductId).update({
                         banner_img: banner.value,
@@ -156,7 +195,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         nome_vendedor: nome_vendedor,
                         preco_original: 'R$97,00',
                         url_button: url_produto.value,
-                        token: token
+                        token: localStorage.getItem('token')
                     });
                 } else {
                     const newProductId = await generateUniqueId();
@@ -172,12 +211,17 @@ document.addEventListener("DOMContentLoaded", () => {
                         preco_original: 'R$97,00',
                         url_button: url_produto.value,
                         status: "ATIVO",
-                        token: token,
+                        token: localStorage.getItem('token'),
                     });
                 }
                 modal.classList.remove("active");
+                modalOverlay.classList.remove("active");
                 loadProducts(emailVendedor);
+
+            } else {
+                showToast("Preencha todos os campos corretamente!", "error");
             }
+
         } else {
             showToast("Preencha todos os campos corretamente!", "error");
         };
@@ -185,8 +229,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     function loadProducts(vendedorEmail) {
-        productList.innerHTML = "";
         productRef.orderByChild("email_vendedor").equalTo(vendedorEmail).once("value", snapshot => {
+            productList.innerHTML = "";
             countProd.innerHTML = snapshot.numChildren();
             snapshot.forEach(childSnapshot => {
                 const product = childSnapshot.val();
@@ -197,7 +241,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 card.innerHTML = `
             
-                <img src="${product.imagem || 'placeholder.png'}" class="capa-produto" alt="Imagem do produto">
+                <img src="${product.imagem || 'https://i.pinimg.com/736x/05/3d/1e/053d1e19206de76b0a758c444db24f68.jpg'}" class="capa-produto" alt="Imagem do produto">
                 <div class="info-produto">
                     <h3 class="nome-produto" title="${product.nome}">${product.nome}</h3>
                     <div style="display: flex; justify-content: start; align-items: center;">
@@ -212,9 +256,74 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                 </div>
         `;
+                if (productList.innerHTML === null || productList.innerHTML === undefined || productList.innerHTML === "") {
+                    document.getElementById("fake-product-list").innerHTML = `<div class="card-produto-placeholder placeholder">
+                        <div class="capa-produto-placeholder shimmer"></div>
 
+                        <div class="info-produto-placeholder">
+                            <div class="nome-placeholder shimmer"></div>
+
+                            <div class="linhas-tags">
+                                <div class="preco-placeholder shimmer"></div>
+                                <div class="tag-placeholder shimmer"></div>
+                                <div class="tag-placeholder shimmer"></div>
+                            </div>
+
+                            <div class="botoes-placeholder">
+                                <div class="botao-placeholder shimmer"></div>
+                                <div class="botao-placeholder shimmer"></div>
+                                <div class="botao-placeholder shimmer"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-produto-placeholder placeholder">
+                        <div class="capa-produto-placeholder shimmer"></div>
+
+                        <div class="info-produto-placeholder">
+                            <div class="nome-placeholder shimmer"></div>
+
+                            <div class="linhas-tags">
+                                <div class="preco-placeholder shimmer"></div>
+                                <div class="tag-placeholder shimmer"></div>
+                                <div class="tag-placeholder shimmer"></div>
+                            </div>
+
+                            <div class="botoes-placeholder">
+                                <div class="botao-placeholder shimmer"></div>
+                                <div class="botao-placeholder shimmer"></div>
+                                <div class="botao-placeholder shimmer"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-produto-placeholder placeholder">
+                        <div class="capa-produto-placeholder shimmer"></div>
+
+                        <div class="info-produto-placeholder">
+                            <div class="nome-placeholder shimmer"></div>
+
+                            <div class="linhas-tags">
+                                <div class="preco-placeholder shimmer"></div>
+                                <div class="tag-placeholder shimmer"></div>
+                                <div class="tag-placeholder shimmer"></div>
+                            </div>
+
+                            <div class="botoes-placeholder">
+                                <div class="botao-placeholder shimmer"></div>
+                                <div class="botao-placeholder shimmer"></div>
+                                <div class="botao-placeholder shimmer"></div>
+                            </div>
+                        </div>
+                    </div>`;
+                } else {
+                    document.getElementById("fake-product-list").innerHTML = "";
+                }
                 productList.appendChild(card);
+
             });
+
+
+
+            document.getElementById("fake-product-list").innerHTML = ""; // Limpa o conteúdo do fake-product-list
 
 
 
@@ -229,7 +338,24 @@ document.addEventListener("DOMContentLoaded", () => {
             document.querySelectorAll(".btn-delete").forEach(button => {
                 button.addEventListener("click", (event) => {
                     const productId = event.target.getAttribute("data-id");
-                    deleteProduct(productId);
+                    document.querySelector(".confirmar").setAttribute("data-id", productId);
+                    abrirPopup();
+                });
+            });
+            
+            
+            document.querySelectorAll(".confirmar").forEach(button => {
+                button.addEventListener("click", (event) => {
+                    const productId = event.target.getAttribute("data-id");
+                    productRef.child(productId).remove();
+                    loadProducts(emailVendedor);
+                    fecharPopup();
+                });
+            });
+            document.querySelectorAll(".cancelar").forEach(button => {
+                button.addEventListener("click", (event) => {
+                    event.target.getAttribute("data-id") = null;
+                    fecharPopup();
                 });
             });
 
@@ -268,6 +394,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 nome_vendedor.value = product.nome_vendedor;
                 countdownToggle.checked = product.countdown;
                 modal.classList.add("active");
+                modalOverlay.classList.add("active");
                 editingProductId = productId;
             } else {
                 console.error("Produto não encontrado");
@@ -280,6 +407,7 @@ document.addEventListener("DOMContentLoaded", () => {
             productRef.child(productId).remove();
             loadProducts(emailVendedor);
         }
+
     }
 
     function clearForm() {
@@ -296,6 +424,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 });
+
+
+function abrirPopup() {
+    document.getElementById('popup-confirmacao').style.display = 'flex';
+}
+
+function fecharPopup() {
+    document.getElementById('popup-confirmacao').style.display = 'none';
+}
+
+function confirmarAcao(prodIdDelete) {
+    fecharPopup();
+    productRef.child(prodIdDelete).remove();
+    loadProducts(emailVendedor);
+    // Aqui você coloca a ação real, tipo deletar item:
+    console.log("Produto deletado com sucesso!");
+    loadProducts(emailVendedor);
+
+};
+
 
 
 
@@ -401,9 +549,6 @@ document.getElementById("price").addEventListener("input", function (event) {
     // Atualiza o campo com o valor formatado
     event.target.value = value;
 });
-
-
-
 
 
 

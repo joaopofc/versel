@@ -12,124 +12,290 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-database.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="dashboard.css">
-    <title>Dashboard 2pay</title>
+    <title>Dashboard Tawros</title>
 </head>
 
 <body>
-    <div class="supra-side" style="display: flex; width: 100vw; position: relative;">
-    <div class="sidebar">
-        <h2>Dash Tawros</h2>
-        <p style="font-size: 11px; color: grey; margin-left: 60px;">Versão 1.0.2</p>
-        <ul>
-            <li><a href="#"><i class="fa-regular fa-money-bill-1" style="margin-right: 7px; transform: translateY(1px);"></i>Visão Geral</a></li>
-            <li><a href="https://wa.me/5584994239716?text=Preciso+de+ajuda"><i class="fa-brands fa-whatsapp" style="margin-right: 7px; transform: translateY(1px);"></i>Suporte</a></li>
-            <li id="btn-config"><a href="#"><i class="fa-solid fa-gear" style="margin-right: 7px; transform: translateY(1px);"></i>Configurações</a></li>
-        </ul>
+    <!-- Popup de confirmação -->
+
+    <div id="popup-confirmacao" class="popup-overlay">
+        <div class="popup">
+            <h2>Tem certeza?</h2>
+            <p>Você deseja realmente deletar este produto? Esta ação não poderá ser desfeita.</p>
+            <div class="popup-botoes">
+                <button onclick="fecharPopup()" class="cancelar">Cancelar</button>
+                <button class="confirmar">Confirmar</button>
+            </div>
+        </div>
     </div>
 
-    <div class="main">
-        <header>
-            <h1>Visão Geral</h1>
-            <div class="user-logger">
-                <div class="user-logger-div">
-                    <img src="imagens/img-prod-padrao.png" alt="User Icon" class="user-icon">
-                    <p id="user-name">Twopay</p>
-                    <button id="logout-btn"><i class="fa-solid fa-right-from-bracket"></i></button>
-                </div>
-                <p id="user-email"></p>
-            </div>
-        </header>
-        <div id="toast-container"></div>
+    <div class="supra-side" style="display: flex; width: 100vw; position: relative;">
+        <div class="sidebar">
+            <h2>Dash Tawros</h2>
+            <p style="font-size: 11px; color: grey; margin-left: 60px;">Versão 1.4.3</p>
+            <ul>
+                <li><p ><i class="fa-regular fa-money-bill-1"
+                            style="margin-right: 7px; transform: translateY(1px);"></i>Visão Geral</p></li>
+                <li><a href="https://wa.me/5584994239716?text=Preciso+de+ajuda"><i class="fa-brands fa-whatsapp"
+                            style="margin-right: 7px; transform: translateY(1px);"></i>Suporte</a></li>
+                <li id="btn-config"><p ><i class="fa-solid fa-gear"
+                            style="margin-right: 7px; transform: translateY(1px);"></i>Configurações</p></li>
+            </ul>
+        </div>
 
-        <section class="metrics">
-            <div class="card">
-                <h3>Faturamento Total</h3>
-                <p id="faturamento">R$ 0,00</p>
-            </div>
-            <div class="card">
-                <h3>Total de Vendas</h3>
-                <p id="totalVendas">0</p>
-            </div>
-            <div class="card">
-                <h3>Ticket Médio</h3>
-                <p id="ticketMedio">R$ 0,00</p>
-            </div>
-            <div class="card">
-                <h3>Quantidade de pix gerados</h3>
-                <p id="quantPix">0</p>
-            </div>
-            <div class="card">
-                <h3>Valor não pago/pendente</h3>
-                <p id="pixValue">0</p>
-            </div>
-        </section>
-        <div class="aba-produto" style="margin-top: 20px;">
+        <div class="main">
             <header>
-                <h1>Gerenciar Produtos <span id="count-prod">1</span></h1>
-                <button class="btn" id="btn-add">+ Adicionar Produto</button>
+                <h1>Visão Geral</h1>
+                <div class="user-logger">
+                    <div class="user-logger-div">
+                        <img src="imagens/img-prod-padrao.png" alt="User Icon" class="user-icon">
+                        <p id="user-name">Twopay</p>
+                        <button id="logout-btn"><i class="fa-solid fa-right-from-bracket"></i></button>
+                    </div>
+                    <p id="user-email"></p>
+                </div>
             </header>
+            <div id="toast-container"></div>
+
+            <section class="metrics">
+                <div class="card">
+                    <h3>Faturamento Total</h3>
+                    <p id="faturamento">R$ 0,00</p>
+                </div>
+                <div class="card">
+                    <h3>Total de Vendas</h3>
+                    <p id="totalVendas">0</p>
+                </div>
+                <div class="card">
+                    <h3>Ticket Médio</h3>
+                    <p id="ticketMedio">R$ 0,00</p>
+                </div>
+                <div class="card">
+                    <h3>Quantidade de pix gerados</h3>
+                    <p id="quantPix">0</p>
+                </div>
+                <div class="card">
+                    <h3>Valor não pago/pendente</h3>
+                    <p id="pixValue">0</p>
+                </div>
+            </section>
+            <div class="aba-produto" style="margin-top: 20px;">
+                <header>
+                    <h1>Gerenciar Produtos <span id="count-prod">1</span></h1>
+                    <button class="btn" id="btn-add">+ Adicionar Produto</button>
+                </header>
                 <div id="product-list">
-                        
+
+                </div>
+                <div id="fake-product-list">
+                    <!-- Fake Card Placeholder -->
+                    <div class="card-produto-placeholder placeholder">
+                        <div class="capa-produto-placeholder shimmer"></div>
+
+                        <div class="info-produto-placeholder">
+                            <div class="nome-placeholder shimmer"></div>
+
+                            <div class="linhas-tags">
+                                <div class="preco-placeholder shimmer"></div>
+                                <div class="tag-placeholder shimmer"></div>
+                                <div class="tag-placeholder shimmer"></div>
+                            </div>
+
+                            <div class="botoes-placeholder">
+                                <div class="botao-placeholder shimmer"></div>
+                                <div class="botao-placeholder shimmer"></div>
+                                <div class="botao-placeholder shimmer"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-produto-placeholder placeholder">
+                        <div class="capa-produto-placeholder shimmer"></div>
+
+                        <div class="info-produto-placeholder">
+                            <div class="nome-placeholder shimmer"></div>
+
+                            <div class="linhas-tags">
+                                <div class="preco-placeholder shimmer"></div>
+                                <div class="tag-placeholder shimmer"></div>
+                                <div class="tag-placeholder shimmer"></div>
+                            </div>
+
+                            <div class="botoes-placeholder">
+                                <div class="botao-placeholder shimmer"></div>
+                                <div class="botao-placeholder shimmer"></div>
+                                <div class="botao-placeholder shimmer"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-produto-placeholder placeholder">
+                        <div class="capa-produto-placeholder shimmer"></div>
+
+                        <div class="info-produto-placeholder">
+                            <div class="nome-placeholder shimmer"></div>
+
+                            <div class="linhas-tags">
+                                <div class="preco-placeholder shimmer"></div>
+                                <div class="tag-placeholder shimmer"></div>
+                                <div class="tag-placeholder shimmer"></div>
+                            </div>
+
+                            <div class="botoes-placeholder">
+                                <div class="botao-placeholder shimmer"></div>
+                                <div class="botao-placeholder shimmer"></div>
+                                <div class="botao-placeholder shimmer"></div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- <div class="card-produto">
+                        <img src='https://i.pinimg.com/736x/05/3d/1e/053d1e19206de76b0a758c444db24f68.jpg'
+                            class="capa-produto" alt="Imagem do produto">
+                        <div class="info-produto">
+                            <h3 class="nome-produto" title="${product.nome}">Carregando...</h3>
+                            <div style="display: flex; justify-content: start; align-items: center;">
+                                <p class="tipo-produto">R$ 0,00</p>
+                                <span class="tag ATIVO" id="status"
+                                    style="margin-left: 10px;">ATIVO</span>
+                                <span class="tag tipo" style="margin-left: 10px;">AFILIAÇÃO</span>
+                            </div>
+                            <div class="tags" style="justify-content: end; align-items: center; margin-right: 10px;">
+                                <button  class="btn-edit ATIVOp" title="Editar produto."
+                                    data-id="${productId}"><i data-id="${productId}"
+                                        class="fa-solid fa-pen"></i></button>
+                                <button class="btn-delete ATIVOp" title="Deletar produto."
+                                    data-id="${productId}"><i data-id="${productId}"
+                                        class="fa-solid fa-trash"></i></button>
+                                <button class="btn-link ATIVOp" title="Copiar URL."
+                                    data-id="${productId}"><i data-id="${productId}"
+                                        class="fa-solid fa-copy"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-produto">
+                        <img src='https://i.pinimg.com/736x/05/3d/1e/053d1e19206de76b0a758c444db24f68.jpg'
+                            class="capa-produto" alt="Imagem do produto">
+                        <div class="info-produto">
+                            <h3 class="nome-produto" title="${product.nome}">Carregando...</h3>
+                            <div style="display: flex; justify-content: start; align-items: center;">
+                                <p class="tipo-produto">R$ 0,00</p>
+                                <span class="tag ATIVO" id="status"
+                                    style="margin-left: 10px;">ATIVO</span>
+                                <span class="tag tipo" style="margin-left: 10px;">AFILIAÇÃO</span>
+                            </div>
+                            <div class="tags" style="justify-content: end; align-items: center; margin-right: 10px;">
+                                <button  class="btn-edit ATIVOp" title="Editar produto."
+                                    data-id="${productId}"><i data-id="${productId}"
+                                        class="fa-solid fa-pen"></i></button>
+                                <button class="btn-delete ATIVOp" title="Deletar produto."
+                                    data-id="${productId}"><i data-id="${productId}"
+                                        class="fa-solid fa-trash"></i></button>
+                                <button class="btn-link ATIVOp" title="Copiar URL."
+                                    data-id="${productId}"><i data-id="${productId}"
+                                        class="fa-solid fa-copy"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-produto">
+                        <img src='https://i.pinimg.com/736x/05/3d/1e/053d1e19206de76b0a758c444db24f68.jpg'
+                            class="capa-produto" alt="Imagem do produto">
+                        <div class="info-produto">
+                            <h3 class="nome-produto" title="${product.nome}">Carregando...</h3>
+                            <div style="display: flex; justify-content: start; align-items: center;">
+                                <p class="tipo-produto">R$ 0,00</p>
+                                <span class="tag ATIVO" id="status"
+                                    style="margin-left: 10px;">ATIVO</span>
+                                <span class="tag tipo" style="margin-left: 10px;">AFILIAÇÃO</span>
+                            </div>
+                            <div class="tags" style="justify-content: end; align-items: center; margin-right: 10px;">
+                                <button  class="btn-edit ATIVOp" title="Editar produto."
+                                    data-id="${productId}"><i data-id="${productId}"
+                                        class="fa-solid fa-pen"></i></button>
+                                <button class="btn-delete ATIVOp" title="Deletar produto."
+                                    data-id="${productId}"><i data-id="${productId}"
+                                        class="fa-solid fa-trash"></i></button>
+                                <button class="btn-link ATIVOp" title="Copiar URL."
+                                    data-id="${productId}"><i data-id="${productId}"
+                                        class="fa-solid fa-copy"></i></button>
+                            </div>
+                        </div>
+                    </div> -->
                 </div>
                 <!-- Modal de Formulário -->
-                <div class="modal" id="product-modal">
-                    <div style="display: flex; align-items: center; padding: 0px; cursor: pointer;">
-                        <i id="close-modal" style="display:flex; padding: 7px 9px; margin-right: 6px; background: rgb(102 102 102); color: white; border-radius: 50px;" class="fa-solid fa-xmark"></i>
-                        <h2>Adicionar Produto</h2>
-                    </div>
-                    <input type="text" id="name" placeholder="Nome do Produto*" required>
-                    
-                    <textarea id="description" placeholder="Descrição do Produto*" required></textarea>
-                    <div class="div-url-link" style="display: flex; align-items: center !important;  width: 100% !important;">
-                        <div class="price-div" style="margin-right: 5px !important; margin-top: 3px !important;" >
-                            <span>R$ </span>
-                            <input type="text" id="price" maxlength="6" placeholder="Preço do produto*" value="0,00" required>
+                <div class="modal-overlay" id="modal-overlay">
+                    <div class="modal" id="product-modal">
+                        <div style="display: flex; align-items: center; padding: 0px; cursor: pointer;">
+                            <i id="close-modal"
+                                style="display:flex; padding: 7px 9px; margin-right: 6px; background: rgb(102 102 102); color: white; border-radius: 50px;"
+                                class="fa-solid fa-xmark"></i>
+                            <h2>Adicionar Produto</h2>
                         </div>
-                    <input type="text" id="nome_vendedor" placeholder="Nome do vendedor*" required>
-                    </div>
-                    
-                    <input type="text" id="url_produto" autocomplete="none" placeholder="Link Produto/Drive*" required>
+                        <input type="text" id="name" placeholder="Nome do Produto*" required>
 
-                    <div class="div-url-link" style="display: flex; align-items: center;  width: 100% !important;">
-                        <input type="text" id="image" style="margin-right: 5px;" placeholder="Link da Imagem do Produto*" required>
-                        <input type="text" id="banner" placeholder="Link do Banner (opcional)">
-                    </div>
-                    
-                    <!-- Toggle Cronômetro -->
-                    <div style="display: flex; align-items: center;">
-                        <label for="countdown-toggle" id="countdown-label" style="margin-right: 5px;">Cronômetro</label>
-                        <div class="toggle-wrapper">
-                            <input type="checkbox" id="countdown-toggle" class="toggle">
-                            <span class="toggle-label" id="toggle-label"></span>
+                        <textarea id="description" placeholder="Descrição do Produto*" required></textarea>
+                        <div class="div-url-link"
+                            style="display: flex; align-items: center !important;  width: 100% !important;">
+                            <div class="price-div" style="margin-right: 5px !important; margin-top: 3px !important;">
+                                <span>R$ </span>
+                                <input type="text" id="price" maxlength="6" placeholder="Preço do produto*" value="0,00"
+                                    required>
+                            </div>
+                            <input type="text" id="nome_vendedor" placeholder="Nome do vendedor*" required>
                         </div>
-                    </div>
-                    <p>Como remove o banner?</p>
-                    <div class="btn-div" style="display: flex; width: 100%; align-items: center; justify-content: end;">
-                        <button class="btn" id="save-product" style="width: 100px;">SALVAR</button>
+
+                        <input type="text" id="url_produto" autocomplete="none" placeholder="Link Produto/Drive*"
+                            required>
+
+                        <div class="div-url-link" style="display: flex; align-items: center;  width: 100% !important;">
+                            <input type="text" id="image" style="margin-right: 5px;"
+                                placeholder="Link da Imagem do Produto*" required>
+                            <input type="text" id="banner" placeholder="Link do Banner (opcional)">
+                        </div>
+
+                        <!-- Toggle Cronômetro -->
+                        <div style="display: flex; align-items: center; margin-top: -10px;">
+                            <label for="countdown-toggle" id="countdown-label"
+                                style="margin-right: 5px;">Cronômetro</label>
+                            <div class="toggle-wrapper">
+                                <input type="checkbox" id="countdown-toggle" class="toggle">
+                                <span class="toggle-label" id="toggle-label"></span>
+                            </div>
+                        </div>
+                        <div class="btn-div"
+                            style="display: flex; width: 100%; align-items: center; justify-content: end;">
+                            <button class="btn" id="save-product" style="width: 100px;">SALVAR</button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Modal de Configurações -->
-                <div class="config" id="config-modal">
-                    <div style="display: flex; align-items: center; padding: 0px; cursor: pointer;">
-                        <i id="close-modal-config" style="display:flex; padding: 7px 9px; margin-right: 6px; background: rgb(102 102 102); color: white; border-radius: 50px;" class="fa-solid fa-xmark"></i>
-                        <h2>Configurações</h2>
-                    </div>
-                    <input type="text" id="token-input" placeholder="Public Key/Token do Mercado pago*" autocomplete="none" required>
+                <!-- Modal de Configurações --->
+                <div class="config-overlay" id="config-overlay">
+                    <div class="config" id="config-modal">
+                        <div style="display: flex; align-items: center; padding: 0px; cursor: pointer;">
+                            <i id="close-modal-config"
+                                style="display:flex; padding: 7px 9px; margin-right: 6px; background: rgb(102 102 102); color: white; border-radius: 50px;"
+                                class="fa-solid fa-xmark"></i>
+                            <h2>Configurações</h2>
+                        </div>
+                        <input type="password" id="token-input" placeholder="Public Key/Token do Mercado pago*"
+                            autocomplete="none" required>
 
-                    <!-- <div class="div-url-link" style="display: flex; align-items: center;  width: 100% !important;">
+                        <!-- <div class="div-url-link" style="display: flex; align-items: center;  width: 100% !important;">
                         <input type="text" id="image" style="margin-right: 5px;" placeholder="Link da Imagem do Produto*" required>
                         <input type="text" id="banner" placeholder="Link do Banner (opcional)">
                     </div> -->
-                    
-                    <div class="btn-div" style="display: flex; width: 100%; align-items: center; justify-content: end;">
-                        <button class="btn" id="btn-config-save" style="width: 100px;">SALVAR</button>
+
+                        <div class="btn-div"
+                            style="display: flex; width: 100%; align-items: center; justify-content: end;">
+                            <button class="btn" id="btn-config-save" style="width: 100px;">SALVAR</button>
+                        </div>
                     </div>
                 </div>
-                
+
+
+            </div>
         </div>
     </div>
- </div>
     <script src="dashboard.js"></script>
 </body>
 

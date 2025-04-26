@@ -263,13 +263,13 @@ app.post('/send-email-marketing', (req, res) => {
         </head>
 
         <body style="margin: 0; padding: 15px; background-color: #f4f4f4; text-align: center; font-family: Arial, sans-serif;">
-            <div    style="max-width: 600px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); text-align: center;">
+            <div    style="max-width: 600px; margin: 40px auto; background: #fff; padding: 30px 20px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); text-align: center;">
         
 
             <h1 style="color: #333; font-size: 25px; margin-bottom: 10px; margin-top: 30px;">Eae ${first_name}, tudo certo?</h1>
 
             <p style="font-size: 16px; color: #555; line-height: 1.6; margin-bottom: 20px;">
-                Finalize seu pagamento para acessar <b>${nome_produto}</b>! Clique aqui em abaixo:
+                Finalize seu pagamento para acessar <b>${nome_produto}</b>! <br>Clique aqui em abaixo:
             </p>
 
             <a href="${url_button}" style="display: inline-block; cursor: pointer;  box-shadow: inset 0 -4px #0002; background-color: #28a745; color: #fff; font-size: 17px; font-weight: bold; text-decoration: none; padding: 16px 34px; border-radius: 8px; transition: 0.3s ease;">
