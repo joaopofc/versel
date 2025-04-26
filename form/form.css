@@ -1,29 +1,34 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@400;500&display=swap'); 
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@400;500&display=swap');
 
-body{
+body {
   background: #111111;
   font-family: "Poppins";
 }
-.center-box, #reset-password-div{
+
+.center-box,
+#reset-password-div {
   position: absolute;
   background: #1E1E1E;
-  top:50%;
-  left:50%;
-  transform: translate(-50%,-50%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   border-radius: 20px;
-  width:25%;
-  height:60%;
+  width: 25%;
+  height: 60%;
   text-align: center;
-  color:white;
+  color: white;
   align-items: center;
   justify-content: center;
 }
+
 h2 {
   margin: 15px;
   color: #ffffff;
   font-family: "Poppins";
 }
-.text-field, #reset-email {
+
+.text-field,
+#reset-email {
   width: 80%;
   padding: 10px 30px;
   margin: 7px 0;
@@ -33,32 +38,38 @@ h2 {
   border-radius: 10px;
   outline: none;
   font-size: 12pt;
-  color:rgb(246, 246, 246);
-  
+  color: rgb(246, 246, 246);
+
 }
+
 #reset-email {
   margin-top: 40px;
   margin-bottom: 0px;
 }
-#error-login, #error-regis {
+
+#error-login,
+#error-regis {
   color: rgb(255, 255, 255);
   margin: 0 10px;
-  letter-spacing:-.4;
+  letter-spacing: -.4;
   font-weight: bold;
   padding-bottom: 30px;
 }
-.btn-style, #reset-password-btn{
+
+.btn-style,
+#reset-password-btn {
   margin-top: 20px;
   padding: 10px 30px;
   width: 80%;
   border: none;
   border-radius: 20px;
   background-color: #16A34A;
-  color:rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
   font-weight: bold;
   font-family: "Poppins";
 }
-.btn-style:hover{
+
+.btn-style:hover {
   cursor: pointer;
   /*
   background-color: transparent;
@@ -66,34 +77,39 @@ h2 {
   color:white;
   */
 }
+
 #forgot-password-btn {
-  color: rgb(204, 204, 204); 
+  color: rgb(204, 204, 204);
   cursor: pointer;
 }
-#forgot-password-btn:hover{
+
+#forgot-password-btn:hover {
   text-decoration: 1px underline rgb(15, 76, 52);
   transition: 1s ease-in;
 }
-.an-btn{
+
+.an-btn {
   margin-top: 10px;
   padding: 3px 9px;
   border: 0;
   background-color: transparent;
   border-radius: 5px;
-  color:white;
+  color: white;
   font-size: 11pt;
   font-family: "Poppins";
   cursor: pointer;
 }
-#register-div{
-  display:none;
+
+#register-div {
+  display: none;
 }
-#result-box{
-  display:none;
+
+#result-box {
+  display: none;
   position: absolute;
-  top:50%;
-  left:50%;
-  transform: translate(-50%,-50%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   font-size: 16pt;
   color: white;
 }
@@ -123,6 +139,7 @@ h2 {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -134,20 +151,25 @@ img {
 
 @media (max-width: 1024px) {
   .center-box {
-    width: 40%; /* Ajuste para telas menores */
-    
-    
+    width: 40%;
+    /* Ajuste para telas menores */
+
+
   }
 }
 
 
 @media (max-width: 768px) {
   .center-box {
-    width: 80%; /* Ajuste para telas menores */
-    
+    width: 80%;
+    /* Ajuste para telas menores */
+
   }
-  .text-field, #reset-email {
-    font-size: 16px; /* Fonte menor */
+
+  .text-field,
+  #reset-email {
+    font-size: 16px;
+    /* Fonte menor */
     width: 80%;
   }
 }
@@ -156,29 +178,34 @@ img {
 @media (max-width: 480px) {
 
 
-  body{
+  body {
     background: #111111;
     font-family: "Poppins";
-    display:flex;
-    align-items:center;
-    justify-content:center;
-  }
-  .center-box, #reset-password-div{
-    background: #1E1E1E;
-    border-radius: 20px;
-    width:80% !important;
-    height:auto;
-    text-align: center;
-    color:white;
+    display: flex;
     align-items: center;
     justify-content: center;
   }
+
+  .center-box,
+  #reset-password-div {
+    background: #1E1E1E;
+    border-radius: 20px;
+    width: 80% !important;
+    height: auto;
+    text-align: center;
+    color: white;
+    align-items: center;
+    justify-content: center;
+  }
+
   h2 {
     margin: 15px;
     color: #ffffff;
     font-family: "Poppins";
   }
-  .text-field, #reset-email {
+
+  .text-field,
+  #reset-email {
     width: 80%;
     padding: 15px 30px;
     margin: 7px 0;
@@ -188,29 +215,34 @@ img {
     border-radius: 10px;
     outline: none;
     font-size: 12pt;
-    color:rgb(246, 246, 246);
+    color: rgb(246, 246, 246);
     font-size: 19px;
   }
-  #error-login, #error-regis {
+
+  #error-login,
+  #error-regis {
     color: rgb(255, 255, 255);
     margin: 0 10px;
-    letter-spacing:-.4;
+    letter-spacing: -.4;
     font-weight: bold;
     padding-bottom: 30px;
   }
-  .btn-style, #reset-password-btn{
+
+  .btn-style,
+  #reset-password-btn {
     margin-top: 20px;
     padding: 15px 30px;
     width: 80%;
     border: none;
     border-radius: 20px;
-    background-color: rgb(19, 26, 237);
-    color:rgb(255, 255, 255);
+    background-color: #16A34A;
+    color: rgb(255, 255, 255);
     font-weight: bold;
     font-family: "Poppins";
     font-size: 19px;
   }
-  .btn-style:hover{
+
+  .btn-style:hover {
     cursor: pointer;
     /*
     background-color: transparent;
@@ -218,38 +250,43 @@ img {
     color:white;
     */
   }
+
   #forgot-password-btn {
-    color: rgb(204, 204, 204); 
+    color: rgb(204, 204, 204);
     cursor: pointer;
   }
-  #forgot-password-btn:hover{
+
+  #forgot-password-btn:hover {
     text-decoration: 1px underline rgb(15, 76, 52);
     transition: 1s ease-in;
   }
-  .an-btn{
+
+  .an-btn {
     margin-top: 10px;
     padding: 3px 9px;
     border: 0;
-    background-color: rgb(24, 9, 70);
+    background-color: transparent;
     border-radius: 5px;
-    color:white;
+    color: white;
     font-size: 11pt;
     font-family: "Poppins";
     cursor: pointer;
   }
-  #register-div{
-    display:none;
+
+  #register-div {
+    display: none;
   }
-  #result-box{
-    display:none;
+
+  #result-box {
+    display: none;
     position: absolute;
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     font-size: 16pt;
     color: white;
   }
-  
+
   .loading-overlay {
     display: none;
     position: fixed;
@@ -261,7 +298,7 @@ img {
     justify-content: center;
     align-items: center;
   }
-  
+
   .spinner {
     width: 30px;
     height: 30px;
@@ -270,21 +307,23 @@ img {
     border-radius: 50%;
     animation: spin 1s linear infinite;
   }
-  
+
   @keyframes spin {
     0% {
       transform: rotate(0deg);
     }
+
     100% {
       transform: rotate(360deg);
     }
   }
-  
+
   img {
     filter: brightness(0) invert(1);
   }
 
 }
+
 .at {
   display: none;
 }
@@ -320,22 +359,22 @@ img {
 
 @keyframes fadeInOut {
   0% {
-      opacity: 0;
-      transform: translateY(-10px);
+    opacity: 0;
+    transform: translateY(-10px);
   }
 
   10% {
-      opacity: 1;
-      transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
   }
 
   90% {
-      opacity: 1;
-      transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
   }
 
   100% {
-      opacity: 0;
-      transform: translateY(10px);
+    opacity: 0;
+    transform: translateY(10px);
   }
 }

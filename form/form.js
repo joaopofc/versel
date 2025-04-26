@@ -48,13 +48,15 @@ document.getElementById("login-btn").addEventListener('click', function () {
     signInWithEmailAndPassword(auth, loginEmail, loginPassword)
       .then((userCredential) => {
         const user = userCredential.user;
-        const loadingOverlay = document.getElementById('loadingOverlay');
         localStorage.setItem('logado', true);
-        loadingOverlay.style.display = 'flex';
+        document.getElementById('loadingOverlay').style.display = 'flex';
+
         setTimeout(() => {
-          loadingOverlay.style.display = 'none';
+          document.getElementById('loadingOverlay').style.display = 'none';
           window.location.href = `dashboard.html?email=${loginEmail}&user=${user.uid}`;
         }, 3000);
+
+
         user.getIdToken().then((token) => {
           const emailChave = formatarEmailParaChave(loginEmail);
           const db = getDatabase();
@@ -101,7 +103,7 @@ function showToast(message, type) {
 
   // Remove o toast após 4 segundos
   setTimeout(() => {
-      toast.remove();
+    toast.remove();
   }, 10000);
 }
 
@@ -189,7 +191,7 @@ document.getElementById("reset-password-btn").addEventListener("click", () => {
       } else {
         message.innerHTML = "Erro ao enviar o email. Tente novamente.";
         showToast("Erro ao enviar o email. Tente novamente.", "error");
-      } 
+      }
       message.style.color = "red";
     });
 });
