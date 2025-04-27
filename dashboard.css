@@ -36,7 +36,6 @@ body {
     bottom: 0;
     border-right: 1px solid #e0e0e0;
 }
-
 .sidebar h2 {
     font-size: 20px;
     font-weight: 600;
@@ -153,7 +152,7 @@ header h1 {
 .card {
     background: #fff;
     padding: 20px;
-    border-radius: 12px;
+    border-radius: 24px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -299,6 +298,10 @@ th {
 .btn-edit:hover {
     background: #218838;
 }
+.btn-contact {
+    background: #007bff;
+    color: white;
+}
 
 .btn-delete:hover {
     background: #c82333;
@@ -307,6 +310,16 @@ th {
 .btn-link.INATIVOp,
 .btn-edit.INATIVOp {
     display: none;
+}
+.btn-contact {
+    display: none;
+}
+.btn-contact.ATIVO {
+    display: none;
+}
+
+.btn-contact.INATIVOp {
+    display: block;
 }
 
 /* ============ MODAL DE FORMULÁRIO ============ */
@@ -374,6 +387,18 @@ th {
 
 }
 
+
+.fa-regular.fa-circle-question {
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 14px;
+    margin-left: 5px;
+}
+.fa-regular.fa-circle-question:hover {
+    color: #fbff00;
+}
+
+
 .modal input,
 .config input,
 .modal textarea,
@@ -410,11 +435,12 @@ th {
 
 .btn-edit,
 .btn-delete,
-.btn-link {
+.btn-link,
+.btn-contact {
     color: #fff;
     border: none;
     padding: 6px 14px;
-    border-radius: 5px;
+    border-radius: 12px;
     cursor: pointer;
     transition: background 0.3s;
 }
@@ -438,14 +464,13 @@ th {
     overflow-x: hidden;
     align-items: center;
     justify-content: space-between;
-    max-width: 150%;
 }
 
 .card-produto-placeholder.placeholder {
     width: 304px;
     padding: 12px;
     background: #474747;
-    border-radius: 10px;
+    border-radius: 16px;
     display: flex !important;
     gap: 10px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
@@ -537,12 +562,11 @@ th {
     gap: 10px;
     overflow-x: hidden;
     align-items: center;
-    max-width: 150%;
 }
 
 .card-produto {
     background-color: #272c31;
-    border-radius: 10px;
+    border-radius: 12px;
     padding: 15px;
     width: auto;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -563,6 +587,8 @@ th {
 .info-produto {
     flex: 1;
 }
+
+
 
 .nome-produto {
     margin: 0;
@@ -922,6 +948,31 @@ textarea:focus,
         font-family: 'Inter', sans-serif !important;
     }
 
+    .card-produto {
+        width: 100%;
+    }
+    .card-produto-placeholder.placeholder {
+        width: 100%;
+    }
+    .nome-produto {
+        margin: 0;
+        font-size: 18px;
+        color: white;
+        width: 230px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    
+    }
+    .tipo-produto {
+        margin: 2px 0;
+        font-size: 18px;
+        font-weight: 600;
+        color: #bbb;
+    }
+    #status-produto {
+        font-size: 18px;
+    }
     .sidebar {
         width: 220px;
     }
@@ -935,6 +986,7 @@ textarea:focus,
     body {
         font-family: 'Inter', sans-serif !important;
     }
+    
 
     .sidebar {
         position: absolute;

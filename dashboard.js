@@ -247,9 +247,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div style="display: flex; justify-content: start; align-items: center;">
                     <p class="tipo-produto">R$ ${product.preco.toFixed(2).replace(".", ",")}</p>
                     <span class="tag ${product.status || 'ATIVO'}" id="status" style="margin-left: 10px;">${product.status || 'ATIVO'}</span>
-                    <span class="tag tipo" style="margin-left: 10px;">${product.categoria || 'AFILIAÇÃO'}</span>
+                    <span class="tag tipo" style="margin-left: 10px;">ID: ${productId || 'Sem ID'}</span>
                     </div>
                     <div class="tags" style="justify-content: end; align-items: center; margin-right: 10px;">
+                        <a href="https://wa.me/5584994239716?text=Preciso+de+ajuda" class="btn-contact ${product.status || 'ATIVO'}p" title="Entrar em contato com suporte."><i class="fa-solid fa-headset"></i></a>
                         <button class="btn-edit ${product.status || 'ATIVO'}p" title="Editar produto." data-id="${productId}"><i data-id="${productId}" class="fa-solid fa-pen"></i></button>
                         <button class="btn-delete ${product.status || 'ATIVO'}p" title="Deletar produto." data-id="${productId}"><i data-id="${productId}" class="fa-solid fa-trash"></i></button>
                         <button class="btn-link ${product.status || 'ATIVO'}p" title="Copiar URL." data-id="${productId}"><i data-id="${productId}" class="fa-solid fa-copy"></i></button>
