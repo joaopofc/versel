@@ -16,8 +16,23 @@
 </head>
 
 <body>
-    <!-- Popup de confirmação -->
+    <!-- Botão de menu para mobile -->
+    <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
 
+
+    <div id="buyer-modal" class="ob-modal">
+        <div class="ob-modal-content">
+            <span class="ob-close-modal">&times;</span>
+            <h3>Detalhes do Cliente</h3>
+            <div id="od-modal-content">
+                <!-- Conteúdo será preenchido dinamicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup de confirmação -->
     <div id="popup-confirmacao" class="popup-overlay">
         <div class="popup">
             <h2>Tem certeza?</h2>
@@ -30,14 +45,17 @@
     </div>
 
     <div class="supra-side" style="display: flex; width: 100vw; position: relative;">
-        <div class="sidebar">
-
+        <div class="sidebar" id="sidebar">
             <h2>Dash Tawros</h2>
             <p style="font-size: 11px; color: grey; margin-left: 60px;">Versão 1.4.3</p>
             <ul class="off">
                 <li>
-                    <p><i class="fa-regular fa-money-bill-1"
+                    <p class="nav-link active" data-page="dashboard"><i class="fa-regular fa-money-bill-1"
                             style="margin-right: 7px; transform: translateY(1px);"></i>Visão Geral</p>
+                </li>
+                <li>
+                    <p class="nav-link" data-page="vendas"><i class="fa-solid fa-chart-simple"
+                            style="margin-right: 7px; transform: translateY(1px);"></i>Vendas</p>
                 </li>
                 <li><a href="https://wa.me/5584994239716?text=Preciso+de+ajuda"><i class="fa-brands fa-whatsapp"
                             style="margin-right: 7px; transform: translateY(1px);"></i>Suporte</a></li>
@@ -49,260 +67,248 @@
         </div>
 
         <div class="main">
-            <header>
-                <h1>Visão Geral</h1>
-                <div class="user-logger">
-                    <div class="user-logger-div">
-                        <img src="imagens/img-prod-padrao.png" alt="User Icon" class="user-icon">
-                        <p id="user-name">Twopay</p>
-                        <button id="logout-btn"><i class="fa-solid fa-right-from-bracket"></i></button>
-                    </div>
-                    <p id="user-email"></p>
-                </div>
-            </header>
-            <div id="toast-container"></div>
-
-            <section class="metrics">
-                <div class="card">
-                    <h3>Faturamento Total</h3>
-                    <p id="faturamento">R$ 0,00</p>
-                </div>
-                <div class="card">
-                    <h3>Total de Vendas</h3>
-                    <p id="totalVendas">0</p>
-                </div>
-                <div class="card">
-                    <h3>Ticket Médio</h3>
-                    <p id="ticketMedio">R$ 0,00</p>
-                </div>
-                <div class="card">
-                    <h3>Quantidade de pix gerados</h3>
-                    <p id="quantPix">0</p>
-                </div>
-                <div class="card">
-                    <h3>Valor não pago/pendente</h3>
-                    <p id="pixValue">0</p>
-                </div>
-            </section>
-            <div class="aba-produto" style="margin-top: 20px;">
+            <!-- Página Dashboard -->
+            <div class="page active" id="dashboard-page">
                 <header>
-                    <h1>Gerenciar Produtos <span id="count-prod">1</span></h1>
-                    <button class="btn" id="btn-add">+ Adicionar Produto</button>
+                    <h1>Visão Geral</h1>
+                    <div class="user-logger">
+                        <div class="user-logger-div">
+                            <img src="imagens/img-prod-padrao.png" alt="User Icon" class="user-icon">
+                            <p id="user-name" style="color: #d5d5d5;">Twopay</p>
+                            <button id="logout-btn"><i class="fa-solid fa-right-from-bracket"></i></button>
+                        </div>
+                        <p id="user-email" style="color: #d5d5d5;"></p>
+                    </div>
+                </header>
+                <div id="toast-container"></div>
+
+                <section class="metrics">
+                    <div class="card">
+                        <h3>Faturamento Total</h3>
+                        <p id="faturamento">R$ 0,00</p>
+                    </div>
+                    <div class="card">
+                        <h3>Total de Vendas</h3>
+                        <p id="totalVendas">0</p>
+                    </div>
+                    <div class="card">
+                        <h3>Ticket Médio</h3>
+                        <p id="ticketMedio">R$ 0,00</p>
+                    </div>
+                    <div class="card">
+                        <h3>Quantidade de pix gerados</h3>
+                        <p id="quantPix">0</p>
+                    </div>
+                    <div class="card">
+                        <h3>Valor não pago/pendente</h3>
+                        <p id="pixValue">0</p>
+                    </div>
+                </section>
+                <div class="aba-produto" style="margin-top: 20px;">
+                    <header>
+                        <h1>Gerenciar Produtos <span id="count-prod">1</span></h1>
+                        <button class="btn" id="btn-add">+ Adicionar Produto</button>
+                    </header>
+
+                    <div id="fake-product-list">
+                        <!-- Fake Card Placeholder -->
+                        <div class="card-produto-placeholder placeholder">
+                            <div class="capa-produto-placeholder shimmer"></div>
+
+                            <div class="info-produto-placeholder">
+                                <div class="nome-placeholder shimmer"></div>
+
+                                <div class="linhas-tags">
+                                    <div class="preco-placeholder shimmer"></div>
+                                    <div class="tag-placeholder shimmer"></div>
+                                    <div class="tag-placeholder shimmer"></div>
+                                </div>
+
+                                <div class="botoes-placeholder">
+                                    <div class="botao-placeholder shimmer"></div>
+                                    <div class="botao-placeholder shimmer"></div>
+                                    <div class="botao-placeholder shimmer"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-produto-placeholder placeholder">
+                            <div class="capa-produto-placeholder shimmer"></div>
+
+                            <div class="info-produto-placeholder">
+                                <div class="nome-placeholder shimmer"></div>
+
+                                <div class="linhas-tags">
+                                    <div class="preco-placeholder shimmer"></div>
+                                    <div class="tag-placeholder shimmer"></div>
+                                    <div class="tag-placeholder shimmer"></div>
+                                </div>
+
+                                <div class="botoes-placeholder">
+                                    <div class="botao-placeholder shimmer"></div>
+                                    <div class="botao-placeholder shimmer"></div>
+                                    <div class="botao-placeholder shimmer"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-produto-placeholder placeholder">
+                            <div class="capa-produto-placeholder shimmer"></div>
+
+                            <div class="info-produto-placeholder">
+                                <div class="nome-placeholder shimmer"></div>
+
+                                <div class="linhas-tags">
+                                    <div class="preco-placeholder shimmer"></div>
+                                    <div class="tag-placeholder shimmer"></div>
+                                    <div class="tag-placeholder shimmer"></div>
+                                </div>
+
+                                <div class="botoes-placeholder">
+                                    <div class="botao-placeholder shimmer"></div>
+                                    <div class="botao-placeholder shimmer"></div>
+                                    <div class="botao-placeholder shimmer"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="product-list" style="margin-bottom: 150px;"></div>
+                </div>
+            </div>
+
+            <!-- Página de Vendas -->
+            <div class="page" id="vendas-page">
+                <header>
+                    <h1>Vendas</h1>
+                    <div class="user-logger">
+                        <div class="user-logger-div">
+                            <img src="imagens/img-prod-padrao.png" alt="User Icon" class="user-icon">
+                            <p id="user-name" style="color: #d5d5d5;">Twopay</p>
+                            <button id="logout-btn"><i class="fa-solid fa-right-from-bracket"></i></button>
+                        </div>
+                        <p id="user-email" style="color: #d5d5d5;"></p>
+                    </div>
                 </header>
 
-                <div id="fake-product-list">
-                    <!-- Fake Card Placeholder -->
-                    <div class="card-produto-placeholder placeholder">
-                        <div class="capa-produto-placeholder shimmer"></div>
-
-                        <div class="info-produto-placeholder">
-                            <div class="nome-placeholder shimmer"></div>
-
-                            <div class="linhas-tags">
-                                <div class="preco-placeholder shimmer"></div>
-                                <div class="tag-placeholder shimmer"></div>
-                                <div class="tag-placeholder shimmer"></div>
-                            </div>
-
-                            <div class="botoes-placeholder">
-                                <div class="botao-placeholder shimmer"></div>
-                                <div class="botao-placeholder shimmer"></div>
-                                <div class="botao-placeholder shimmer"></div>
-                            </div>
-                        </div>
+                <div class="metrics">
+                    <div class="card">
+                        <h3>Total de Vendas</h3>
+                        <p id="total-buyers">0</p>
                     </div>
-                    <div class="card-produto-placeholder placeholder">
-                        <div class="capa-produto-placeholder shimmer"></div>
-
-                        <div class="info-produto-placeholder">
-                            <div class="nome-placeholder shimmer"></div>
-
-                            <div class="linhas-tags">
-                                <div class="preco-placeholder shimmer"></div>
-                                <div class="tag-placeholder shimmer"></div>
-                                <div class="tag-placeholder shimmer"></div>
-                            </div>
-
-                            <div class="botoes-placeholder">
-                                <div class="botao-placeholder shimmer"></div>
-                                <div class="botao-placeholder shimmer"></div>
-                                <div class="botao-placeholder shimmer"></div>
-                            </div>
-                        </div>
+                    <div class="card">
+                        <h3>Compras Aprovadas</h3>
+                        <p id="approved-buyers">0</p>
                     </div>
-                    <div class="card-produto-placeholder placeholder">
-                        <div class="capa-produto-placeholder shimmer"></div>
-
-                        <div class="info-produto-placeholder">
-                            <div class="nome-placeholder shimmer"></div>
-
-                            <div class="linhas-tags">
-                                <div class="preco-placeholder shimmer"></div>
-                                <div class="tag-placeholder shimmer"></div>
-                                <div class="tag-placeholder shimmer"></div>
-                            </div>
-
-                            <div class="botoes-placeholder">
-                                <div class="botao-placeholder shimmer"></div>
-                                <div class="botao-placeholder shimmer"></div>
-                                <div class="botao-placeholder shimmer"></div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <!-- <div class="card-produto">
-                        <img src='https://i.pinimg.com/736x/05/3d/1e/053d1e19206de76b0a758c444db24f68.jpg'
-                            class="capa-produto" alt="Imagem do produto">
-                        <div class="info-produto">
-                            <h3 class="nome-produto" title="${product.nome}">Carregando...</h3>
-                            <div style="display: flex; justify-content: start; align-items: center;">
-                                <p class="tipo-produto">R$ 0,00</p>
-                                <span class="tag ATIVO" id="status"
-                                    style="margin-left: 10px;">ATIVO</span>
-                                <span class="tag tipo" style="margin-left: 10px;">AFILIAÇÃO</span>
-                            </div>
-                            <div class="tags" style="justify-content: end; align-items: center; margin-right: 10px;">
-                                <button  class="btn-edit ATIVOp" title="Editar produto."
-                                    data-id="${productId}"><i data-id="${productId}"
-                                        class="fa-solid fa-pen"></i></button>
-                                <button class="btn-delete ATIVOp" title="Deletar produto."
-                                    data-id="${productId}"><i data-id="${productId}"
-                                        class="fa-solid fa-trash"></i></button>
-                                <button class="btn-link ATIVOp" title="Copiar URL."
-                                    data-id="${productId}"><i data-id="${productId}"
-                                        class="fa-solid fa-copy"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-produto">
-                        <img src='https://i.pinimg.com/736x/05/3d/1e/053d1e19206de76b0a758c444db24f68.jpg'
-                            class="capa-produto" alt="Imagem do produto">
-                        <div class="info-produto">
-                            <h3 class="nome-produto" title="${product.nome}">Carregando...</h3>
-                            <div style="display: flex; justify-content: start; align-items: center;">
-                                <p class="tipo-produto">R$ 0,00</p>
-                                <span class="tag ATIVO" id="status"
-                                    style="margin-left: 10px;">ATIVO</span>
-                                <span class="tag tipo" style="margin-left: 10px;">AFILIAÇÃO</span>
-                            </div>
-                            <div class="tags" style="justify-content: end; align-items: center; margin-right: 10px;">
-                                <button  class="btn-edit ATIVOp" title="Editar produto."
-                                    data-id="${productId}"><i data-id="${productId}"
-                                        class="fa-solid fa-pen"></i></button>
-                                <button class="btn-delete ATIVOp" title="Deletar produto."
-                                    data-id="${productId}"><i data-id="${productId}"
-                                        class="fa-solid fa-trash"></i></button>
-                                <button class="btn-link ATIVOp" title="Copiar URL."
-                                    data-id="${productId}"><i data-id="${productId}"
-                                        class="fa-solid fa-copy"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-produto">
-                        <img src='https://i.pinimg.com/736x/05/3d/1e/053d1e19206de76b0a758c444db24f68.jpg'
-                            class="capa-produto" alt="Imagem do produto">
-                        <div class="info-produto">
-                            <h3 class="nome-produto" title="${product.nome}">Carregando...</h3>
-                            <div style="display: flex; justify-content: start; align-items: center;">
-                                <p class="tipo-produto">R$ 0,00</p>
-                                <span class="tag ATIVO" id="status"
-                                    style="margin-left: 10px;">ATIVO</span>
-                                <span class="tag tipo" style="margin-left: 10px;">AFILIAÇÃO</span>
-                            </div>
-                            <div class="tags" style="justify-content: end; align-items: center; margin-right: 10px;">
-                                <button  class="btn-edit ATIVOp" title="Editar produto."
-                                    data-id="${productId}"><i data-id="${productId}"
-                                        class="fa-solid fa-pen"></i></button>
-                                <button class="btn-delete ATIVOp" title="Deletar produto."
-                                    data-id="${productId}"><i data-id="${productId}"
-                                        class="fa-solid fa-trash"></i></button>
-                                <button class="btn-link ATIVOp" title="Copiar URL."
-                                    data-id="${productId}"><i data-id="${productId}"
-                                        class="fa-solid fa-copy"></i></button>
-                            </div>
-                        </div>
-                    </div> -->
-                </div>
-                <div id="product-list" style="margin-bottom: 150px;">
-
-                </div>
-                <!-- Modal de Formulário -->
-                <div class="modal-overlay" id="modal-overlay">
-                    <div class="modal" id="product-modal">
-                        <div style="display: flex; align-items: center; padding: 0px; cursor: pointer;">
-                            <i id="close-modal"
-                                style="display:flex; padding: 7px 9px; margin-right: 6px; background: rgb(102 102 102); color: white; border-radius: 50px;"
-                                class="fa-solid fa-xmark"></i>
-                            <h2>Adicionar Produto</h2>
-                        </div>
-                        <input type="text" id="name" placeholder="Nome do Produto*" required>
-
-                        <textarea id="description" placeholder="Descrição do Produto*" required></textarea>
-                        <div class="div-url-link"
-                            style="display: flex; align-items: center !important;  width: 100% !important;">
-                            <div class="price-div" style="margin-right: 5px !important; margin-top: 3px !important;">
-                                <span>R$ </span>
-                                <input type="text" id="price" maxlength="6" placeholder="Preço do produto*" value="0,00"
-                                    required>
-                            </div>
-                            <input type="text" id="nome_vendedor" placeholder="Nome do vendedor*" required>
-                        </div>
-
-                        <input type="text" id="url_produto" autocomplete="off" placeholder="Link Produto/Drive*"
-                            required>
-
-                        <div class="div-url-link" style="display: flex; align-items: center;  width: 100% !important;">
-                            <input type="text" id="image" style="margin-right: 5px;"
-                                placeholder="Link da Imagem do Produto*" required>
-                            <input type="text" id="banner" placeholder="Link do Banner (opcional)">
-                        </div>
-
-                        <!-- Toggle Cronômetro -->
-                        <div style="display: flex; align-items: center; margin-top: -10px;">
-                            <label for="countdown-toggle" id="countdown-label"
-                                style="margin-right: 5px;">Cronômetro</label>
-                            <div class="toggle-wrapper">
-                                <input type="checkbox" id="countdown-toggle" class="toggle">
-                                <span class="toggle-label" id="toggle-label"></span>
-                            </div>
-                        </div>
-                        <div class="btn-div"
-                            style="display: flex; width: 100%; align-items: center; justify-content: end;">
-                            <button class="btn" id="save-product" style="width: 100px;">SALVAR</button>
-                        </div>
+                    <div class="card">
+                        <h3>Compras Pendentes</h3>
+                        <p id="pending-buyers">0</p>
                     </div>
                 </div>
 
-                <!-- Modal de Configurações --->
-                <div class="config-overlay" id="config-overlay">
-                    <div class="config" id="config-modal">
-                        <div style="display: flex; align-items: center; padding: 0px; cursor: pointer;">
-                            <i id="close-modal-config"
-                                style="display:flex; padding: 7px 9px; margin-right: 6px; background: rgb(102 102 102); color: white; border-radius: 50px;"
-                                class="fa-solid fa-xmark"></i>
-                            <h2>Configurações</h2>
+                <div style="margin-top: 30px;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h2>Lista de Compradores</h2>
+                        <div>
+                            <select id="filter-status"
+                                style="padding: 8px; border-radius: 6px; border: 1px solid #ddd; background-color: #212B36; color: #ffff;">
+                                <option value="all">Todos os status</option>
+                                <option value="approved">Aprovados</option>
+                                <option value="pending">Pendentes</option>
+                                <option value="cancelled">Cancelados</option>
+                            </select>
+                            <input type="text" id="search-buyer" placeholder="Pesquisar comprador..."
+                                style="padding: 8px; border-radius: 6px; border: none; margin-left: 10px; width: 200px; background-color: #212B36; color: #ffff;">
                         </div>
-                        <span>Token API <i id="info-i" data-message="Insira o Token API Mercado Pago em Produção. Sem ele, os pagamentos não funcionarão. Acesse o site do Mercado Pago, entre na sua conta, clique em 'Desenvolvedores' e depois em 'Credenciais'. Copie o Token de Produção." style="margin-left: 5px; font-size: 12px; color: #b3b3b3;"
-                                class="fa-regular fa-circle-question"></i></span>
-                        <input type="password" id="token-input" placeholder="Acess Token/Token do Mercado pago*"
-                            name="NKACNALSDNASKDNASKND" autocomplete="off" required>
-                        <div id="msginfo"></div>
+                    </div>
 
+                    <div style="overflow-x: auto;">
+                        <table class="buyers-table">
+                            <thead>
+                                <tr>
+                                    <th style="padding-left: 20px;">Nome/Email</th>
+                                    <th>Produto</th>
+                                    <th style="width: 120px;">Valor</th>
+                                    <th>Status</th>
+                                    <th>Data</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="buyers-list">
+                                <!-- Dados serão carregados via JavaScript -->
+                                <tr>
+                                    <td colspan="7" style="text-align: center; padding: 20px;">Carregando compradores...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-                        <!-- <div class="div-url-link" style="display: flex; align-items: center;  width: 100% !important;">
-                        <input type="text" id="image" style="margin-right: 5px;" placeholder="Link da Imagem do Produto*" required>
+            <!-- Modal de Formulário -->
+            <div class="modal-overlay" id="modal-overlay">
+                <div class="modal" id="product-modal">
+                    <div style="display: flex; align-items: center; padding: 0px; cursor: pointer;">
+                        <i id="close-modal"
+                            style="display:flex; padding: 7px 9px; margin-right: 6px; background: rgb(102 102 102); color: white; border-radius: 50px;"
+                            class="fa-solid fa-xmark"></i>
+                        <h2>Adicionar Produto</h2>
+                    </div>
+                    <input type="text" id="name" placeholder="Nome do Produto*" required>
+
+                    <textarea id="description" placeholder="Descrição do Produto*" required></textarea>
+                    <div class="div-url-link"
+                        style="display: flex; align-items: center !important;  width: 100% !important;">
+                        <div class="price-div" style="margin-right: 5px !important; margin-top: 3px !important;">
+                            <span>R$ </span>
+                            <input type="text" id="price" maxlength="6" placeholder="Preço do produto*" value="0,00"
+                                required>
+                        </div>
+                        <input type="text" id="nome_vendedor" placeholder="Nome do vendedor*" required>
+                    </div>
+
+                    <input type="text" id="url_produto" autocomplete="off" placeholder="Link Produto/Drive*" required>
+
+                    <div class="div-url-link" style="display: flex; align-items: center;  width: 100% !important;">
+                        <input type="text" id="image" style="margin-right: 5px;"
+                            placeholder="Link da Imagem do Produto*" required>
                         <input type="text" id="banner" placeholder="Link do Banner (opcional)">
-                    </div> -->
-                    
-                        <div class="btn-div"
-                            style="display: flex; width: 100%; align-items: center; justify-content: end;">
-                            <button class="btn" id="btn-config-save" style="width: 100px;">SALVAR</button>
+                    </div>
+
+                    <!-- Toggle Cronômetro -->
+                    <div style="display: flex; align-items: center; margin-top: -10px;">
+                        <label for="countdown-toggle" id="countdown-label" style="margin-right: 5px;">Cronômetro</label>
+                        <div class="toggle-wrapper">
+                            <input type="checkbox" id="countdown-toggle" class="toggle">
+                            <span class="toggle-label" id="toggle-label"></span>
                         </div>
                     </div>
+                    <div class="btn-div" style="display: flex; width: 100%; align-items: center; justify-content: end;">
+                        <button class="btn" id="save-product" style="width: 100px;">SALVAR</button>
+                    </div>
                 </div>
+            </div>
 
+            <!-- Modal de Configurações --->
+            <div class="config-overlay" id="config-overlay">
+                <div class="config" id="config-modal">
+                    <div style="display: flex; align-items: center; padding: 0px; cursor: pointer;">
+                        <i id="close-modal-config"
+                            style="display:flex; padding: 7px 9px; margin-right: 6px; background: rgb(102 102 102); color: white; border-radius: 50px;"
+                            class="fa-solid fa-xmark"></i>
+                        <h2>Configurações</h2>
+                    </div>
+                    <span>Token API <i id="info-i"
+                            data-message="Insira o Token API Mercado Pago em Produção. Sem ele, os pagamentos não funcionarão. Acesse o site do Mercado Pago, entre na sua conta, clique em 'Desenvolvedores' e depois em 'Credenciais'. Copie o Token de Produção."
+                            style="margin-left: 5px; font-size: 12px; color: #b3b3b3;"
+                            class="fa-regular fa-circle-question"></i></span>
+                    <input type="password" id="token-input" placeholder="Acess Token/Token do Mercado pago*"
+                        name="NKACNALSDNASKDNASKND" autocomplete="off" required>
+                    <div id="msginfo"></div>
 
+                    <div class="btn-div" style="display: flex; width: 100%; align-items: center; justify-content: end;">
+                        <button class="btn" id="btn-config-save" style="width: 100px;">SALVAR</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

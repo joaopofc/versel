@@ -1,11 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@400;500&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@400;500&display=swap');
 
 :root {
     --color-border: #999999;
     --color-place-branc: #d8d8d8 !important;
+    --color-primary: #002844;
+    --color-secondary: #1db954;
+    --color-danger: #dc3545;
+    --color-warning: #ffc107;
+    --color-info: #17a2b8;
+    --color-dark: #212B36;
+    --color-light: #f8f9fa;
+    --color-gray: #6c757d;
+    --sidebar-width: 250px;
 }
-
 
 /* ============ RESET GLOBAL ============ */
 * {
@@ -24,7 +32,7 @@ body {
 
 /* ============ SIDEBAR ============ */
 .sidebar {
-    width: 250px;
+    width: var(--sidebar-width);
     background: #fff;
     position: fixed;
     padding: 30px 20px;
@@ -35,7 +43,9 @@ body {
     top: 0;
     bottom: 0;
     border-right: 1px solid #e0e0e0;
+    z-index: 1000;
 }
+
 .sidebar h2 {
     font-size: 20px;
     font-weight: 600;
@@ -62,14 +72,20 @@ body {
     align-items: center;
     padding: 12px 20px;
     border-radius: 8px;
-    transition: background 0.3s ease;
-    color: #ffff !important;
+    transition: all 0.3s ease;
+    color: #e1e1e1 !important;
 }
 
 .sidebar ul li p:hover,
 .sidebar ul li a:hover {
     background: #f0f0f5 !important;
     color: #000 !important;
+}
+
+.sidebar ul li p.active,
+.sidebar ul li a.active {
+    background: #58585829 !important;
+    color: white !important;
 }
 
 .user-logger {
@@ -97,14 +113,14 @@ body {
 .user-logger-div p {
     margin: 0 10px 3px 10px;
     font-size: 14px;
-    color: #f5f5f5;
+    color: #333;
     font-weight: 500;
 }
 
 .user-logger p {
     margin: 0 10px 3px 10px;
     font-size: 13px;
-    color: #f5f5f5;
+    color: #666;
     font-weight: 500;
 }
 
@@ -119,13 +135,13 @@ body {
     cursor: pointer;
 }
 
-
 /* ============ CONTEÚDO PRINCIPAL ============ */
 .main {
     flex: 1;
     width: 100%;
     padding: 40px;
-    margin-left: 250px;
+    margin-left: var(--sidebar-width);
+    transition: margin-left 0.3s ease;
 }
 
 /* ============ HEADER ============ */
@@ -175,6 +191,115 @@ header h1 {
     color: #111;
 }
 
+/* ============ PÁGINAS SPA ============ */
+.page {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.page.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============ TABELA DE COMPRADORES ============ */
+.buyers-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.buyers-table th,
+.buyers-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.buyers-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #555;
+}
+
+.buyers-table tr:hover {
+    background-color: #f5f5f5;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-approved {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-cancelled {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.buyer-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+
+.btn-sm i {
+    margin-right: 5px;
+}
+
+.btn-view {
+    background-color: #15c67d;
+    color: white;
+}
+
+.btn-view:hover {
+    background-color: #138496;
+}
+
+.btn-contact {
+    background-color: var(--color-secondary);
+    color: white;
+}
+
+.btn-contact:hover {
+    background-color: #169c45;
+}
+
 /* ============ DARK MODE ============ */
 @media (prefers-color-scheme: dark) {
     body {
@@ -216,25 +341,32 @@ header h1 {
     .card p {
         color: #fff;
     }
+
+    .buyers-table {
+        background: #212B36;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .buyers-table th,
+    .buyers-table td {
+        color: #ddd;
+        border-bottom: 1px solid #333;
+    }
+
+    .buyers-table th {
+        background-color: #1a2229;
+        color: #bbb;
+    }
+
+    .buyers-table tr:hover {
+        background-color: #1e2833;
+    }
 }
 
-
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-header h1 {
-    font-size: 24px;
-    font-weight: bold;
-}
-
+/* ============ BOTÕES ============ */
 .btn {
     font-family: Inter;
-    box-shadow: inset 0 -4px #0002;
+    box-shadow: inset 0 -4px rgba(0, 0, 0, 0.1);
     width: auto + 53px;
     margin-top: 10px;
     padding: 14px 14px 14px 14px;
@@ -298,6 +430,7 @@ th {
 .btn-edit:hover {
     background: #218838;
 }
+
 .btn-contact {
     background: #007bff;
     color: white;
@@ -311,9 +444,11 @@ th {
 .btn-edit.INATIVOp {
     display: none;
 }
+
 .btn-contact {
     display: none;
 }
+
 .btn-contact.ATIVO {
     display: none;
 }
@@ -323,8 +458,6 @@ th {
 }
 
 /* ============ MODAL DE FORMULÁRIO ============ */
-
-
 .modal-overlay,
 .config-overlay {
     position: fixed;
@@ -384,7 +517,6 @@ th {
     background: transparent;
     min-width: 100%;
     max-width: 100%;
-
 }
 
 #msginfo {
@@ -397,13 +529,13 @@ th {
     color: #fff;
     padding: 10px 5px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     z-index: 1000;
     max-width: 120%;
     min-width: 70%;
     text-align: center;
     font-size: 14px;
-  }
+}
 
 .fa-regular.fa-circle-question {
     cursor: pointer;
@@ -411,10 +543,10 @@ th {
     font-size: 14px;
     margin-left: 5px;
 }
+
 .fa-regular.fa-circle-question:hover {
     color: #fbff00;
 }
-
 
 .modal input,
 .config input,
@@ -448,7 +580,6 @@ th {
 .modal .div-url-link input {
     min-width: 2% !important;
 }
-
 
 .btn-edit,
 .btn-delete,
@@ -492,7 +623,6 @@ th {
     gap: 10px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
     align-items: center;
-
 }
 
 .capa-produto-placeholder {
@@ -565,14 +695,7 @@ th {
     }
 }
 
-
-
-
-
 /* ============ CARD DE PRODUTOS ============ */
-
-
-
 #product-list {
     display: flex !important;
     flex-wrap: wrap;
@@ -587,7 +710,6 @@ th {
     padding: 15px;
     width: auto;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    /* Três colunas que dividem o espaço igualmente */
     display: flex;
     gap: 10px;
     align-items: center;
@@ -605,18 +727,14 @@ th {
     flex: 1;
 }
 
-
-
 .nome-produto {
     margin: 0;
     font-size: 15px;
     color: white;
-
     width: 200px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-
 }
 
 .tipo-produto {
@@ -653,9 +771,6 @@ th {
 .INATIVO {
     background-color: #dc3545;
 }
-
-
-
 
 /* Estilo do TOAST */
 #toast-container {
@@ -705,11 +820,6 @@ th {
         transform: translateY(10px);
     }
 }
-
-
-
-
-
 
 /* Fundo escuro com desfoque */
 .popup-overlay {
@@ -811,11 +921,6 @@ th {
     background-color: #555;
 }
 
-
-
-
-
-
 /* Estilo do Toggle */
 .toggle-wrapper {
     display: flex;
@@ -860,7 +965,6 @@ th {
 
 .toggle:checked:before {
     transform: translateX(25px);
-
 }
 
 .toggle-label {
@@ -874,19 +978,7 @@ th {
     content: "Ativo";
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /* Estilo do Toggle */
-
 input,
 textarea,
 .price-div {
@@ -903,23 +995,19 @@ textarea,
 
 ::-webkit-input-placeholder {
     color: var(--color-place-branc) !important;
-
 }
 
 ::-moz-placeholder {
     color: var(--color-place-branc) !important;
-
 }
 
 ::-moz-placeholder {
     color: var(--color-place-branc) !important;
-
 }
 
 :-ms-input-placeholder {
     color: var(--color-place-branc) !important;
 }
-
 
 .price-div {
     margin: 0 0 10px 0 !important;
@@ -929,7 +1017,6 @@ textarea,
     align-items: center;
     justify-content: center;
     padding-left: 15px;
-
 }
 
 .price-div input {
@@ -937,7 +1024,6 @@ textarea,
     height: auto;
     margin: 0 !important;
     padding: 10px 4px;
-
 }
 
 .price-div span {
@@ -956,9 +1042,6 @@ textarea:focus,
     outline: none;
 }
 
-
-
-
 /* ============ RESPONSIVIDADE ============ */
 @media (max-width: 1024px) {
     body {
@@ -968,9 +1051,11 @@ textarea:focus,
     .card-produto {
         width: 100%;
     }
+
     .card-produto-placeholder.placeholder {
         width: 100%;
     }
+
     .nome-produto {
         margin: 0;
         font-size: 18px;
@@ -979,17 +1064,19 @@ textarea:focus,
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-    
     }
+
     .tipo-produto {
         margin: 2px 0;
         font-size: 18px;
         font-weight: 600;
         color: #bbb;
     }
+
     #status-produto {
         font-size: 18px;
     }
+
     .sidebar {
         width: 220px;
     }
@@ -1003,7 +1090,6 @@ textarea:focus,
     body {
         font-family: 'Inter', sans-serif !important;
     }
-    
 
     .sidebar {
         position: absolute;
@@ -1024,11 +1110,16 @@ textarea:focus,
     }
 }
 
-
 .aba-produto header {
     position: relative;
 }
-
+a {
+    color: #fff;
+}
+p {
+    color: #fff;
+    margin-bottom: 6px;
+}
 #count-prod {
     font-size: 12px;
     color: #1d1d1d;
@@ -1038,4 +1129,79 @@ textarea:focus,
     padding: 3px 9.5px;
     border-radius: 50%;
     position: absolute;
+}
+
+/* Botão de menu para mobile */
+.menu-toggle {
+    display: none;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1100;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: flex;
+    }
+
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .main {
+        margin-left: 0;
+    }
+}
+
+/* Estilos para o modal */
+.ob-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.atv {
+    display: block !important;
+}
+
+.ob-modal-content {
+    background-color: #404040;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ob-close-modal {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.ob-close-modal:hover {
+    color: rgb(255, 59, 59);
 }
