@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="shortcut icon" type="image/png" href="imagens/osl.ico">
+    <link rel="shortcut icon" type="image/png" href="imagens/icon-tawros.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -12,7 +12,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-database.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="dashboard.css">
-    <title>Dashboard Tawros</title>
+    <title>Dashboard Tawros</title>   
 </head>
 
 <body>
@@ -31,16 +31,20 @@
 
     <div class="supra-side" style="display: flex; width: 100vw; position: relative;">
         <div class="sidebar">
-            
+
             <h2>Dash Tawros</h2>
             <p style="font-size: 11px; color: grey; margin-left: 60px;">Versão 1.4.3</p>
             <ul class="off">
-                <li ><p ><i class="fa-regular fa-money-bill-1"
-                            style="margin-right: 7px; transform: translateY(1px);"></i>Visão Geral</p></li>
+                <li>
+                    <p><i class="fa-regular fa-money-bill-1"
+                            style="margin-right: 7px; transform: translateY(1px);"></i>Visão Geral</p>
+                </li>
                 <li><a href="https://wa.me/5584994239716?text=Preciso+de+ajuda"><i class="fa-brands fa-whatsapp"
                             style="margin-right: 7px; transform: translateY(1px);"></i>Suporte</a></li>
-                <li id="btn-config"><p ><i class="fa-solid fa-gear"
-                            style="margin-right: 7px; transform: translateY(1px);"></i>Configurações</p></li>
+                <li id="btn-config">
+                    <p><i class="fa-solid fa-gear"
+                            style="margin-right: 7px; transform: translateY(1px);"></i>Configurações</p>
+                </li>
             </ul>
         </div>
 
@@ -85,7 +89,7 @@
                     <h1>Gerenciar Produtos <span id="count-prod">1</span></h1>
                     <button class="btn" id="btn-add">+ Adicionar Produto</button>
                 </header>
-                
+
                 <div id="fake-product-list">
                     <!-- Fake Card Placeholder -->
                     <div class="card-produto-placeholder placeholder">
@@ -145,7 +149,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
 
                     <!-- <div class="card-produto">
                         <img src='https://i.pinimg.com/736x/05/3d/1e/053d1e19206de76b0a758c444db24f68.jpg'
@@ -279,15 +283,18 @@
                                 class="fa-solid fa-xmark"></i>
                             <h2>Configurações</h2>
                         </div>
-                        <span>Token API   <i class="fa-regular fa-circle-question"></i></span>
-                        <input type="password" id="token-input" placeholder="Public Key/Token do Mercado pago*" name="NKACNALSDNASKDNASKND"
-                            autocomplete="off" required>
+                        <span>Token API <i id="info-i" data-message="Insira o Token API Mercado Pago em Produção. Sem ele, os pagamentos não funcionarão. Acesse o site do Mercado Pago, entre na sua conta, clique em 'Desenvolvedores' e depois em 'Credenciais'. Copie o Token de Produção." style="margin-left: 5px; font-size: 12px; color: #b3b3b3;"
+                                class="fa-regular fa-circle-question"></i></span>
+                        <input type="password" id="token-input" placeholder="Acess Token/Token do Mercado pago*"
+                            name="NKACNALSDNASKDNASKND" autocomplete="off" required>
+                        <div id="msginfo"></div>
+
 
                         <!-- <div class="div-url-link" style="display: flex; align-items: center;  width: 100% !important;">
                         <input type="text" id="image" style="margin-right: 5px;" placeholder="Link da Imagem do Produto*" required>
                         <input type="text" id="banner" placeholder="Link do Banner (opcional)">
                     </div> -->
-
+                    
                         <div class="btn-div"
                             style="display: flex; width: 100%; align-items: center; justify-content: end;">
                             <button class="btn" id="btn-config-save" style="width: 100px;">SALVAR</button>

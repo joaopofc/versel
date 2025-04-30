@@ -120,6 +120,30 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    const popup = document.getElementById('msginfo');
+
+    function showPopup(message) {
+        popup.innerText = message;
+        popup.style.display = 'block';
+
+    }
+    function hidePopup() {
+        setTimeout(() => {
+            popup.style.display = 'none';
+        }, 1000);
+    }
+
+    document.querySelectorAll('#info-i').forEach(item => {
+        item.addEventListener('mouseover', () => {
+            const message = item.getAttribute('data-message');
+            showPopup(message);
+        });
+        item.addEventListener('mouseout', () => {
+            hidePopup();
+        });
+
+    });
+
     closeModal.addEventListener("click", () => {
         modal.classList.remove("active");
         modalOverlay.classList.remove("active");
@@ -338,8 +362,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     abrirPopup();
                 });
             });
-            
-            
+
+
             document.querySelectorAll(".confirmar").forEach(button => {
                 button.addEventListener("click", (event) => {
                     const productId = event.target.getAttribute("data-id");
@@ -378,7 +402,7 @@ document.addEventListener("DOMContentLoaded", () => {
             clearInterval(intervalo);
         }, 5000); // Agora atualiza a cada 5 segundos
     });
-    
+
 
     function editProduct(productId) {
         if (!productId) {
@@ -512,11 +536,13 @@ async function updateDashboard() {
                     const ticketMedioValue = totalVendas > 0 ? totalTicketMedio / totalVendas : 0;
 
                     // Atualiza o dashboard
-                    document.getElementById("faturamento").textContent = `R$ ${totalFaturamento.toFixed(2).replace(".", ",")}`;
                     document.getElementById("totalVendas").textContent = totalVendas;
-                    document.getElementById("ticketMedio").textContent = `R$ ${ticketMedioValue.toFixed(2).replace(".", ",")}`;
                     document.getElementById("quantPix").textContent = totalVendasPerdidas + totalVendas;
-                    document.getElementById("pixValue").textContent = `R$ ${totalFaturamentoPerdido.toFixed(2).replace(".", ",")}`;
+
+                    document.getElementById("faturamento").textContent = `R$ ${totalFaturamento.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                    document.getElementById("ticketMedio").textContent = `R$ ${ticketMedioValue.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                    document.getElementById("pixValue").textContent = `R$ ${totalFaturamentoPerdido.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
                 });
             }
         });
@@ -603,7 +629,7 @@ function redirectToLogin() {
     localStorage.removeItem('email');
     localStorage.removeItem('userid');
     setTimeout(() => {
-        window.location.href = `login.html?logout=true`;
+        window.location.href = `login?logout=true`;
     }, 2000);
 }
 
@@ -612,7 +638,7 @@ function redirectToLogin() {
     localStorage.removeItem('email');
     localStorage.removeItem('userid');
     setTimeout(() => {
-        window.location.href = `login.html?logout=true`;
+        window.location.href = `login?logout=true`;
     }, 2000);
 }
 
