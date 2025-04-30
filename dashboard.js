@@ -64,81 +64,37 @@
                 sidebar.classList.toggle('active');
             });
 
-            // Função para atualizar a URL e o histórico de navegação
-            function updateURL(page) {
-                const baseUrl = window.location.origin;
-                let newUrl = baseUrl;
-                
-                if (page === 'vendas') {
-                    newUrl += '/vendas';
-                }
-                
-                // Atualiza a URL sem recarregar a página
-                window.history.pushState({ page }, '', newUrl);
-            }
-
-            // Função para lidar com o popstate (quando o usuário navega pelo histórico)
-            window.addEventListener('popstate', (event) => {
-                if (event.state && event.state.page) {
-                    navigateToPage(event.state.page);
-                } else {
-                    navigateToPage('dashboard');
-                }
-            });
-
-            // Função para navegar entre páginas
-            function navigateToPage(page) {
-                // Atualizar navegação ativa
-                navLinks.forEach(nav => nav.classList.remove('active'));
-                document.querySelector(`.nav-link[data-page="${page}"]`).classList.add('active');
-
-                // Esconder todas as páginas
-                pages.forEach(p => p.classList.remove('active'));
-
-                // Mostrar página selecionada
-                document.getElementById(`${page}-page`).classList.add('active');
-                currentPage = page;
-
-                // Atualizar título
-                document.querySelector(`#${page}-page h1`).scrollIntoView();
-
-                // Carregar dados específicos da página
-                if (page === 'vendas') {
-                    loadBuyers();
-                }
-
-                // Fechar menu mobile se estiver aberto
-                if (window.innerWidth <= 768) {
-                    sidebar.classList.remove('active');
-                }
-            }
-
             // Navegação entre páginas
             navLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
                     const page = link.getAttribute('data-page');
-                    
-                    // Atualiza a URL
-                    updateURL(page);
-                    
-                    // Navega para a página
-                    navigateToPage(page);
+
+                    // Atualizar navegação ativa
+                    navLinks.forEach(nav => nav.classList.remove('active'));
+                    link.classList.add('active');
+
+                    // Esconder todas as páginas
+                    pages.forEach(p => p.classList.remove('active'));
+
+                    // Mostrar página selecionada
+                    document.getElementById(`${page}-page`).classList.add('active');
+                    currentPage = page;
+
+                    // Atualizar título
+                    document.querySelector(`#${page}-page h1`).scrollIntoView();
+
+                    // Carregar dados específicos da página
+                    if (page === 'buyers') {
+                        loadBuyers();
+                    }
+
+                    // Fechar menu mobile se estiver aberto
+                    if (window.innerWidth <= 768) {
+                        sidebar.classList.remove('active');
+                    }
                 });
             });
-
-            // Verificar a URL inicial ao carregar a página
-            function checkInitialURL() {
-                const path = window.location.pathname;
-                if (path.includes('/vendas')) {
-                    navigateToPage('vendas');
-                } else {
-                    navigateToPage('dashboard');
-                }
-            }
-
-            // Executa a verificação da URL inicial
-            checkInitialURL();
 
             // Função para carregar compradores
             function loadBuyers() {
