@@ -574,7 +574,7 @@
         let countdownDuration = 10 * 60
         startCountdown(countdownDuration)
 
-        document.getElementById('phone').addEventListener('input', function (e) {
+        document.getElementById('tel').addEventListener('input', function (e) {
             let value = e.target.value
             value = value.replace(/\D/g, '').replace(/^55/, '+55 ')
             if (value.length > 6) {
@@ -585,7 +585,7 @@
             }
             e.target.value = value
         })
-        var tell = document.getElementById('phone');
+        var tell = document.getElementById('tel');
 
         getStorage();
 
