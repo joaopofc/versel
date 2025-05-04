@@ -12,7 +12,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-database.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="dashboard.css">
-    <title>Dashboard Tawros</title>   
+    <title>Dashboard Tawros</title>
 </head>
 
 <body>
@@ -253,36 +253,50 @@
                             class="fa-solid fa-xmark"></i>
                         <h2>Adicionar Produto</h2>
                     </div>
-                    <input type="text" id="name" placeholder="Nome do Produto*" required>
-
-                    <textarea id="description" placeholder="Descrição do Produto*" required></textarea>
-                    <div class="div-url-link"
-                        style="display: flex; align-items: center !important;  width: 100% !important;">
+                    <div id="prod-div">
+                        <input type="text" id="name" placeholder="Nome do Produto*" required>
+                        <textarea id="description" placeholder="Descrição do Produto*" required></textarea>
+                        <div class="div-url-link"
+                            style="display: flex; align-items: center !important;  width: 100% !important;">
+                            <div class="price-div" style="margin-right: 5px !important; margin-top: 3px !important;">
+                                <span>R$ </span>
+                                <input type="text" id="price" maxlength="6" placeholder="Preço do produto*" value="0,00"
+                                    required>
+                            </div>
+                            <input type="text" id="nome_vendedor" placeholder="Nome do vendedor*" required>
+                        </div>
+                        <input type="text" id="url_produto" autocomplete="off" placeholder="Link Produto/Drive*" required>
+                        <div class="div-url-link" style="display: flex; align-items: center;  width: 100% !important;">
+                            <input type="text" id="image" style="margin-right: 5px;"
+                                placeholder="Link da Imagem do Produto*" required>
+                            <input type="text" id="banner" placeholder="Link do Banner (opcional)">
+                        </div>
+                    </div>
+                    <div id="order-div">
+                        <input type="text" id="oder-name" placeholder="Nome do Orderbump*">
+                        <textarea id="order-description" placeholder="Descrição do Orderbump*"></textarea>
+                        <input type="text" id="order-link" placeholder="Url para entregar do Orderbump*">
                         <div class="price-div" style="margin-right: 5px !important; margin-top: 3px !important;">
                             <span>R$ </span>
-                            <input type="text" id="price" maxlength="6" placeholder="Preço do produto*" value="0,00"
+                            <input type="text" id="price-order" maxlength="6" placeholder="Preço do produto*" value="0,00"
                                 required>
                         </div>
-                        <input type="text" id="nome_vendedor" placeholder="Nome do vendedor*" required>
+                        <div class="btn-div" style="display: flex; width: 100%; align-items: center; justify-content: end;">
+                            <button class="btn" id="save-order" style="width: 100px;">SALVAR</button>
+                        </div>
                     </div>
-
-                    <input type="text" id="url_produto" autocomplete="off" placeholder="Link Produto/Drive*" required>
-
-                    <div class="div-url-link" style="display: flex; align-items: center;  width: 100% !important;">
-                        <input type="text" id="image" style="margin-right: 5px;"
-                            placeholder="Link da Imagem do Produto*" required>
-                        <input type="text" id="banner" placeholder="Link do Banner (opcional)">
-                    </div>
+                    
 
                     <!-- Toggle Cronômetro -->
-                    <div style="display: flex; align-items: center; margin-top: -10px;">
+                    <div id="cront" style="display: flex; align-items: center; margin-top: -10px;">
                         <label for="countdown-toggle" id="countdown-label" style="margin-right: 5px;">Cronômetro</label>
                         <div class="toggle-wrapper">
                             <input type="checkbox" id="countdown-toggle" class="toggle">
                             <span class="toggle-label" id="toggle-label"></span>
                         </div>
                     </div>
-                    <div class="btn-div" style="display: flex; width: 100%; align-items: center; justify-content: end;">
+                    
+                    <div class="btn-div" style="display: flex; width: 100%; color: #212B36; align-items: center; justify-content: end;">
                         <button class="btn" id="save-product" style="width: 100px;">SALVAR</button>
                     </div>
                 </div>
@@ -303,6 +317,13 @@
                             class="fa-regular fa-circle-question"></i></span>
                     <input type="password" id="token-input" placeholder="Acess Token/Token do Mercado pago*"
                         name="NKACNALSDNASKDNASKND" autocomplete="off" required>
+
+                    <span>Webhook <i id="info-i" data-message="Adicione um Webhook e automatize suas vendas. ATENÇÃO: O Webhook funcionará para todos os produtos."
+                            style="margin-left: 5px; font-size: 12px; color: #b3b3b3;"
+                            class="fa-regular fa-circle-question"></i></span>
+                    <input type="text" id="webhook-input" placeholder="Adicione o Webhook"
+                        name="NKACNALSDNASKDNASKND" autocomplete="off">
+
                     <div id="msginfo"></div>
 
                     <div class="btn-div" style="display: flex; width: 100%; align-items: center; justify-content: end;">

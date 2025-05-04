@@ -504,6 +504,15 @@ th {
     margin-bottom: 15px;
 }
 
+
+
+#order-div {
+    display: none;
+}
+
+
+
+
 .modal input,
 .config input,
 .modal textarea {
@@ -551,9 +560,9 @@ th {
 .modal input,
 .config input,
 .modal textarea,
-.modal .price-div {
+.modal .price-div{
     color: #fff;
-    border: none;
+    border: none !important;
     border-radius: 8px;
     outline: none;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4),
@@ -561,9 +570,9 @@ th {
     transition: 0.3s;
 }
 
-.modal .price-div #price {
-    background: transparent;
-    border: none;
+#price,  #price-order {
+    background: transparent !important;
+    border: none !important;
     outline: none;
     box-shadow: 0 0 0 transparent;
 }
@@ -1019,14 +1028,14 @@ textarea,
     padding-left: 15px;
 }
 
-.price-div input {
+.price-div input, #price-order input {
     border: none;
     height: auto;
     margin: 0 !important;
     padding: 10px 4px;
 }
 
-.price-div span {
+.price-div span, #price-div span {
     font-size: 16px;
     color: #717070;
     margin-left: 10px;

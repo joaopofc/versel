@@ -178,7 +178,7 @@ h3 {
 
 .pags {
     height: 40px;
-    width: 70px;
+    width: 100%;
     border: 1.6px solid var(--inpt-color);
     display: flex;
     justify-content: center;
@@ -280,9 +280,8 @@ form p {
     padding: 10px 10px 10px 15px;
 }
 
-input {
+/* input {
     font-family: var(--font-sat-normal);
-    /* color: #636363; */
     color: #2c2c2c;
 
     width: 100%;
@@ -293,7 +292,48 @@ input {
     font-size: 13px;
     outline: none;
     transition: border-color 0.3s ease;
+} */
+
+
+.form-control {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
 }
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.2);
+}
+.form-group {
+    margin-bottom: 20px;
+    font-family: Inter;
+}
+/* Phone Input Mask */
+.tel-input {
+    position: relative;
+}
+
+.tel-input:before {
+    content: "+55";
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(10%);
+    color: var(--text-light);
+    pointer-events: none;
+}
+
+.tel-input input {
+    padding-left: 50px !important;
+}
+
+
 
 .bob, .copy {
     position: fixed;

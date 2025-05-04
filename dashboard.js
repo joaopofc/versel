@@ -33,11 +33,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnConfig = document.getElementById("btn-config");
     const btnConfigSave = document.getElementById("btn-config-save");
     const saveProduct = document.getElementById("save-product");
+    const saveOrder = document.getElementById("save-order");
+    const addOrderBumpBtn = document.getElementById("btn-add-order");
+    
     const closeModal = document.getElementById("close-modal");
     const countProd = document.getElementById("count-prod");
     const closeModalConfig = document.getElementById("close-modal-config");
     const countdownToggle = document.getElementById("countdown-toggle");
     const tokenInput = document.getElementById("token-input");
+    const webhook = document.getElementById("webhook-input");
     const productName = document.getElementById("name");
     const name_vendedor = document.getElementById("nome_vendedor");
     const productPrice = document.getElementById("price");
@@ -62,6 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
     menuToggle.addEventListener('click', () => {
         sidebar.classList.toggle('active');
     });
+
 
     // Navegação entre páginas
     navLinks.forEach(link => {
@@ -97,74 +102,102 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Função para carregar compradores
     function loadBuyers() {
-        const buyersList = document.getElementById("buyers-list");
-        const filterStatus = document.getElementById("filter-status").value;
-        const searchTerm = document.getElementById("search-buyer").value.toLowerCase();
+    const buyersList = document.getElementById("buyers-list");
+    const filterStatus = document.getElementById("filter-status").value;
+    const searchTerm = document.getElementById("search-buyer").value.toLowerCase();
 
-        buyersList.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px;">Carregando compradores...</td></tr>';
+    buyersList.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px;">Carregando compradores...</td></tr>';
 
-        let totalBuyers = 0;
-        let approvedBuyers = 0;
-        let pendingBuyers = 0;
+    let totalBuyers = 0;
+    let approvedBuyers = 0;
+    let pendingBuyers = 0;
+    let allOrders = []; // Array para armazenar todos os pedidos antes de ordenar
 
-        productRef.once("value", snapshot => {
-            buyersList.innerHTML = '';
+    productRef.once("value", snapshot => {
+        buyersList.innerHTML = '';
+        allOrders = []; // Resetar array
 
-            snapshot.forEach(productSnapshot => {
-                const product = productSnapshot.val();
-                const productId = productSnapshot.key;
+        snapshot.forEach(productSnapshot => {
+            const product = productSnapshot.val();
+            const productId = productSnapshot.key;
 
-                // Verificar se o produto pertence ao vendedor
-                if (product.email_vendedor === emailVendedor) {
-                    const ordersRef = productRef.child(productId).child("pedidos");
+            if (product.email_vendedor === emailVendedor) {
+                const ordersRef = productRef.child(productId).child("pedidos");
 
-                    ordersRef.once("value", ordersSnapshot => {
-                        ordersSnapshot.forEach(orderSnapshot => {
-                            const order = orderSnapshot.val();
-                            const orderId = orderSnapshot.key;
+                ordersRef.once("value", ordersSnapshot => {
+                    ordersSnapshot.forEach(orderSnapshot => {
+                        const order = orderSnapshot.val();
+                        const orderId = orderSnapshot.key;
 
-                            // Verificar filtros
-                            const matchesStatus = filterStatus === 'all' || order.status === filterStatus;
-                            const matchesSearch = searchTerm === '' ||
-                                (order.nome && order.nome.toLowerCase().includes(searchTerm)) ||
-                                (order.email && order.email.toLowerCase().includes(searchTerm));
+                        const matchesStatus = filterStatus === 'all' || order.status === filterStatus;
+                        const matchesSearch = searchTerm === '' ||
+                            (order.nome && order.nome.toLowerCase().includes(searchTerm)) ||
+                            (order.email && order.email.toLowerCase().includes(searchTerm));
 
-                            if (matchesStatus && matchesSearch) {
-                                totalBuyers++;
-                                if (order.status === "approved") approvedBuyers++;
-                                if (order.status === "pending") pendingBuyers++;
+                        if (matchesStatus && matchesSearch) {
+                            totalBuyers++;
+                            if (order.status === "approved") approvedBuyers++;
+                            if (order.status === "pending") pendingBuyers++;
 
-                                // Formatar data
-                                let dataFormatada = 'N/A';
-                                if (order.data && order.data.data) {
-                                    const [dia, mes, ano] = order.data.data.split('/');
-                                    dataFormatada = `${dia}/${mes}`;
-                                }
+                            // Formatar data e criar objeto Date para ordenação
+                            let dataObj = null;
+                            let dataFormatada = 'N/A';
+                            
+                            if (order.data && order.data.data) {
+                                const [dia, mes, ano] = order.data.data.split('/');
+                                dataFormatada = `${dia}/${mes}/${ano}`;
+                                dataObj = new Date(`${mes}/${dia}/${ano}`); // Criar objeto Date para ordenação
+                            }
 
-                                // Adicionar linha na tabela
-                                const row = document.createElement('tr');
-                                row.innerHTML = `
-                                    <td><strong>${order.nome || 'N/A'}</strong></br>${order.email || 'N/A'}</td>
-                                    <td>${product.nome || 'N/A'}</td>
-                                    <td>R$ ${order.preco ? parseFloat(order.preco).toFixed(2).replace('.', ',') : '0,00'}</td>
-                                    <td><span class="status-badge status-${order.status || 'pending'}">${order.status === 'approved' ? 'Aprovado' :
-                                        order.status === 'pending' ? 'Pendente' :
-                                            order.status === 'cancelled' ? 'Cancelado' : 'N/A'
-                                    }</span></td>
-                                    <td>${dataFormatada}</td>
-                                    <td class="buyer-actions">
-                                        <button class="btn-sm btn-view" data-id="${orderId}" data-product="${productId}">
-                                            <i class="fas fa-eye"></i> Ver
-                                        </button>
-                                        <button class="btn-sm btn-contact" onclick="window.open('mailto:${order.email || ''}?subject=Compra do produto ${product.nome || ''}')">
-                                            <i class="fas fa-envelope"></i> Email
-                                        </button>
-                                    </td>
-                                `;
-                                buyersList.appendChild(row);
+                            // Armazenar todos os pedidos com informações necessárias
+                            allOrders.push({
+                                order,
+                                product,
+                                productId,
+                                orderId,
+                                dataFormatada,
+                                dataObj // Usaremos isso para ordenação
+                            });
+                        }
+                    });
 
+                    // Ordenar pedidos pela data (mais recente primeiro)
+                    allOrders.sort((a, b) => {
+                        if (!a.dataObj && !b.dataObj) return 0;
+                        if (!a.dataObj) return 1; // Sem data vai para o final
+                        if (!b.dataObj) return -1; // Sem data vai para o final
+                        return b.dataObj - a.dataObj; // Ordem decrescente
+                    });
 
-                                const viewButton = row.querySelector('.btn-view');
+                    // Limpar a lista antes de adicionar os itens ordenados
+                    buyersList.innerHTML = '';
+
+                    // Adicionar pedidos ordenados à tabela
+                    allOrders.forEach(item => {
+                        const { order, product, productId, orderId, dataFormatada } = item;
+
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td><strong>${order.nome || 'N/A'}</strong></br>${order.email || 'N/A'}</td>
+                            <td>${product.nome || 'N/A'}</td>
+                            <td>R$ ${order.preco ? parseFloat(order.preco).toFixed(2).replace('.', ',') : '0,00'}</td>
+                            <td><span class="status-badge status-${order.status || 'pending'}">${order.status === 'approved' ? 'Aprovado' :
+                                order.status === 'pending' ? 'Pendente' :
+                                    order.status === 'cancelled' ? 'Cancelado' : 'N/A'
+                            }</span></td>
+                            <td>${dataFormatada}</td>
+                            <td class="buyer-actions">
+                                <button class="btn-sm btn-view" data-id="${orderId}" data-product="${productId}">
+                                    <i class="fas fa-eye"></i> Ver
+                                </button>
+                                <button class="btn-sm btn-contact" onclick="window.open('mailto:${order.email || ''}?subject=Compra do produto ${product.nome || ''}')">
+                                    <i class="fas fa-envelope"></i> Email
+                                </button>
+                            </td>
+                        `;
+                        buyersList.appendChild(row);
+
+                        const viewButton = row.querySelector('.btn-view');
                                 viewButton.addEventListener('click', () => {
                                     const buyerId = viewButton.getAttribute('data-id');
                                     const productId = viewButton.getAttribute('data-product');
@@ -194,7 +227,6 @@ document.addEventListener("DOMContentLoaded", () => {
                                             <p><strong>Data que gerou o pix:</strong> ${orderPixDataRefer.data} - ${orderPixDataRefer.hora}</p>
                                             <p><strong>Data que pagou:</strong> ${orderPixDataRefer.data_payment} - ${orderPixDataRefer.hora_payment || 'N/A - N/A'}</p>
                                         `;
-                                        console.log(modalContent.innerHTML);
                                         modalRaiz.style.display = "block";
                                         odCloseModal.addEventListener("click", () => { 
                                         modalRaiz.style.display = "none";
@@ -202,24 +234,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
                                     });
                                 });
-
-                            }
-                        });
-
-                        // Atualizar métricas
-                        document.getElementById("total-buyers").textContent = totalBuyers;
-                        document.getElementById("approved-buyers").textContent = approvedBuyers;
-                        document.getElementById("pending-buyers").textContent = pendingBuyers;
-
-                        // Se não houver resultados
-                        if (totalBuyers === 0) {
-                            buyersList.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px;">Nenhum comprador encontrado</td></tr>';
-                        }
                     });
-                }
-            });
+
+                    // Atualizar métricas
+                    document.getElementById("total-buyers").textContent = totalBuyers;
+                    document.getElementById("approved-buyers").textContent = approvedBuyers;
+                    document.getElementById("pending-buyers").textContent = pendingBuyers;
+
+                    if (totalBuyers === 0) {
+                        buyersList.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px;">Nenhum comprador encontrado</td></tr>';
+                    }
+                });
+            }
         });
-    }
+    });
+}
 
 
     // Filtros e busca
@@ -279,7 +308,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const dataRef = database.ref('dados/');
             dataRef.child(emailVendedor.replace(/@/g, "---").replace(/\./g, "--")).update({
-                token: tokenInput.value
+                token: tokenInput.value,
+                webhook: webhook.value
             }).then(() => {
                 console.log("Token atualizado com sucesso.");
                 localStorage.setItem('token', tokenInput.value);
@@ -347,6 +377,11 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 localStorage.setItem('token', data.token);
                 document.getElementById("token-input").value = data.token;
+            }
+            if (data.webhook){
+                document.getElementById("webhook-input").value = data.webhook;
+            } else {
+                document.getElementById("webhook-input").value = '';
             }
         }).catch(error => {
             console.error("Erro ao carregar o token:", error);

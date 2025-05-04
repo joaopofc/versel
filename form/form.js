@@ -115,7 +115,8 @@ document.addEventListener("DOMContentLoaded", () => {
                   email: registerEmail,
                   name: name,
                   tel: tel.replace(/[+\- ]/g, ''), // <-- correção aqui
-                  token: ''
+                  token: '',
+                  webhook: ''
                 }).then(() => {
                   localStorage.setItem('logado', true);
                   document.getElementById('loadingOverlay').style.display = 'flex';
