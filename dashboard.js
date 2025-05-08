@@ -217,7 +217,8 @@ document.addEventListener("DOMContentLoaded", () => {
                                             <p><strong>Order:</strong> #${orderPixRefer.pix_id || 'N/A'}</p>
                                             <p><strong>Nome:</strong> ${orderData.nome || 'N/A'}</p>
                                             <p><strong>Email:</strong> ${orderData.email || 'N/A'}</p>
-                                            <p><strong>Celular:</strong> ${orderData.tel || 'N/A'}<i style="margin-left: 5px" class="fa-brands fa-whatsapp"></i></p>
+                                            <p><strong>Celular:</strong> ${orderData.tel || 'N/A'}<a href="https://wa.me/55${orderData.tel.replace(/[^\d]/g, '')}" target="_blank" 
+     style="margin-left: 5px; color: #25D366;"><i style="margin-left: 5px" class="fa-brands fa-whatsapp"></i></a></p>
                                             <p><strong>Checkout:</strong> <a href='${orderPixRefer.url_pix|| 'N/A'}'>${orderPixRefer.url_pix|| 'N/A'}</a></p>
                                             <p><strong>Produto:</strong> ${product.nome || 'N/A'} - #${productId}</p>
                                             <p><strong>Valor:</strong> R$ ${parseFloat(orderData.preco).toFixed(2).replace('.', ',') || '0,00'}</p>

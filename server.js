@@ -38,7 +38,7 @@ app.post("/create_pix", async (req, res) => {
     }
     precoValid = precoNumerico.toFixed(2);
 
-    console.log("📢 Criando pagamento PIX para:", first_name, last_name, email, precoNumerico); // 🔥 Correção aqui!
+    console.log("Criando pagamento PIX para:", first_name, last_name, email, precoNumerico); // 🔥 Correção aqui!
 
     try {
         const response = await axios.post(
@@ -73,7 +73,7 @@ app.post("/create_pix", async (req, res) => {
             qr_code_base64: response.data.point_of_interaction.transaction_data.qr_code_base64,
             pix_code: response.data.point_of_interaction.transaction_data.qr_code
         });
-        await axios.post("https://ntfy.sh/vendas", "Sua comissão: R$ " + precoValid, {
+        await axios.post("https://ntfy.sh/vendas", "Sua comissão: R$ " + precoValid.replace('.', ','), {
             headers: {
                 "Title": "Pix Gerado!",
                 "Content-Type": "text/plain",
@@ -117,7 +117,7 @@ app.get("/check_payment/:id", async (req, res) => {
         res.json({ status });
 
         if (status === "approved") {
-            await axios.post("https://ntfy.sh/vendas", "Sua comissão: R$ " + precoValid, {
+            await axios.post("https://ntfy.sh/vendas", "Sua comissão: R$ " + precoValid.replace('.', ','), {
                 headers: {
                     "Title": "Venda Aprovada!",
                     "Content-Type": "text/plain",
@@ -213,7 +213,7 @@ app.post('/send-email', (req, res) => {
             <hr style="border: none; border-top: 1px solid #ddd; margin: 25px 0;">
 
             <p style="font-size: 12px; color: #999;">
-                &copy; 2025 <a href="https://ipat.shop/help">Twopay</a>. Todos os direitos reservados.
+                &copy; 2025 <a href="https://ipat.shop/help">Tawros Pay</a>. Todos os direitos reservados.
             </p>
         </div>
     </body>
@@ -284,7 +284,7 @@ app.post('/send-email-marketing', (req, res) => {
             <hr style="border: none; border-top: 1px solid #ddd; margin: 25px 0;">
 
             <p style="font-size: 12px; color: #999;">
-                &copy; 2025 <a href="https://ipat.shop/help">Twopay</a>. Todos os direitos reservados.
+                &copy; 2025 <a href="https://ipat.shop/help">Tawros Pay</a>. Todos os direitos reservados.
             </p>
         </div>
     </body>
