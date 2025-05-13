@@ -2,21 +2,19 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const { v4: uuidv4 } = require("uuid");
 const axios = require("axios");
-const cors = require("cors"); // 🔥 Importando CORS
+const cors = require("cors"); 
 const nodemailer = require("nodemailer");
 
 const app = express();
-app.use(cors()); // 🔥 Habilitando CORS
+app.use(cors()); 
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname)); // Servir arquivos HTML
+app.use(express.static(__dirname)); 
 
-// Access Token do Mercado Pago
-//const token = "APP_USR-4128571484840245-051411-4e2440590f5e3a407cc718aecec17f6e-1361831608";
+
 let tokenValid = null;
 let precoValid = null;
 
-// Criar pagamento PIX
 app.post("/create_pix", async (req, res) => {
     let { nome_completo, email, preco, token } = req.body;
 
@@ -24,13 +22,12 @@ app.post("/create_pix", async (req, res) => {
         return res.status(400).json({ error: "Nome completo e email são obrigatórios!" });
     }
 
-    //   Verificando se o token é válido
+    
     tokenValid = token;
 
-    // Dividindo o nome completo automaticamente
     const nomeArray = nome_completo.trim().split(" ");
-    const first_name = nomeArray[0]; // Primeiro nome
-    const last_name = nomeArray.slice(1).join(" ") || "N/A"; // Restante do nome ou "N/A" se não houver sobrenome
+    const first_name = nomeArray[0];
+    const last_name = nomeArray.slice(1).join(" ") || "N/A";
 
     const precoNumerico = parseFloat(preco);
     if (isNaN(precoNumerico)) {
@@ -105,7 +102,7 @@ app.get("/check_payment/:id", async (req, res) => {
             `https://api.mercadopago.com/v1/payments/${payment_id}`,
             {
                 headers: {
-                    "Authorization": `Bearer ${tokenValid}`
+                    "Authorization": `Bearer ${tokenValid}`,
                 }
             }
         );
@@ -300,7 +297,7 @@ app.post('/send-email-marketing', (req, res) => {
 });
 
 app.get('/ping', (req, res) => {
-    
+
     res.send('pong'); // ou res.status(200).send('pong');
 });
 

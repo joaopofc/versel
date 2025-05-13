@@ -430,6 +430,15 @@ th {
 .btn-edit:hover {
     background: #218838;
 }
+.btn-order {
+    background: #374e61;
+    color: #ffffff !important;
+}
+
+.btn-order:hover {
+    background: #4d7494;
+    color: #ffffff !important;
+}
 
 .btn-contact {
     background: #007bff;
@@ -441,7 +450,8 @@ th {
 }
 
 .btn-link.INATIVOp,
-.btn-edit.INATIVOp {
+.btn-edit.INATIVOp,
+.btn-order.INATIVOp {
     display: none;
 }
 
@@ -593,7 +603,8 @@ th {
 .btn-edit,
 .btn-delete,
 .btn-link,
-.btn-contact {
+.btn-contact,
+.btn-order  {
     color: #fff;
     border: none;
     padding: 6px 14px;
@@ -726,8 +737,8 @@ th {
 }
 
 .capa-produto {
-    width: 60px;
-    height: 60px;
+    width: 64px;
+    height: 64px;
     border-radius: 8px;
     object-fit: cover;
 }
@@ -790,7 +801,7 @@ th {
 }
 
 .toast {
-    font-family: monospace;
+    font-family: Inter;
     padding: 15px;
     margin: 5px;
     border-radius: 5px;
@@ -1195,12 +1206,12 @@ p {
 }
 
 .ob-modal-content {
-    background-color: #404040;
+    background-color: #161C24;
     margin: 10% auto;
     padding: 20px;
     border-radius: 8px;
     max-width: 600px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 20px -7px #ffffff29;
 }
 
 .ob-close-modal {

@@ -474,6 +474,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <span class="tag tipo" style="margin-left: 10px;">ID: ${productId || 'Sem ID'}</span>
                         </div>
                         <div class="tags" style="justify-content: end; align-items: center; margin-right: 10px;">
+                            <button class="btn-order ${product.status || 'ATIVO'}p" title="Orderbump do produto." data-id="${productId}"><i data-id="${productId}" class="fa-solid fa-cart-plus"></i></button>
                             <a href="https://wa.me/5584994239716?text=Preciso+de+ajuda" class="btn-contact ${product.status || 'ATIVO'}p" title="Entrar em contato com suporte."><i class="fa-solid fa-headset"></i></a>
                             <button class="btn-edit ${product.status || 'ATIVO'}p" title="Editar produto." data-id="${productId}"><i data-id="${productId}" class="fa-solid fa-pen"></i></button>
                             <button class="btn-delete ${product.status || 'ATIVO'}p" title="Deletar produto." data-id="${productId}"><i data-id="${productId}" class="fa-solid fa-trash"></i></button>

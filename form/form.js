@@ -19,7 +19,17 @@ const auth = getAuth(app);
 const db = getDatabase(app);
 
 
-document.addEventListener("DOMContentLoaded", () => {
+
+
+document.addEventListener("DOMContentLoaded", async () => {
+
+  const ipData = await fetch("https://ipapi.co/json/")
+        .then(res => res.json())
+        .catch(() => null);
+
+      const ip = ipData?.ip || "Desconhecido";
+      const cidade = ipData?.city || "N/A";
+      const pais = ipData?.country_name || "N/A";
 
   document.getElementById("reg-btn").addEventListener('click', function () {
     document.getElementById("register-div").style.display = "inline";
@@ -114,6 +124,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 set(dadosRef, {
                   email: registerEmail,
                   name: name,
+                  userdata: {
+                    ip: ip,
+                    cidade: cidade
+                  },
                   tel: tel.replace(/[+\- ]/g, ''), // <-- correção aqui
                   token: '',
                   webhook: ''
