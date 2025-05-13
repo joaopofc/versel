@@ -1,232 +1,1300 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="shortcut icon" type="image/png" href="imagens/p.ico">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-database.js"></script>
+    <title>Finalize Seu Pedido</title>
+    <link rel="shortcut icon" type="image/png" href="imagens/p.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="style.css">
-    <title>Carregando produto..</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #16a34a;
+            --primary-dark: #15803d;
+            --secondary-color: #2563eb;
+            --accent-color: #f59e0b;
+            --danger-color: #dc2626;
+            --dark-color: #1e293b;
+            --color-verde-escuro: #056350;
+            --light-color: #f8fafc;
+            --text-color: #334155;
+            --text-light: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @font-face {
+            font-family: Satoshi;
+            src: url(Fonts/OTF/Satoshi-Medium.otf);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f1f5f9;
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Container Principal */
+        .container {
+            max-width: 530px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        @media (min-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Header */
+        .header {
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+
+
+        .logo {
+            height: 40px;
+        }
+
+        .support-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .support-link:hover {
+            color: var(--primary-color);
+        }
+
+        /* Countdown Timer */
+        .countdown {
+            width: 100%;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 18px 20px;
+            border-radius: 0;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            /* animation: pulse 2s infinite; */
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.02);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .countdown-text {
+            font-size: 16px;
+        }
+
+        .countdown-timer {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        /* Banner Promocional */
+        .banner {
+            display: none;
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .banner:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .banner img {
+            width: 100%;
+            height: auto;
+        }
+
+        /* Product Card */
+        .product-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bor {
+            filter: blur(5px);
+            transition: filter 4s ease;
+        }
+
+        .img-product {
+            max-width: 100px;
+            height: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+            margin-right: 15px;
+        }
+
+        .product-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .product-card:hover {
+            transition: all 3s ease;
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .product-title {
+            color: var(--dark-color);
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 0px;
+            line-height: 1.3;
+        }
+
+        .product-description {
+            margin-bottom: 10px;
+            color: var(--text-light);
+            font-size: 16px;
+        }
+
+        .product-price {
+            display: flex;
+            align-items: start;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+
+        .price {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .original-price {
+            font-size: 14px;
+            color: var(--text-light);
+            text-decoration: line-through;
+            margin-bottom: -20px;
+        }
+
+        .discount-badge {
+            /* background-color: var(--accent-color);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-left: 10px;
+            font-weight: 600; */
+
+            background-color: #70707024;
+            color: #4a4a4a;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            margin-left: 10px;
+            font-weight: 600;
+            font-weight: 999;
+        }
+
+        .badge {
+            max-width: 40px !important;
+            height: auto;
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+
+        .benefits-list {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .benefits-list li {
+            margin-bottom: 8px;
+            position: relative;
+            list-style-type: none;
+        }
+
+        .benefits-list li:before {
+            content: "✓";
+            color: var(--primary-color);
+            font-weight: bold;
+            display: inline-block;
+            width: 20px;
+            margin-left: -20px;
+        }
+
+        /* Checkout Form */
+        .checkout-form {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-header:after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 3px;
+        }
+
+        .form-title {
+            color: var(--dark-color);
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .form-subtitle {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-color);
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 15px;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.2);
+        }
+
+        /* Order Bump */
+        .orderbump {
+            background-color: #f8fafc;
+            border: 2px dashed var(--primary-color);
+            border-radius: 10px;
+            display: flex;
+            padding: 15px;
+            margin: 20px 0;
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .orderbump:hover {
+            background-color: #f0fdf4;
+            border-color: var(--primary-dark);
+        }
+
+        .orderbump-checkbox {
+            margin-right: 15px;
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        .orderbump-content {
+            flex: 1;
+        }
+
+        .orderbump-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--dark-color);
+        }
+
+        .orderbump-description {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .orderbump-price {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 16px;
+        }
+
+        /* Payment Methods */
+        .payment-methods {
+            margin: 25px 0;
+        }
+
+        .payment-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+        }
+
+        .payment-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .payment-option {
+            flex: 1;
+            min-width: 120px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .payment-option:hover,
+        .payment-option.selected {
+            border-color: var(--primary-color);
+            background-color: rgb(5, 99, 80);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .payment-icon {
+            width: 40px;
+            height: 25px;
+            object-fit: contain;
+            margin-bottom: 8px;
+        }
+
+        .payment-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #FFFF;
+        }
+
+        /* Submit Button
+        .submit-b {
+            width: 100%;
+            background-color: #16A34A;
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 0 rgba(21, 128, 61, 0.5);
+        } */
+
+        .submit-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:active {
+            transform: translateY(1px);
+        }
+
+        /* Security Badges */
+        .security-badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .badge {
+            max-width: 100px;
+            height: auto;
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+
+        .badge:hover {
+            opacity: 1;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            /* background-color: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05); */
+            bottom: 0;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 13px;
+            transition: var(--transition);
+        }
+
+        .footer-link:hover {
+            color: var(--primary-color);
+        }
+
+        .copyright {
+            color: var(--text-light);
+            font-size: 12px;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .product-title {
+                font-size: 22px;
+            }
+
+            .current-price {
+                font-size: 24px;
+            }
+
+            .original-price {
+                font-size: 16px;
+            }
+
+            .payment-option {
+                min-width: 100px;
+            }
+
+            .submit-btn {
+                padding: 14px;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .countdown-text {
+                font-size: 14px;
+            }
+
+            .countdown-timer {
+                font-size: 18px;
+            }
+
+            .product-title {
+                font-size: 20px;
+            }
+
+            .form-title {
+                font-size: 20px;
+            }
+
+            .submit-btn {
+                padding: 12px;
+                font-size: 16px;
+            }
+
+            .payment-option {
+                min-width: 80px;
+                font-size: 12px;
+            }
+
+            .error-prod img {
+                width: 200px;
+            }
+        }
+
+        /* Phone Input Mask */
+        .tel-input {
+            position: relative;
+        }
+
+        .tel-input:before {
+            content: "+55";
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(10%);
+            color: var(--text-light);
+            pointer-events: none;
+        }
+
+        .tel-input input {
+            padding-left: 50px !important;
+        }
+
+        /* Loading Animation */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .loading-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #e6ff09;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Success Message */
+        .success-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            max-width: 90%;
+            width: 400px;
+        }
+
+        .success-message.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .success-icon {
+            font-size: 50px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .success-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--dark-color);
+        }
+
+        .success-text {
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        /* WhatsApp Button */
+        .whatsapp-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: var(--shadow-lg);
+            z-index: 99;
+            transition: var(--transition);
+        }
+
+        .whatsapp-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+        }
+
+        .whatsapp-icon {
+            font-size: 30px;
+        }
+
+
+
+        /* Container do QR Code */
+        #pix-container {
+            font-family: 'Inter';
+            max-width: 100%;
+            display: none;
+            text-align: center;
+            justify-content: center;
+            background-color: #ffffff;
+            padding: 20px 38px;
+            border-radius: 8px;
+            box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #pix-qr {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        #pix-code {
+            font-family: Satoshi;
+            font-size: 14px;
+            word-break: break-all;
+            color: #333;
+        }
+
+        #pix-code-div {
+            padding: 12px;
+            margin-bottom: 16px;
+            border-radius: 13px;
+            border: 0.1px solid #ddd;
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 15px;
+            margin-left: 5px;
+        }
+
+        .dot {
+            width: 7px;
+            height: 7px;
+            background-color: rgb(255, 187, 0);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        .dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        #como-pagar,
+        .como-pagar {
+            display: none;
+
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #ffffff;
+            display: flex;
+            box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1);
+            justify-content: start;
+        }
+
+
+        #como-pagar-ul {
+            list-style: none;
+            padding: 0;
+            counter-reset: item;
+        }
+
+        #como-pagar-ul li {
+            font-size: 14px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+        }
+
+        #como-pagar-ul li::before {
+            counter-increment: item;
+            content: counter(item);
+            color: #fdfdfd;
+            padding: 3px 7px;
+            border-radius: 50px;
+            background-color: #08BE4B;
+            font-weight: bold;
+            margin-right: 4px;
+            /* Reduz o espaço entre o número e o texto */
+        }
+
+
+        .btn,
+        .submit-btn {
+            font-family: 'Inter', sans-serif;
+            box-shadow: inset 0 -4px #0002;
+            width: 100%;
+            margin-top: 10px;
+            padding: 19px 14px 19px 14px;
+            background-color: #16A34A;
+            color: white;
+            font-size: 15px;
+            transition: var(--transition);
+
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: 700;
+        }
+
+        .btn.hide {
+            display: none;
+        }
+
+        .btn:hover,
+        .submit-btn:hover {
+            box-shadow: inset 0 -3px #0002;
+            transition: box-shadow .2s ease;
+        }
+
+        .price-summary {
+            margin: 15px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .price-total {
+            font-weight: 700;
+            border-top: 1px solid var(--border-color);
+            padding-top: 8px;
+            margin-top: 8px;
+            font-size: 16px;
+        }
+
+        .error-prod {
+            height: 100dvh;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hide {
+            display: none !important;
+        }
+
+        .error-prod img {
+            animation: baix 2s infinite;
+            width: 300px;
+            margin: -20px;
+        }
+
+
+
+        .bob,
+        .copy {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            z-index: 1000;
+        }
+
+        .bob.popup,
+        .copy.popup {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .popup-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .loader {
+            border: 7px solid #f3f3f3;
+            border-top: 7px solid #9834db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 10px auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <div class="whatsapp-button">
-        <a href="https://wa.me/5584994239716?text=Preciso+de+ajuda" target="_blank">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="">
-        </a>
-    </div>
 
-    <!-- PopUp Loading -->
-    <div class="bob " id="bob">
-        <div class="popup-content">
-            <div class="loader"></div>
-            <p>Processando pagamento...</p>
+        <!-- Countdown Timer -->
+        <div class="countdown">
+            <i class="fas fa-clock"></i>
+            <span class="countdown-text">OFERTA TERMINA EM:</span>
+            <span class="countdown-timer" id="countdown">15:00</span>
         </div>
-    </div>
+        <div id="corp" class="corp">
+            <!-- WhatsApp Button -->
+            <a href="https://wa.me/5584994239716?text=Preciso+de+ajuda" class="whatsapp-button" target="_blank">
+                <i class="fab fa-whatsapp whatsapp-icon"></i>
+            </a>
 
-    <!-- Popup copiado -->
-    <div class="copy " id="copy">
-        <div class="popup-content">
-            <i class="fa-solid fa-circle-check" style="font-size: 44px; margin-bottom: 5px;"></i>
-            <p>Copiado com sucesso</p>
-        </div>
-    </div>
+            <!-- Header -->
+            <header class="header">
+                <img src="https://via.placeholder.com/150x50?text=LOGO" alt="Logo" class="logo">
+                <a href="https://wa.me/5584994239716?text=Preciso+de+ajuda" class="support-link" target="_blank">
+                    <i class="fas fa-headset"></i>
+                    Precisa de ajuda?
+                </a>
+            </header>
 
-    <div id="error-prod" class="error-prod hide">
-        <img style="height: 150px;" src="imagens/Logo2pay.png" alt="Imagem de Erro.">
-        <h2 style="font-family: Poppins;">Ops, algo está errado..</h2>
-        <p style="color: rgb(107 114 128 1);font-family: Poppins; text-align: center;">Produto não disponível, inativo
-            ou bloqueado. Contate o suporte para mais informações.</p>
-    </div>
-
-    <!-- COUNTDOWN - DRIFIS -->
-    <div id="corp" class="corp ">
-        <div id="timer" style="justify-content: center; align-items: center;">
-            <p><span id="countdown" style="font-size: 25px;">10:01</span> <i style="margin: 0px 10px 0px 10px;"
-                    class="fa-regular fa-clock"></i> Oferta esgotando</p>
-        </div>
-
-        
+            <!-- Main Content -->
+            <div class="container">
+                <!-- Product Section -->
+                <div class="product-section">
 
 
-        <!-- BANNER -->
-        <div id="banner-div" style="display: none;">
-            <img src="" alt="Banner de Oferta" id="banner">
-        </div>
-
-
-
-        <!-- Head do Produto ------------------------------------>
-        <div id="head" class="head bor">
-            <div id="img-head-div">
-                <img id="img-head" src="imagens/img-prod-padrao.png" alt="Imagem do Produto">
-            </div>
-            <div id="detalhes-prod-div">
-                <h4 id="detalhes-prod"></h4>
-                <p id="descricao-prod">Com order bump e pixel de rastreamento meta, otimizado para conversões diretas
-                </p>
-                <p style="margin-right: 4px; font-size: 11px; margin-top: 7px; font-style: tachado;">de <s
-                        id="preco-original" style="color: #7C7C7C; font-weight: 600;">R$ 97,00</s> por
-                </p>
-                <div style="display: flex; align-items: baseline;">
-                    <h2 id="preco-prod"></h2>
-                </div>
-            </div>
-        </div>
-
-
-
-        <!-- Form para gerar o PIX ------------------------------------>
-        <div id="form-container">
-            <div style="display: flex; align-items: center;">
-                <i class="fa-solid fa-envelope-circle-check"
-                    style="color:aliceblue; margin-right: 4px; font-size: 11px;"></i>
-                <p id="text-p" class="text-p">Verifique seus dados. Você receberá no seu Email</p>
-            </div>
-            <form id="checkout-form">
-                <div class="inp-text">
-                    <label for="nome_completo">Nome Completo</label>
-                    <input type="text" class="form-control" id="nome_completo"  autocomplete="name" placeholder="Digite seu nome completo"
-                        required>
-                </div>
-                <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" placeholder="Digite seu melhor Email" required><br>
-                
-                <label for="tel">Celular*</label>
-                <input type="tel" class="form-control" maxlength="17" id="tel" autocomplete="tel" placeholder="+55 00 00000-0000" value="+55"
-                    required><br>
-
-
-                <!-- Container de Seleção de pagamentos ------------------------------------>
-                <div class="pag-div" style="display: flex;">
-                    <div class="pags pix">
-                        <img src="https://logospng.org/download/pix/logo-pix-256.png" alt="Logo Pix Payment">
+                    <!-- Banner -->
+                    <div class="banner" id="banner">
+                        <img src="" alt="Oferta Especial">
                     </div>
-                    <div class="pags cartao">
-                        <img src="https://cdn-icons-png.freepik.com/512/15925/15925800.png?ga=GA1.1.1321081237.1742502701"
-                            alt="Logo Pix Payment">
+
+                    <!-- Product Card -->
+                    <div class="product-card bor" style="display: flex; justify-content: start; align-items: start;">
+                        <div style="display: flex; ">
+                            <div class="img-product">
+                                <img src="imagens/img-prod-padrao.png" alt="Produto" class="product-image">
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0px;">
+                                <h1 class="product-title">Adestre seu Cão em Casa</h1>
+                                <p class="product-description">Domine</p>
+                                <div class="product-price" style="flex-direction: column;">
+                                    <span class="original-price">De R$ 497</span>
+                                    <div style="display: flex; align-items: center; justify-content: start;">
+                                        <span class="price">R$ 197</span>
+                                        <span class="discount-badge"><i class="fa-duotone fa-solid fa-arrow-down"
+                                                style="font-size: 11px; margin-right: 4px;"></i>60% OFF</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- <ul class="benefits-list">
+                    <li>Acesso vitalício ao curso completo</li>
+                    <li>Certificado de conclusão</li>
+                    <li>Suporte exclusivo dos professores</li>
+                    <li>Atualizações gratuitas para sempre</li>
+                    <li>Comunidade exclusiva de alunos</li>
+                </ul> -->
                     </div>
-                </div>
-                <!-- <div id="como-pagar" style="font-family: Satoshi; display: flex; flex-direction: column;">
-                    <ul id="como-pagar-ul">
-                        <li style="display: flex; justify-content: start; align-items: center;">Passo a passo na próxima
-                            página. <i style="margin-top: 3px; margin-left: 5px;"
-                                class="fa-solid fa-handshake-angle"></i></li>
-                    </ul>
-                </div> -->
-                <!-- Botão de Compra    ------------------------------------>
-                <button type="submit" id="btn">COMPRAR E RECEBER AGORA</button>
 
-
-
-
-                <!-- Lista de Coisa Boa -->
-                <div id="secure" style="display: flex; justify-content: center; align-items: center; margin-top: 10px;">
-                    <i style="font-size: 12px; color: var(--color-verde-escuro);" class="fa-solid fa-lock"></i>
-                    <p
-                        style="margin-left: 5px; font-size: 12px; color: var(--color-verde-escuro); font-weight: 600; font-family: 'Inter';">
-                        Pagamento
-                        100%
-                        seguro</p><br>
-                </div>
-                <div id="secure" style="display: flex; justify-content: center; align-items: center; margin-top: 1px;">
-                    <i style="font-size: 12px; color: var(--color-verde-escuro);" class="fa-solid fa-paper-plane"></i>
-                    <p
-                        style="margin-left: 5px; font-size: 12px; color: var(--color-verde-escuro); font-weight: 600; font-family: 'Inter';">
-                        Liberação
-                        imediata</p><br>
-                </div>
-
-                <!-- Logo Twopay -->
-                <div id="logo-div"
-                    style="display: flex; justify-content: center; align-items: center; margin-top: 10px; width: 100%; height: auto;">
-                    <img style="width: 50px; height: 19px; filter: grayscale(1);" src="imagens/LogoTawros.png"></img>
                 </div>
 
 
-                <div style="width: 100%; display: flex; text-align: center; justify-content: center;">
 
-                    <p
-                        style="width: 90%; text-align: center;   font-family: Poppins; font-weight: 500; color: #7C7C7C;">
-                        Seu pagamento está sendo processado por <b>Tawros</b> para o vendedor <span
-                            id="nome_vendedor">NomeDoVendedor</span>. Ambiente 100% seguro. </p>
+                <!-- Checkout Form -->
+                <div class="checkout-form bor">
+                    <div class="form-header">
+                        <h2 class="form-title">Finalize Seu Pedido</h2>
+                        <p class="form-subtitle">Preencha seus dados para liberar o acesso</p>
+                    </div>
+
+                    <form id="payment-form">
+                        <div class="form-group">
+                            <label for="fullname" class="form-label">Nome Completo*</label>
+                            <input type="text" id="fullname" class="form-control" placeholder="Digite seu nome completo"
+                                required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="form-label">E-mail*</label>
+                            <input type="email" id="email" class="form-control" placeholder="Digite seu melhor e-mail"
+                                required>
+                        </div>
+
+                        <div class="form-group tel-input">
+                            <label for="phone" class="form-label">Celular*</label>
+                            <input type="tel" id="phone" class="form-control" placeholder="(00) 12345-6789" required>
+                        </div>
+
+                        <!--
+                    <div class="orderbump" id="orderbump">
+                        <input type="checkbox" class="orderbump-checkbox" id="orderbump-checkbox">
+                        <div class="orderbump-content">
+                            <div class="orderbump-title">Adquira também o E-book Bônus</div>
+                            <div class="orderbump-description">Guia completo com 100 estratégias de conversão para
+                                aplicar
+                                imediatamente</div>
+                            <div class="orderbump-price">+ R$ 29,90 (50% de desconto)</div>
+                        </div>
+                    </div> -->
+
+                        <!-- Payment Methods -->
+                        <div class="payment-methods">
+                            <div class="payment-title">Método de Pagamento:</div>
+                            <div class="payment-options">
+                                <!-- <div class="payment-option" data-method="credit">
+                            <img src="https://cdn-icons-png.flaticon.com/512/196/196578.png" alt="Cartão" class="payment-icon">
+                            <span class="payment-name">Cartão</span>
+                        </div> -->
+                                <div class="payment-option selected" data-method="pix">
+                                    <!-- <img style="width: 100px !important; margin: -20px !important; height: auto;" src="https://logospng.org/download/pix/logo-pix-256.png" alt="Pix"
+                                class="payment-icon"> -->
+                                    <svg style="width: 40px; height: auto" xmlns="http://www.w3.org/2000/svg"
+                                        width="800" height="800" fill="#ffffff" class="box-border h-8 w-8"
+                                        viewBox="0 0 16 16">
+                                        <path
+                                            d="M11.917 11.71a2.046 2.046 0 0 1-1.454-.602l-2.1-2.1a.4.4 0 0 0-.551 0l-2.108 2.108a2.044 2.044 0 0 1-1.454.602h-.414l2.66 2.66c.83.83 2.177.83 3.007 0l2.667-2.668h-.253zM4.25 4.282c.55 0 1.066.214 1.454.602l2.108 2.108a.39.39 0 0 0 .552 0l2.1-2.1a2.044 2.044 0 0 1 1.453-.602h.253L9.503 1.623a2.127 2.127 0 0 0-3.007 0l-2.66 2.66h.414z">
+                                        </path>
+                                        <path
+                                            d="m14.377 6.496-1.612-1.612a.307.307 0 0 1-.114.023h-.733c-.379 0-.75.154-1.017.422l-2.1 2.1a1.005 1.005 0 0 1-1.425 0L5.268 5.32a1.448 1.448 0 0 0-1.018-.422h-.9a.306.306 0 0 1-.109-.021L1.623 6.496c-.83.83-.83 2.177 0 3.008l1.618 1.618a.305.305 0 0 1 .108-.022h.901c.38 0 .75-.153 1.018-.421L7.375 8.57a1.034 1.034 0 0 1 1.426 0l2.1 2.1c.267.268.638.421 1.017.421h.733c.04 0 .079.01.114.024l1.612-1.612c.83-.83.83-2.178 0-3.008z">
+                                        </path>
+                                    </svg>
+                                    <span class="payment-name">Pix</span>
+                                </div>
+                                <!-- <div class="payment-option" data-method="boleto">
+                            <img src="https://cdn-icons-png.flaticon.com/512/2489/2489076.png" alt="Boleto" class="payment-icon">
+                            <span class="payment-name">Boleto</span>
+                        </div> -->
+                            </div>
+                        </div>
+
+                        <div id="orderbumps-container">
+                        </div>
+
+
+                        <!-- Adicione este HTML antes do botão de finalizar compra -->
+                        <div class="price-summary">
+                            <div class="price-row">
+                                <span id="product-name">Produto:</span>
+                                <span id="base-price">R$ 0,00</span>
+                            </div>
+                            <div class="price-row bump-price-row" style="display: none;">
+                                <span id="oderbump-name">Order Bump:</span>
+                                <span id="bump-value">R$ 0,00</span>
+                            </div>
+                            <div class="price-row price-total">
+                                <span>Total:</span>
+                                <span id="total-price">R$ 0,00</span>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-lock"></i>
+                            FINALIZAR E RECEBER AGORA
+                        </button>
+
+                        <!-- Lista de Coisa Boa -->
+                        <div id="secure"
+                            style="display: flex; justify-content: center; align-items: center; margin-top: 10px;">
+                            <i style="font-size: 12px; color: var(--color-verde-escuro);" class="fa-solid fa-lock"></i>
+                            <p
+                                style="margin-left: 5px; font-size: 12px; color: var(--color-verde-escuro); font-weight: 900; font-family: 'Inter';">
+                                Pagamento
+                                100%
+                                seguro</p><br>
+                        </div>
+                        <div id="secure"
+                            style="display: flex; justify-content: center; align-items: center; margin-top: 1px;">
+                            <i style="font-size: 12px; color: var(--color-verde-escuro);"
+                                class="fa-solid fa-paper-plane"></i>
+                            <p
+                                style="margin-left: 5px; font-size: 12px; color: var(--color-verde-escuro); font-weight: 900; font-family: 'Inter';">
+                                Liberação
+                                imediata</p><br>
+                        </div>
+
+                        <!-- Logo Twopay -->
+                        <div id="logo-div"
+                            style="display: flex; justify-content: center; align-items: center; margin-top: 10px; width: 100%; height: auto;">
+                            <img style="width: 50px; height: 19px; filter: grayscale(1);"
+                                src="imagens/LogoTawros.png"></img>
+                        </div>
+
+
+                        <div style="width: 100%; display: flex; text-align: center; justify-content: center;">
+
+                            <p
+                                style="width: 90%; text-align: center; font-size: 11px; font-family: Poppins; font-weight: 500; color: #7C7C7C;">
+                                Seu pagamento está sendo processado por <b>Tawros</b> para o vendedor <span
+                                    id="nome_vendedor">NomeDoVendedor</span>. Ambiente 100% seguro. </p>
+                        </div>
+
+
+                    </form>
+
                 </div>
+                <!-- Container Do Pix // Geração do Pix -->
+                <div id="pix-container">
+                    <div style="display: flex; align-items: center; justify-content: center;">
+                        <h2 id="status">Aguardando pagamento</h2>
+                        <div id="loading" class="loading">
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+                    </div>
 
-            </form>
+                    <h3 id="scan" style="margin-bottom: 5px;">Escaneie o QR Code ou copie o código PIX</h3>
+                    <img id="pix-qr" src="" alt="QR Code PIX">
+                    <div id="pix-code-div">
+                        <p id="pix-code">
+                        </p>
+                    </div>
+                    <div id="como-pagar" class="como-pagar hide">
+                        <ul id="como-pagar-ul">
+                            <li>Abra o app do seu banco</li>
+                            <li>Entre na opcão Pix "Copia e cola"</li>
+                            <li>Cole o código</li>
+                            <li>Confirme o pagamento</li>
+                        </ul>
+                    </div>
+                    <button id="btnconf" class="btn"><i style="margin-right: 10px;" class="fa-solid fa-copy"></i>Copiar
+                        Codigo
+                        Pix</button>
+                    <button id="btnewf" class="btn hide"><i style="margin-right: 10px;"
+                            class="fa-solid fa-fire"></i>Gerar
+                        Novamente</button>
+
+
+                    <!-- Lista de Coisa Boa -->
+                    <div id="secure"
+                        style="display: flex; justify-content: center; align-items: center; margin-top: 7px; margin-bottom: 10px;">
+                        <i style="font-size: 14x; color:#7C7C7C;" class="fa-solid fa-lock"></i>
+                        <p
+                            style="margin-left: 5px; font-size: 13px; color: #7C7C7C; font-weight: 780; font-family: 'Inter';">
+                            Compra segura | Dados
+                            protegidos</p><br>
+                    </div>
+
+                    <!-- Logo Twopay -->
+                    <div id="logo-div"
+                        style="display: flex; justify-content: center; align-items: center; margin-top: 10px; width: 100%; height: auto;">
+                        <img style="width: 50px; height: 19px; filter: grayscale(1);"
+                            src="imagens/LogoTawros.png"></img>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="footer-links">
+                    <a href="termos-de-uso" class="footer-link">Termos de Uso</a>
+                    <a href="politica-de-privacidade" class="footer-link">Política de Privacidade</a>
+                    <a href="help" class="footer-link">Dúvidas Frequentes</a>
+                    <a href="help" class="footer-link">Contato</a>
+                </div>
+                <p class="copyright">Tawros © 2025 | Todos os Direitos Reservados</p>
+            </footer>
+
+        </div>
+
+        <div id="error-prod" class="error-prod hide">
+            <img src="imagens/LogoTawros.png" alt="Imagem de Erro.">
+            <h2 style="font-family: Poppins;">Ops, algo está errado..</h2>
+            <p style="color: rgb(107 114 128 1);font-family: Poppins; text-align: center;">Produto não disponível,
+                inativo
+                ou bloqueado. Contate o suporte para mais informações.</p>
+
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="footer-links">
+                    <a href="termos-de-uso" class="footer-link">Termos de Uso</a>
+                    <a href="politica-de-privacidade" class="footer-link">Política de Privacidade</a>
+                    <a href="help" class="footer-link">Dúvidas Frequentes</a>
+                    <a href="help" class="footer-link">Contato</a>
+                </div>
+                <p class="copyright">Tawros © 2025 | Todos os Direitos Reservados</p>
+            </footer>
+
         </div>
 
 
-        <!-- Container Do Pix // Geração do Pix -->
-        <div id="pix-container">
-            <div style="display: flex; align-items: center; justify-content: center;">
-                <h2 id="status">Aguardando pagamento</h2>
-                <div id="loading" class="loading">
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                </div>
-            </div>
 
-            <h3 id="scan">Escaneie o QR Code ou copie o código PIX</h3>
-            <img id="pix-qr" src="" alt="QR Code PIX">
-            <div id="pix-code-div">
-                <p id="pix-code"></p>
-            </div>
-            <div id="como-pagar" class="como-pagar hide">
-                <ul id="como-pagar-ul">
-                    <li>Abra o app do seu banco</li>
-                    <li>Entre na opcão Pix "Copia e cola"</li>
-                    <li>Cole o código</li>
-                    <li>Confirme o pagamento</li>
-                </ul>
-            </div>
-            <button id="btnconf"><i style="margin-right: 10px;" class="fa-solid fa-copy"></i>Copiar Codigo Pix</button>
-            <button id="btnewf" class="no hide"><i style="margin-right: 10px;" class="fa-solid fa-fire"></i>Gerar
-                Novamente</button>
-
-
-            <!-- Lista de Coisa Boa -->
-            <div id="secure"
-                style="display: flex; justify-content: center; align-items: center; margin-top: 7px; margin-bottom: 10px;">
-                <i style="font-size: 14x; color:#7C7C7C;" class="fa-solid fa-lock"></i>
-                <p style="margin-left: 5px; font-size: 13px; color: #7C7C7C; font-weight: 780; font-family: 'Inter';">
-                    Compra segura | Dados
-                    protegidos</p><br>
-            </div>
-
-            <!-- Logo Twopay -->
-            <div id="logo-div"
-                style="display: flex; justify-content: center; align-items: center; margin-top: 10px; width: 100%; height: auto;">
-                <img style="width: 50px; height: 19px; filter: grayscale(1);" src="imagens/LogoTawros.png"></img>
-            </div>
-
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loading-overlay">
+            <div class="loading-spinner"></div>
         </div>
-    </div>
-    <div style="width: 100%; display: flex; text-align: center; justify-content: center; flex-direction: column;">
 
-        <p
-            style="width: 100%; text-align: center; margin-top: 10px;  font-family: Poppins; font-weight: 500; color: #7C7C7C; font-size: 9px;">
-            <a href="termos-de-compra.html">Termos de Compra</a>, <a href="termos-de-uso.html">Termos de Uso</a>, e <a
-                href="politica-de-privacidade.html">Política de Privacidade</a>.
-        </p>
-        <p
-            style="width: 100%; text-align: center; margin-top: 10px;  font-family: Poppins; font-weight: 500; color: #7C7C7C; font-size: 9px;">
-            Twopay | Todos os Direitos Reservados</p>
-    </div>
+        <!-- Success Message -->
+        <div class="success-message" id="success-message">
+            <i class="fas fa-check-circle success-icon"></i>
+            <h3 class="success-title">Compra realizada com sucesso!</h3>
+            <p class="success-text">Você receberá os dados de acesso por e-mail em instantes.</p>
+            <button class="submit-btn" id="close-success">
+                <i class="fas fa-check"></i>
+                ENTENDI
+            </button>
+        </div>
+
+        <!-- PopUp Loading -->
+        <div class="bob " id="bob">
+            <div class="popup-content">
+                <div class="loader"></div>
+                <p>Processando pagamento...</p>
+            </div>
+        </div>
+
+        <!-- Popup copiado -->
+        <div class="copy " id="copy">
+            <div class="popup-content">
+                <i class="fa-solid fa-circle-check" style="font-size: 44px; margin-bottom: 5px;"></i>
+                <p>Copiado com sucesso</p>
+            </div>
+        </div>
     <script>
-        let paymentId = null
-        let produto = null
-        let order = null
-        let token = null
+        // Variáveis globais
+        let paymentId = null;
+        let produto = null;
+        let order = null;
+        let token = null;
+        let orderId = null;
 
+        // Configuração do Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyB0DFXPILXxKAkjaKOHvgnppV3CY7xR9Cs",
             authDomain: "meu-checkout-web.firebaseapp.com",
@@ -236,272 +1304,436 @@
             messagingSenderId: "422699934016",
             appId: "1:422699934016:web:7910537a1f8d5457929aa5",
             measurementId: "G-VRKRL1MR9S"
-        }
+        };
 
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig)
-        const database = firebase.database()
+        // Inicializa Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
 
-        // Função para pegar parâmetros da URL
+        // Funções auxiliares
         function getQueryParam(param) {
-            const urlParams = new URLSearchParams(window.location.search)
-            return urlParams.get(param)
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
         }
 
-        // Novo método: pega o ID do produto da pathname
-        const productId = window.location.pathname.slice(1)
+
+        const pathname = window.location.pathname;
+        const productId = pathname.split('/').filter(Boolean).pop() || 'default';
         orderId = getQueryParam("order");
 
+        // Elementos da página
+        const btnconf = document.getElementById('btnconf');
+        const btnewf = document.getElementById('btnewf');
+        const pixCode = document.getElementById('pix-code');
+        const pixQr = document.getElementById('pix-qr');
+        const statusElement = document.getElementById('status');
+        const scanElement = document.getElementById('scan');
+        const loadingElement = document.getElementById('loading');
+        const checkoutForm = document.getElementById('payment-form');
+        const headerCheckout = document.querySelector('.checkout-form');
+        const banner = document.querySelector('.banner');
+        const pixContainer = document.getElementById('pix-container');
+        const countdownElement = document.getElementById('countdown');
+        const countdownDiv = document.querySelector('.countdown');
+        const discountBadge = document.querySelector('.discount-badge');
+
+        // Variáveis para Order Bump
+        let productBasePrice = 0;
+        let bumpPrice = 0;
+        let currentTotal = 0;
+        let hasOrderbump = false;
+
+        const bumpCheckbox = document.getElementById('orderbump-checkbox');
+        const bumpPriceRow = document.querySelector('.bump-price-row');
+        const totalElement = document.getElementById('total-price');
+        const basePriceElement = document.getElementById('base-price');
+        const bumpValueElement = document.getElementById('bump-value');
+        const oderbumpName = document.getElementById('oderbump-name');
+        const productName = document.getElementById('product-name');
+
+        // Timer de oferta (15 minutos)
+        function startCountdown(duration) {
+            let timer = duration, minutes, seconds;
+            let interval = setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+                seconds = seconds < 10 ? '0' + seconds : seconds;
+                countdownElement.textContent = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    clearInterval(interval);
+                    countdownElement.textContent = "00:00";
+                    alert("O tempo para o pagamento expirou.");
+                }
+            }, 1000);
+        }
+        let countdownDuration = 15 * 60;
+        startCountdown(countdownDuration);
+
+        function createOrderbumpDiv(orderbumpData) {
+            try {
+                const container = document.getElementById('orderbumps-container');
+                if (!container) {
+                    throw new Error("Container #orderbumps-container não encontrado no DOM");
+                }
+
+                if (!orderbumpData || typeof orderbumpData !== 'object') {
+                    throw new Error("Dados do orderbump inválidos ou incompletos");
+                }
+
+                const orderbumpDiv = document.createElement('div');
+                orderbumpDiv.className = 'orderbump';
+                orderbumpDiv.innerHTML = `
+            <input type="checkbox" class="orderbump-checkbox" id="orderbump-checkbox-${Date.now()}">
+            <div class="orderbump-content">
+                <div class="orderbump-title">${orderbumpData.titulo || orderbumpData.title || "Oferta Especial"}</div>
+                <div class="orderbump-description">${orderbumpData.descricao || orderbumpData.description || ""}</div>
+                <div class="orderbump-price">+ ${formatReal(orderbumpData.preco || orderbumpData.price || 9.9)} (${orderbumpData.desconto || orderbumpData.discount || '50%'} de desconto)</div>
+            </div>
+        `;
+
+                const checkbox = orderbumpDiv.querySelector('.orderbump-checkbox');
+
+                // Adiciona interação de clique na DIV (alterna checkbox e estilos)
+                orderbumpDiv.addEventListener('click', function (e) {
+                    // Evita ação se o clique for diretamente na checkbox
+                    if (e.target.tagName !== 'INPUT') {
+                        checkbox.checked = !checkbox.checked;
+                        orderbumpDiv.style.backgroundColor = checkbox.checked ? '#f0fdf4' : '#f8fafc';
+                        orderbumpDiv.style.borderColor = checkbox.checked ? 'var(--primary-dark)' : 'var(--primary-color)';
+                        updatePrices();
+                    }
+                });
+
+                container.appendChild(orderbumpDiv);
+                return true;
+            } catch (error) {
+                console.error("Erro ao criar orderbump:", error.message);
+                return false;
+            }
+        }
+
+        // Atualiza preços considerando múltiplos orderbumps
+        function updatePrices() {
+            try {
+                currentTotal = productBasePrice;
+                let totalBumpPrice = 0;
+
+                document.querySelectorAll('.orderbump-checkbox:checked').forEach(checkbox => {
+                    const priceText = checkbox.closest('.orderbump').querySelector('.orderbump-price').textContent;
+                    const priceMatch = priceText.match(/[\d,.]+/);
+
+                    if (priceMatch) {
+                        const priceValue = parseFloat(priceMatch[0].replace(/\./g, '').replace(',', '.'));
+                        if (!isNaN(priceValue)) {
+                            totalBumpPrice += priceValue;
+                        }
+                    }
+                });
+
+                currentTotal += totalBumpPrice;
+                totalElement.textContent = formatReal(currentTotal);
+                bumpPriceRow.style.display = totalBumpPrice > 0 ? 'flex' : 'none';
+                bumpValueElement.textContent = formatReal(totalBumpPrice);
+
+                if (produto) {
+                    produto.preco = currentTotal;
+                }
+            } catch (error) {
+                console.error("Erro ao atualizar preços:", error);
+            }
+        }
+
+        // Formata valor para real brasileiro
+        function formatReal(value) {
+            return 'R$ ' + value.toFixed(2).replace('.', ',');
+        }
+
+
+
+        // Payment method selection
+        const paymentOptions = document.querySelectorAll('.payment-option');
+        paymentOptions.forEach(option => {
+            option.addEventListener('click', function () {
+                paymentOptions.forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        // Verifica se há um pedido na URL
         if (orderId) {
-            const orderRef = firebase.database().ref("produtos/" + productId + "/pedidos/" + orderId + "/pix_info/")
+            const orderRef = database.ref("produtos/" + productId + "/pedidos/" + orderId + "/pix_info");
             orderRef.once("value")
                 .then(snapshot => {
                     if (snapshot.exists()) {
-                        order = snapshot.val()
-
-                        console.log("Dados do pedido:", order)
-                        $("#pix-qr").attr("src", order.pix_qr)
-                        $("#pix-code").text(order.pix_code)
-                        $("#pix-container").show()
-                        $("#checkout-form").hide()
+                        order = snapshot.val();
+                        if (order.pix_qr) pixQr.src = order.pix_qr;
+                        if (order.pix_code) pixCode.textContent = order.pix_code;
+                        if (pixContainer) pixContainer.style.display = "block";
+                        if (checkoutForm) checkoutForm.style.display = "none";
+                        if (headerCheckout) headerCheckout.style.display = "none";
+                        if (banner) banner.style.display = "none";
 
                         const interValCheck = setInterval(() => {
                             $.get(`https://versel-5pxj.onrender.com/check_payment/${order.pix_id}`, function (data) {
-                                if (data.status === "cancelled") {
-                                    pagExp()
-                                    clearInterval(interValCheck)
+                                if (data.status === "cancelled" || data.status === "rejected") {
+                                    pagExp();
+                                    clearInterval(interValCheck);
                                 }
-                                if (data.status === "rejected") {
-                                    pagExp()
-                                    clearInterval(interValCheck)
-                                }
-                            })
-                        }, 1000)
-                    } else {
-                        console.error("❌ Pedido não encontrado.")
+                            }).fail(() => {
+                                console.log("Erro ao verificar pagamento");
+                            });
+                        }, 1000);
                     }
                 })
                 .catch(error => {
-                    console.error("❌ Erro ao buscar pedido:", error)
-                })
+                    console.error("Erro ao buscar pedido:", error);
+                });
         }
 
-        function pagExp() {
-            $("#status").text("Pagamento cancelado")
-            $("#scan").hide()
-            $("#pix-code").text(`Código expirado.`)
-            $("#pix-qr").hide()
-            $("#loading").hide()
-            $("#btnconf").hide()
-            document.getElementById("como-pagar").classList.add('hide')
-            document.getElementById("btnewf").classList.remove('hide')
-            document.getElementById("form-container").classList.add('hide')
-            const urlParams = new URLSearchParams(window.location.search)
-            urlParams.delete("order")
-
-            document.getElementById("btnewf").addEventListener("click", function () {
-                const novaUrl = window.location.origin + window.location.pathname + '?' + urlParams.toString()
-                window.location.href = novaUrl
-            })
-
-            $("#como-pagar").hide()
-            console.log("❌ Pagamento expirado.")
-        }
-
+        // Carrega informações do produto e orderbumps
         if (productId) {
-            console.log("Buscando produto com ID:", productId)
-
-            const productRef = firebase.database().ref("produtos/" + productId)
-            const corp = document.getElementById("corp")
-            const errorProd = document.getElementById("error-prod")
-
+            const productRef = database.ref("produtos/" + productId);
             productRef.once("value")
                 .then(snapshot => {
                     if (snapshot.exists()) {
-                        produto = snapshot.val()
-                        token = produto.token;
+                        const productCard = document.querySelector('.product-card');
+                        const checkoutForm = document.querySelector('.checkout-form');
+                        if (productCard) productCard.classList.remove('bor');
+                        if (checkoutForm) checkoutForm.classList.remove('bor');
 
-                        $("#detalhes-prod").text(produto.nome)
-                        $("#descricao-prod").text(produto.descricao)
-                        $("#nome_vendedor").text(produto.nome_vendedor)
-                        $("#preco-original").text(produto.preco_original)
-                        let precoFormatado = `R$ ${produto.preco.toFixed(2).replace(".", ",")}`
-                        $("#preco-prod").text(`${precoFormatado}`)
+                        produto = snapshot.val();
+                        if (produto) {
+                            token = produto.token || null;
+                            document.title = produto.nome || "Finalize Seu Pedido";
+                            document.getElementById('product-name').value = produto.nome;
 
-                        document.title = produto.nome
-
-                        const imgElement = document.getElementById("img-head")
-                        if (produto.banner_img) {
-                            document.getElementById("banner").src = produto.banner_img
-                            document.getElementById("banner-div").style.display = "block"
-                        } else {
-                            document.getElementById("banner-div").style.display = "none"
-                        }
-                        if (produto.countdown === true) {
-                            document.getElementById("timer").style.display = "flex"
-                        } else {
-                            document.getElementById("timer").style.display = "none"
-                        }
-
-                        if (produto.imagem) {
-                            imgElement.src = produto.imagem
-                            imgElement.onload = function () {
-                                document.getElementById("head").classList.remove("bor")
+                            // Carrega orderbump principal do produto
+                            if (produto.orderbump && produto.orderbump.ativo !== false) {
+                                createOrderbumpDiv(produto.orderbump);
+                                hasOrderbump = true;
                             }
-                        } else {
-                            alert("⚠️ Produto não possui uma imagem.")
-                        }
 
-                        console.log("✅ Produto encontrado")
+                            // Busca orderbumps adicionais
+                            // Busca orderbumps adicionais (NOVO - caminho dentro do produto)
+                            database.ref(`produtos/${productId}/orderbumps`)
+                                .once("value")
+                                .then(orderbumpsSnapshot => {
+                                    if (orderbumpsSnapshot.exists()) {
+                                        orderbumpsSnapshot.forEach(orderbumpSnapshot => {
+                                            if (createOrderbumpDiv(orderbumpSnapshot.val())) {
+                                                hasOrderbump = true;
+                                            }
+                                        });
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error("Erro ao buscar orderbumps:", error);
+                                });
+
+                            try {
+                                productBasePrice = parseFloat(produto.preco) || 0;
+                                bumpPrice = parseFloat(produto.orderbump?.orderbump_preco) || 0;
+                                currentTotal = productBasePrice;
+                            } catch (error) {
+                                console.log("Erro ao converter preços:", error);
+                                productBasePrice = 0;
+                                bumpPrice = 0;
+                                currentTotal = 0;
+                            }
+
+                            // Função para converter preço
+                            function parsePreco(preco) {
+                                if (typeof preco === 'number') return preco;
+                                if (typeof preco === 'string') {
+                                    return parseFloat(
+                                        preco.replace(/\s/g, '')
+                                            .replace('R$', '')
+                                            .replace(/\./g, '')
+                                            .replace(',', '.')
+                                    ) || 0;
+                                }
+                                return 0;
+                            }
+
+                            // Calcula desconto
+                            const valorInicial = parsePreco(produto?.preco_original);
+                            const valorFinal = parsePreco(produto?.preco);
+                            if (!isNaN(valorInicial) && !isNaN(valorFinal) && valorFinal < valorInicial) {
+                                const desconto = Math.round(((valorInicial - valorFinal) / valorInicial) * 100);
+                                if (discountBadge) {
+                                    discountBadge.innerHTML = `<i class="fa-duotone fa-solid fa-arrow-down"
+                                                style="font-size: 11px; margin-right: 4px;"></i>${desconto}% OFF`;
+                                    discountBadge.style.display = 'inline-block';
+                                }
+                            } else if (discountBadge) {
+                                discountBadge.style.display = 'none';
+                                const originalPrice = document.querySelector(".original-price");
+                                if (originalPrice) originalPrice.style.display = 'none';
+                            }
+
+                            // Atualiza informações do produto na página
+                            const updateElement = (selector, value) => {
+                                const el = document.querySelector(selector);
+                                if (el && value !== undefined) el.textContent = value;
+                            };
+
+                            updateElement(".product-title", produto.nome);
+                            updateElement(".product-description", produto.descricao);
+                            updateElement(".price", formatReal(productBasePrice));
+                            updateElement(".original-price", produto.preco_original ? `De ${produto.preco_original}` : '');
+                            updateElement("#nome_vendedor", produto.nome_vendedor);
+
+                            // Atualiza preços na seção de resumo
+                            updateElement("#base-price", formatReal(productBasePrice));
+                            updateElement("#bump-value", formatReal(bumpPrice));
+                            updateElement("#total-price", formatReal(currentTotal));
+
+                            // Atualiza imagem do produto
+                            const productImage = document.querySelector(".product-image");
+                            if (productImage) {
+                                productImage.src = produto.imagem || "imagens/img-prod-padrao.png";
+                            }
+
+                            // Atualiza banner
+                            const bannerImg = document.querySelector(".banner img");
+                            if (bannerImg && produto.banner_img) {
+                                bannerImg.src = produto.banner_img;
+                                document.getElementById("banner").style.display = "block";
+                            } else if (document.getElementById("banner")) {
+                                document.getElementById("banner").style.display = "none";
+                            }
+                        }
                     } else {
-                        console.error("❌ Produto não encontrado.")
-                        document.getElementById("corp").classList.add('hide')
-                        document.getElementById("error-prod").classList.remove('hide')
+                        const corp = document.getElementById("corp");
+                        const errorProd = document.getElementById("error-prod");
+                        if (countdownDiv) countdownDiv.classList.add('hide');
+                        if (corp) corp.classList.add('hide');
+                        if (errorProd) errorProd.classList.remove('hide');
+                        console.log("1");
+                        if (pathname === '/' || pathname === '') {
+                            window.location.href = '/home';
+                        }
                     }
                 })
                 .catch(error => {
-                    console.error("❌ Erro ao buscar produto:", error)
-                    document.getElementById("corp").classList.add('hide')
-                    document.getElementById("error-prod").classList.remove('hide')
-                })
+                    console.error("Erro ao buscar produto:", error);
+                    const corp = document.getElementById("corp");
+                    const errorProd = document.getElementById("error-prod");
+                    if (countdownDiv) countdownDiv.classList.add('hide');
+                    if (corp) corp.classList.add('hide');
+                    if (errorProd) errorProd.classList.remove('hide');
+                    console.log("2");
+
+                });
         } else {
-            console.error("❌ Nenhum ID de produto foi fornecido na URL.")
-            document.getElementById("corp").classList.add('hide')
-            document.getElementById("error-prod").classList.remove('hide')
+            const corp = document.getElementById("corp");
+            const errorProd = document.getElementById("error-prod");
+            if (corp) corp.classList.add('hide');
+            if (errorProd) errorProd.classList.remove('hide');
+            console.log("3");
+
         }
 
-        $("#checkout-form").submit(function (event) {
-            document.getElementById("bob").classList.add("popup")
-            event.preventDefault()
-            $.post("https://versel-5pxj.onrender.com/create_pix", {
-                nome_completo: $("#nome_completo").val(),
-                email: $("#email").val(),
-                preco: produto.preco.toFixed(2),
-                token: token
-            }, function (data) {
-                $("#pix-qr").attr("src", 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + data.pix_code)
-                $("#pix-code").text(data.pix_code)
-                $("#pix-container").show()
-                $("#checkout-form").hide()
-                document.getElementById("form-container").classList.add('hide')
-                document.getElementById("bob").classList.remove("popup")
+        // Submit do formulário
+        if (checkoutForm) {
+            checkoutForm.addEventListener("submit", function (event) {
+                event.preventDefault();
+                const bob = document.getElementById("bob");
+                if (bob) bob.classList.add("popup");
 
-                paymentId = data.payment_id
-                orderId = data.order_id;
-                checkPaymentStatus();
+                if (produto) {
+                    produto.preco = currentTotal;
+                }
 
+                const formData = {
+                    nome_completo: document.getElementById("fullname")?.value || '',
+                    email: document.getElementById("email")?.value || '',
+                    preco: currentTotal.toFixed(2),
+                    token: token
+                };
 
-                const pedidosRef = firebase.database().ref(`produtos/${productId}/pedidos`)
-                let agora = new Date()
-                let dataAtu = agora.toLocaleDateString("pt-BR")
-                let horaAtu = agora.toLocaleTimeString("pt-BR")
+                $.post("https://versel-5pxj.onrender.com/create_pix", formData)
+                    .done(function (data) {
+                        if (bob) bob.classList.remove("popup");
 
-                pedidosRef.child(paymentId).set({
-                    nome: $("#nome_completo").val(),
-                    email: $("#email").val(),
-                    tel: tell.value.replace(/[+\- ]/g, ''),
-                    preco: produto.preco.toFixed(2),
+                        if (data.pix_code) {
+                            if (pixQr) pixQr.src = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + data.pix_code;
+                            if (pixCode) pixCode.textContent = data.pix_code;
+                        }
+
+                        if (pixContainer) pixContainer.style.display = "block";
+                        if (checkoutForm) checkoutForm.style.display = "none";
+                        if (headerCheckout) headerCheckout.style.display = "none";
+                        if (banner) banner.style.display = "none";
+
+                        paymentId = data.payment_id;
+                        orderId = data.order_id;
+                        checkPaymentStatus();
+                        saveOrderToFirebase(data);
+                    })
+                    .fail(() => {
+                        const loadingOverlay = document.getElementById("loading-overlay");
+                        if (loadingOverlay) loadingOverlay.classList.remove("active");
+                        alert("Erro ao criar pagamento. Tente novamente.");
+                    });
+            });
+        }
+
+        function saveOrderToFirebase(pixData) {
+            try {
+                const agora = new Date();
+                const pedidosRef = database.ref(`produtos/${productId}/pedidos`);
+
+                const orderData = {
+                    nome: document.getElementById("fullname")?.value || '',
+                    email: document.getElementById("email")?.value || '',
+                    tel: (document.getElementById("phone")?.value || '')
+                        .replace(/[+\- ()]/g, '')
+                        .replace(/^55/, '')
+                        .replace(/^/, '55'),
+                    preco: currentTotal.toFixed(2),
+                    orderbump: document.querySelectorAll('.orderbump-checkbox:checked').length > 0,
+                    status: "pending",
                     data: {
-                        data: dataAtu,
-                        hora: horaAtu,
+                        data: agora.toLocaleDateString("pt-BR"),
+                        hora: agora.toLocaleTimeString("pt-BR"),
                         data_payment: '',
                         hora_payment: ''
                     },
                     pix_info: {
                         pix_pago: 'pending',
                         pix_id: paymentId,
-                        pix_code: data.pix_code,
-                        pix_qr: 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + data.pix_code,
+                        pix_code: pixData.pix_code,
+                        pix_qr: 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + pixData.pix_code,
                         url_pix: window.location.href + '?order=' + paymentId,
-                        preco: produto.preco.toFixed(2),
-                        nome: produto.nome,
-                    },
-                    status: "pending"
-                }).then(() => {
-                    console.log("Pedido criado com sucesso!")
-                    const orderRefEmas = firebase.database().ref(`produtos/${productId}/pedidos/${paymentId}/pix_info/`);
-                    orderRefEmas.once("value").then(snapshot => {
-                        if (snapshot.exists()) {
-                            const order = snapshot.val();
-                            const orderPix = snapshot.val().pix_info;
+                        preco: currentTotal.toFixed(2),
+                        nome: produto?.nome || ''
+                    }
+                };
 
-                            console.log("Dados do pedido:", order)
-                            $.post("https://versel-5pxj.onrender.com/send-email-marketing", {
-                                nome_completo: $("#nome_completo").val(),
-                                email: $("#email").val(),
-                                url_button: orderPix.url_pix,
-                                nome_produto: order.nome,
-                                nome_vendedor: order.nome_vendedor,
-                                email_vendedor: order.email_vendedor,
-                                pix_code: orderPix.pix_code,
-                                pix_qr: orderPix.pix_qr,
-                                preco: order.preco.toFixed(2),
-                            }).done(() => {
-                                console.log("✅ E-mail enviado com sucesso!")
-                            }).fail((xhr, status, error) => {
-                                console.error("❌ Erro ao enviar e-mail:", error)
-                            })
-                        } else {
-                            console.error("❌ Pedido não encontrado ao tentar enviar e-mail.")
-                        }
-                    })
-                }).catch((error) => {
-                    console.error("Erro ao criar o pedido:", error)
-                })
-            }).fail(() => {
-                alert("Erro ao criar pagamento. Tente novamente.")
-            })
-        });
+                pedidosRef.child(paymentId).set(orderData)
+                    .catch((error) => {
+                        console.error("Erro ao criar pedido no Firebase:", error);
+                    });
+            } catch (error) {
+                console.error("Erro ao salvar pedido:", error);
+            }
+        }
 
         function checkPaymentStatus() {
-            if (!paymentId) return;
+            if (!paymentId || !token) return;
 
             const interval = setInterval(() => {
                 $.ajax({
                     url: `https://versel-5pxj.onrender.com/check_payment/${paymentId}`,
                     method: "GET",
-                    headers: {
-                        "Authorization": "Bearer " + token // ← Coloque seu token real aqui
-                    },
+                    headers: { "Authorization": "Bearer " + token },
                     success: function (data) {
                         if (data.status === "approved") {
                             clearInterval(interval);
-                            $("#pix-qr").attr("src", 'https://firebasestorage.googleapis.com/v0/b/loginxepa.appspot.com/o/img%2Fpago-transp3-150x150.png?alt=media&token=1bbb9be8-3a00-4678-b975-7a1a29ec64d5');
-                            $("#pix-code-div").hide();
-                            $("#status").text("Pagamento aprovado! Aguarde 1 segundo.");
-                            $("#scan").text("Você receberá um email.");
-                            $("#loading").hide();
-                            $("#btnconf").hide();
-                            $("#como-pagar").hide();
-
-                            let agora = new Date();
-                            let dataAtu = agora.toLocaleDateString("pt-BR");
-                            let horaAtu = agora.toLocaleTimeString("pt-BR");
-
-                            database.ref(`produtos/${productId}/pedidos/${paymentId}`).update({
-                                status: "approved",
-                                "data/data_payment": dataAtu,
-                                "data/hora_payment": horaAtu,
-                                "pix_info/pix_pago": "approved"
-                            });
-
-                            $.post("https://versel-5pxj.onrender.com/send-email", {
-                                nome_completo: $("#nome_completo").val(),
-                                email: $("#email").val(),
-                                url_button: produto.url_button,
-                                nome_produto: produto.nome,
-                                nome_vendedor: produto.nome_vendedor,
-                                email_vendedor: produto.email_vendedor,
-                                preco: produto.preco.toFixed(2),
-                            }).done(function () {
-                                console.log("✅ E-mail enviado com sucesso!");
-                            }).fail(function (xhr, status, error) {
-                                console.error("❌ Erro ao enviar e-mail:", error);
-                            });
-
-                            setTimeout(() => {
-                                window.location.href = produto.url_button;
-                            }, 8000);
+                            handlePaymentApproved();
                         } else if (data.status === "rejected") {
                             clearInterval(interval);
                             alert("Pagamento rejeitado. Tente novamente.");
@@ -516,84 +1748,153 @@
             }, 6000);
         }
 
+        function handlePaymentApproved() {
+            if (pixQr) pixQr.src = 'https://firebasestorage.googleapis.com/v0/b/loginxepa.appspot.com/o/img%2Fpago-transp3-150x150.png?alt=media&token=1bbb9be8-3a00-4678-b975-7a1a29ec64d5';
+            if (document.getElementById("pix-code-div")) document.getElementById("pix-code-div").style.display = "none";
+            if (statusElement) statusElement.textContent = "Pagamento aprovado! Aguarde 1 segundo.";
+            if (scanElement) scanElement.textContent = "Você receberá um email.";
+            if (loadingElement) loadingElement.style.display = "none";
+            if (btnconf) btnconf.style.display = "none";
+            if (document.getElementById("como-pagar")) document.getElementById("como-pagar").classList.add('hide');
 
-
-        document.getElementById('pix-code').addEventListener('click', function () { })
-
-        document.getElementById('btnconf').addEventListener('click', function () {
-            navigator.clipboard.writeText(document.getElementById('pix-code').innerText)
-                .then(() => {
-                    document.getElementById("copy").classList.add("popup")
-                    setTimeout(() => {
-                        document.getElementById("copy").classList.remove("popup")
-                    }, 2000)
-                })
-                .catch((error) => {
-                    alert('Falha ao copiar texto para a área de transferência:', error)
-                })
-        })
-
-        document.getElementById('email').addEventListener('input', function fon() {
-            localStorage.setItem('emailcheckout', this.value);
-        });
-        document.getElementById('nome_completo').addEventListener('input', function fon2() {
-            localStorage.setItem('nome_completo', this.value);
-        });
-        document.getElementById('tel').addEventListener('input', function fon3() {
-            localStorage.setItem('tel', this.value);
-        });
-        function getStorage() {
-            if (localStorage.getItem('nome_completo') !== null) {
-                document.getElementById('nome_completo').value = localStorage.getItem('nome_completo')
-                document.getElementById('email').value = localStorage.getItem('emailcheckout')
-                document.getElementById('tel').value = localStorage.getItem('tel')
+            const agora = new Date();
+            if (productId && paymentId) {
+                database.ref(`produtos/${productId}/pedidos/${paymentId}`).update({
+                    status: "approved",
+                    "data/data_payment": agora.toLocaleDateString("pt-BR"),
+                    "data/hora_payment": agora.toLocaleTimeString("pt-BR"),
+                    "pix_info/pix_pago": "approved"
+                }).catch(error => {
+                    console.error("Erro ao atualizar status do pedido:", error);
+                });
             }
 
-        }
+            if (produto) {
+                $.post("https://versel-5pxj.onrender.com/send-email", {
+                    nome_completo: document.getElementById("fullname")?.value || '',
+                    email: document.getElementById("email")?.value || '',
+                    url_button: produto.url_button,
+                    nome_produto: produto.nome,
+                    nome_vendedor: produto.nome_vendedor,
+                    email_vendedor: produto.email_vendedor,
+                    preco: produto.preco?.toFixed(2) || '0.00',
+                }).fail(function (xhr, status, error) {
+                    console.error("Erro ao enviar e-mail:", error);
+                });
+            }
 
-
-
-        function startCountdown(duration) {
-            let countdownElement = document.getElementById('countdown')
-            let timer = duration, minutes, seconds
-
-            let interval = setInterval(function () {
-                minutes = parseInt(timer / 60, 10)
-                seconds = parseInt(timer % 60, 10)
-                minutes = minutes < 10 ? '0' + minutes : minutes
-                seconds = seconds < 10 ? '0' + seconds : seconds
-                countdownElement.textContent = minutes + ":" + seconds
-
-                if (--timer < 0) {
-                    clearInterval(interval)
-                    countdownElement.textContent = "00:00"
-                    alert("O tempo para o pagamento expirou.")
+            setTimeout(() => {
+                if (produto && produto.url_button) {
+                    // window.location.href = produto.url_button;
+                    alert('Redirecionamento aconteceria agora');
                 }
-            }, 1000)
+            }, 8000);
         }
 
-        let countdownDuration = 10 * 60
-        startCountdown(countdownDuration)
+        function pagExp() {
+            if (statusElement) statusElement.textContent = "Pagamento cancelado";
+            if (scanElement) scanElement.style.display = "none";
+            if (pixCode) pixCode.textContent = "Código expirado.";
+            if (pixQr) pixQr.style.display = "none";
+            if (loadingElement) loadingElement.style.display = "none";
+            if (btnconf) btnconf.style.display = "none";
+            if (document.getElementById("como-pagar")) document.getElementById("como-pagar").classList.add('hide');
+            if (document.getElementById("btnewf")) document.getElementById("btnewf").classList.remove('hide');
 
-        document.getElementById('tel').addEventListener('input', function (e) {
-            let value = e.target.value
-            value = value.replace(/\D/g, '').replace(/^55/, '+55 ')
-            if (value.length > 6) {
-                value = value.replace(/^(\+55\s\d{2})(\d)/, '$1 $2')
-            }
-            if (value.length > 11) {
-                value = value.replace(/(\d{5})(\d{4})$/, '$1-$2')
-            }
-            e.target.value = value
-        })
-        var tell = document.getElementById('tel');
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.delete("order");
 
+            const btnewf = document.getElementById("btnewf");
+            if (btnewf) {
+                btnewf.addEventListener("click", function () {
+                    window.location.href = window.location.pathname + '?' + urlParams.toString();
+                });
+            }
+        }
+
+        // Copiar código PIX
+        if (btnconf) {
+            btnconf.addEventListener("click", function () {
+                if (pixCode && pixCode.textContent) {
+                    navigator.clipboard.writeText(pixCode.textContent)
+                        .then(() => {
+                            const copy = document.getElementById("copy");
+                            if (copy) {
+                                copy.classList.add("popup");
+                                setTimeout(() => {
+                                    copy.classList.remove("popup");
+                                }, 3500);
+                            }
+                        })
+                        .catch((error) => {
+                            console.error('Falha ao copiar código PIX:', error);
+                        });
+                }
+            });
+        }
+
+        // Armazenamento local dos dados
+        const emailInput = document.getElementById('email');
+        const fullnameInput = document.getElementById('fullname');
+        const phoneInput = document.getElementById('phone');
+
+        if (emailInput) {
+            emailInput.addEventListener('input', function () {
+                localStorage.setItem('emailcheckout', this.value);
+            });
+        }
+
+        if (fullnameInput) {
+            fullnameInput.addEventListener('input', function () {
+                localStorage.setItem('nome_completo', this.value);
+            });
+        }
+
+        if (phoneInput) {
+            phoneInput.addEventListener('input', function () {
+                localStorage.setItem('tel', this.value);
+            });
+        }
+
+        // Máscara de telefone
+        if (phoneInput) {
+            phoneInput.addEventListener('input', function (e) {
+                let value = e.target.value.replace(/\D/g, '');
+
+                if (value.length > 2) {
+                    value = value.replace(/^(\d{2})(\d)/, '($1) $2');
+                }
+                if (value.length > 7) {
+                    value = value.replace(/(\d{5})(\d)/, '$1-$2');
+                }
+                if (value.length > 15) {
+                    value = value.substring(0, 15);
+                }
+
+                e.target.value = value;
+            });
+        }
+
+        // Carrega dados salvos
+        function getStorage() {
+            try {
+                if (localStorage.getItem('nome_completo') && fullnameInput) {
+                    fullnameInput.value = localStorage.getItem('nome_completo');
+                }
+                if (localStorage.getItem('emailcheckout') && emailInput) {
+                    emailInput.value = localStorage.getItem('emailcheckout');
+                }
+                if (localStorage.getItem('tel') && phoneInput) {
+                    phoneInput.value = localStorage.getItem('tel');
+                }
+            } catch (error) {
+                console.error("Erro ao carregar dados do localStorage:", error);
+            }
+        }
+
+        // Inicialização
         getStorage();
-
-
     </script>
-
-
 </body>
 
 </html>
