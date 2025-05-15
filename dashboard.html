@@ -265,7 +265,8 @@
                             </div>
                             <input type="text" id="nome_vendedor" placeholder="Nome do vendedor*" required>
                         </div>
-                        <input type="text" id="url_produto" autocomplete="off" placeholder="Link Produto/Drive*" required>
+                        <input type="text" id="url_produto" autocomplete="off" placeholder="Link Produto/Drive*"
+                            required>
                         <div class="div-url-link" style="display: flex; align-items: center;  width: 100% !important;">
                             <input type="text" id="image" style="margin-right: 5px;"
                                 placeholder="Link da Imagem do Produto*" required>
@@ -278,14 +279,15 @@
                         <input type="text" id="order-link" placeholder="Url para entregar do Orderbump*">
                         <div class="price-div" style="margin-right: 5px !important; margin-top: 3px !important;">
                             <span>R$ </span>
-                            <input type="text" id="price-order" maxlength="6" placeholder="Preço do produto*" value="0,00"
-                                required>
+                            <input type="text" id="price-order" maxlength="6" placeholder="Preço do produto*"
+                                value="0,00" required>
                         </div>
-                        <div class="btn-div" style="display: flex; width: 100%; align-items: center; justify-content: end;">
+                        <div class="btn-div"
+                            style="display: flex; width: 100%; align-items: center; justify-content: end;">
                             <button class="btn" id="save-order" style="width: 100px;">SALVAR</button>
                         </div>
                     </div>
-                    
+
 
                     <!-- Toggle Cronômetro -->
                     <div id="cront" style="display: flex; align-items: center; margin-top: -10px;">
@@ -295,8 +297,9 @@
                             <span class="toggle-label" id="toggle-label"></span>
                         </div>
                     </div>
-                    
-                    <div class="btn-div" style="display: flex; width: 100%; color: #212B36; align-items: center; justify-content: end;">
+
+                    <div class="btn-div"
+                        style="display: flex; width: 100%; color: #212B36; align-items: center; justify-content: end;">
                         <button class="btn" id="save-product" style="width: 100px;">SALVAR</button>
                     </div>
                 </div>
@@ -318,11 +321,12 @@
                     <input type="password" id="token-input" placeholder="Acess Token/Token do Mercado pago*"
                         name="NKACNALSDNASKDNASKND" autocomplete="off" required>
 
-                    <span>Webhook <i id="info-i" data-message="Adicione um Webhook e automatize suas vendas. ATENÇÃO: O Webhook funcionará para todos os produtos."
+                    <span>Webhook <i id="info-i"
+                            data-message="Adicione um Webhook e automatize suas vendas. ATENÇÃO: O Webhook funcionará para todos os produtos."
                             style="margin-left: 5px; font-size: 12px; color: #b3b3b3;"
                             class="fa-regular fa-circle-question"></i></span>
-                    <input type="text" id="webhook-input" placeholder="Adicione o Webhook"
-                        name="NKACNALSDNASKDNASKND" autocomplete="off">
+                    <input type="text" id="webhook-input" placeholder="Adicione o Webhook" name="NKACNALSDNASKDNASKND"
+                        autocomplete="off">
 
                     <div id="msginfo"></div>
 
@@ -331,6 +335,36 @@
                     </div>
                 </div>
             </div>
+
+
+            <!-- Modal de OrderBump (Novo) -->
+            <div class="order-overlay" id="order-overlay">
+                <div class="order" id="order-modal">
+                    <div style="display: flex; align-items: center; padding: 0px; cursor: pointer;">
+                        <i id="close-modal-order" class="fa-solid fa-xmark"></i>
+                        <h2 id="order-modal-title">Gerenciar OrderBumps (0/2)</h2>
+                    </div>
+
+                    <!-- Lista de OrderBumps existentes -->
+                    <div id="existing-orderbumps" style="margin-bottom: 20px;">
+                        <p>Nenhum OrderBump cadastrado.</p>
+                    </div>
+
+                    <!-- Formulário para adicionar novo -->
+                    <div id="order-div">
+                        <input type="text" id="oder-name" placeholder="Nome do OrderBump*">
+                        <textarea id="order-description" placeholder="Descrição*"></textarea>
+                        <input type="text" id="order-link" placeholder="URL de entrega*">
+                        <div class="price-div">
+                            <span>R$ </span>
+                            <input type="text" id="price-order" placeholder="Preço*" value="0,00">
+                        </div>
+                        <button class="btn" id="save-order">SALVAR</button>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
     </div>
     <script src="dashboard.js"></script>

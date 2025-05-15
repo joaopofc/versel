@@ -28,14 +28,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const modal = document.getElementById("product-modal");
     const modalOverlay = document.getElementById("modal-overlay");
     const config = document.getElementById("config-modal");
+    const orderModal = document.getElementById("order-modal");
     const configOverlay = document.getElementById("config-overlay");
+    const orderOverlay = document.getElementById("order-overlay");
     const btnAdd = document.getElementById("btn-add");
     const btnConfig = document.getElementById("btn-config");
+    const btnOrder = document.querySelector('.btn-order');
     const btnConfigSave = document.getElementById("btn-config-save");
+    const btnOrderSave = document.getElementById("btn-order-save");
     const saveProduct = document.getElementById("save-product");
     const saveOrder = document.getElementById("save-order");
     const addOrderBumpBtn = document.getElementById("btn-add-order");
-    
+
     const closeModal = document.getElementById("close-modal");
     const countProd = document.getElementById("count-prod");
     const closeModalConfig = document.getElementById("close-modal-config");
@@ -102,89 +106,89 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Função para carregar compradores
     function loadBuyers() {
-    const buyersList = document.getElementById("buyers-list");
-    const filterStatus = document.getElementById("filter-status").value;
-    const searchTerm = document.getElementById("search-buyer").value.toLowerCase();
+        const buyersList = document.getElementById("buyers-list");
+        const filterStatus = document.getElementById("filter-status").value;
+        const searchTerm = document.getElementById("search-buyer").value.toLowerCase();
 
-    buyersList.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px;">Carregando compradores...</td></tr>';
+        buyersList.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px;">Carregando compradores...</td></tr>';
 
-    let totalBuyers = 0;
-    let approvedBuyers = 0;
-    let pendingBuyers = 0;
-    let allOrders = []; // Array para armazenar todos os pedidos antes de ordenar
+        let totalBuyers = 0;
+        let approvedBuyers = 0;
+        let pendingBuyers = 0;
+        let allOrders = []; // Array para armazenar todos os pedidos antes de ordenar
 
-    productRef.once("value", snapshot => {
-        buyersList.innerHTML = '';
-        allOrders = []; // Resetar array
+        productRef.once("value", snapshot => {
+            buyersList.innerHTML = '';
+            allOrders = []; // Resetar array
 
-        snapshot.forEach(productSnapshot => {
-            const product = productSnapshot.val();
-            const productId = productSnapshot.key;
+            snapshot.forEach(productSnapshot => {
+                const product = productSnapshot.val();
+                const productId = productSnapshot.key;
 
-            if (product.email_vendedor === emailVendedor) {
-                const ordersRef = productRef.child(productId).child("pedidos");
+                if (product.email_vendedor === emailVendedor) {
+                    const ordersRef = productRef.child(productId).child("pedidos");
 
-                ordersRef.once("value", ordersSnapshot => {
-                    ordersSnapshot.forEach(orderSnapshot => {
-                        const order = orderSnapshot.val();
-                        const orderId = orderSnapshot.key;
+                    ordersRef.once("value", ordersSnapshot => {
+                        ordersSnapshot.forEach(orderSnapshot => {
+                            const order = orderSnapshot.val();
+                            const orderId = orderSnapshot.key;
 
-                        const matchesStatus = filterStatus === 'all' || order.status === filterStatus;
-                        const matchesSearch = searchTerm === '' ||
-                            (order.nome && order.nome.toLowerCase().includes(searchTerm)) ||
-                            (order.email && order.email.toLowerCase().includes(searchTerm));
+                            const matchesStatus = filterStatus === 'all' || order.status === filterStatus;
+                            const matchesSearch = searchTerm === '' ||
+                                (order.nome && order.nome.toLowerCase().includes(searchTerm)) ||
+                                (order.email && order.email.toLowerCase().includes(searchTerm));
 
-                        if (matchesStatus && matchesSearch) {
-                            totalBuyers++;
-                            if (order.status === "approved") approvedBuyers++;
-                            if (order.status === "pending") pendingBuyers++;
+                            if (matchesStatus && matchesSearch) {
+                                totalBuyers++;
+                                if (order.status === "approved") approvedBuyers++;
+                                if (order.status === "pending") pendingBuyers++;
 
-                            // Formatar data e criar objeto Date para ordenação
-                            let dataObj = null;
-                            let dataFormatada = 'N/A';
-                            
-                            if (order.data && order.data.data) {
-                                const [dia, mes, ano] = order.data.data.split('/');
-                                dataFormatada = `${dia}/${mes}/${ano}`;
-                                dataObj = new Date(`${mes}/${dia}/${ano}`); // Criar objeto Date para ordenação
+                                // Formatar data e criar objeto Date para ordenação
+                                let dataObj = null;
+                                let dataFormatada = 'N/A';
+
+                                if (order.data && order.data.data) {
+                                    const [dia, mes, ano] = order.data.data.split('/');
+                                    dataFormatada = `${dia}/${mes}/${ano}`;
+                                    dataObj = new Date(`${mes}/${dia}/${ano}`); // Criar objeto Date para ordenação
+                                }
+
+                                // Armazenar todos os pedidos com informações necessárias
+                                allOrders.push({
+                                    order,
+                                    product,
+                                    productId,
+                                    orderId,
+                                    dataFormatada,
+                                    dataObj // Usaremos isso para ordenação
+                                });
                             }
+                        });
 
-                            // Armazenar todos os pedidos com informações necessárias
-                            allOrders.push({
-                                order,
-                                product,
-                                productId,
-                                orderId,
-                                dataFormatada,
-                                dataObj // Usaremos isso para ordenação
-                            });
-                        }
-                    });
+                        // Ordenar pedidos pela data (mais recente primeiro)
+                        allOrders.sort((a, b) => {
+                            if (!a.dataObj && !b.dataObj) return 0;
+                            if (!a.dataObj) return 1; // Sem data vai para o final
+                            if (!b.dataObj) return -1; // Sem data vai para o final
+                            return b.dataObj - a.dataObj; // Ordem decrescente
+                        });
 
-                    // Ordenar pedidos pela data (mais recente primeiro)
-                    allOrders.sort((a, b) => {
-                        if (!a.dataObj && !b.dataObj) return 0;
-                        if (!a.dataObj) return 1; // Sem data vai para o final
-                        if (!b.dataObj) return -1; // Sem data vai para o final
-                        return b.dataObj - a.dataObj; // Ordem decrescente
-                    });
+                        // Limpar a lista antes de adicionar os itens ordenados
+                        buyersList.innerHTML = '';
 
-                    // Limpar a lista antes de adicionar os itens ordenados
-                    buyersList.innerHTML = '';
+                        // Adicionar pedidos ordenados à tabela
+                        allOrders.forEach(item => {
+                            const { order, product, productId, orderId, dataFormatada } = item;
 
-                    // Adicionar pedidos ordenados à tabela
-                    allOrders.forEach(item => {
-                        const { order, product, productId, orderId, dataFormatada } = item;
-
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
                             <td><strong>${order.nome || 'N/A'}</strong></br>${order.email || 'N/A'}</td>
                             <td>${product.nome || 'N/A'}</td>
                             <td>R$ ${order.preco ? parseFloat(order.preco).toFixed(2).replace('.', ',') : '0,00'}</td>
                             <td><span class="status-badge status-${order.status || 'pending'}">${order.status === 'approved' ? 'Aprovado' :
-                                order.status === 'pending' ? 'Pendente' :
-                                    order.status === 'cancelled' ? 'Cancelado' : 'N/A'
-                            }</span></td>
+                                    order.status === 'pending' ? 'Pendente' :
+                                        order.status === 'cancelled' ? 'Cancelado' : 'N/A'
+                                }</span></td>
                             <td>${dataFormatada}</td>
                             <td class="buyer-actions">
                                 <button class="btn-sm btn-view" data-id="${orderId}" data-product="${productId}">
@@ -195,61 +199,61 @@ document.addEventListener("DOMContentLoaded", () => {
                                 </button>
                             </td>
                         `;
-                        buyersList.appendChild(row);
+                            buyersList.appendChild(row);
 
-                        const viewButton = row.querySelector('.btn-view');
-                                viewButton.addEventListener('click', () => {
-                                    const buyerId = viewButton.getAttribute('data-id');
-                                    const productId = viewButton.getAttribute('data-product');
-                                    const orderRef = productRef.child(productId).child("pedidos").child(buyerId);
+                            const viewButton = row.querySelector('.btn-view');
+                            viewButton.addEventListener('click', () => {
+                                const buyerId = viewButton.getAttribute('data-id');
+                                const productId = viewButton.getAttribute('data-product');
+                                const orderRef = productRef.child(productId).child("pedidos").child(buyerId);
 
 
-                                    orderRef.once("value", orderSnapshot => {
-                                        const orderData = orderSnapshot.val();
-                                        const orderPixRefer = orderSnapshot.child("pix_info").val() || {};
-                                        const orderPixDataRefer = orderSnapshot.child("data").val() || {};
-                                        
-                                        const modalRaiz = document.getElementById("buyer-modal");
-                                        const modalContent = document.getElementById("od-modal-content");
-                                        const odCloseModal = document.querySelector(".ob-close-modal");
-                                        
-                                        modalContent.innerHTML = `
-                                            <p><strong>Order:</strong> #${orderPixRefer.pix_id || 'N/A'}</p>
-                                            <p><strong>Nome:</strong> ${orderData.nome || 'N/A'}</p>
-                                            <p><strong>Email:</strong> ${orderData.email || 'N/A'}</p>
-                                            <p><strong>Celular:</strong> ${orderData.tel || 'N/A'}<a href="https://wa.me/55${orderData.tel.replace(/[^\d]/g, '')}" target="_blank" 
-     style="margin-left: 5px; color: #25D366;"><i style="margin-left: 5px" class="fa-brands fa-whatsapp"></i></a></p>
-                                            <p><strong>Checkout:</strong> <a href='${orderPixRefer.url_pix|| 'N/A'}'>${orderPixRefer.url_pix|| 'N/A'}</a></p>
-                                            <p><strong>Produto:</strong> ${product.nome || 'N/A'} - #${productId}</p>
-                                            <p><strong>Valor:</strong> R$ ${parseFloat(orderData.preco).toFixed(2).replace('.', ',') || '0,00'}</p>
-                                            <p><strong>Status:</strong> ${orderData.status === 'approved' ? 'Aprovado' : orderData.status === 'pending' ? 'Pendente' :
-                                                    orderData.status === 'cancelled' ? 'Cancelado' : 'N/A'
-                                            } <i style="margin-left: 5px; color: #1DB954 !important;"  class="fa-solid fa-badge-check"></i></p>
-                                            <p><strong>Data que gerou o pix:</strong> ${orderPixDataRefer.data} - ${orderPixDataRefer.hora}</p>
-                                            <p><strong>Data que pagou:</strong> ${orderPixDataRefer.data_payment} - ${orderPixDataRefer.hora_payment || 'N/A - N/A'}</p>
+                                orderRef.once("value", orderSnapshot => {
+                                    const orderData = orderSnapshot.val();
+                                    const orderPixRefer = orderSnapshot.child("pix_info").val() || {};
+                                    const orderPixDataRefer = orderSnapshot.child("data").val() || {};
+
+                                    const modalRaiz = document.getElementById("buyer-modal");
+                                    const modalContent = document.getElementById("od-modal-content");
+                                    const odCloseModal = document.querySelector(".ob-close-modal");
+
+                                    modalContent.innerHTML = `
+                                        <p><strong>Nome:</strong> ${orderData.nome || 'N/A'}</p>
+                                        <p><strong>Email:</strong> ${orderData.email || 'N/A'}</p>
+                                        <p><strong>Celular:</strong> ${orderData.tel || 'N/A'}<a href="https://wa.me/${orderData.tel.replace(/[^\d]/g, '')}" target="_blank" 
+                                        style="margin-left: 5px; color: #25D366;"><i style="margin-left: 5px" class="fa-brands fa-whatsapp"></i></a></p>
+                                        <p><strong>Checkout:</strong> <a href='${orderPixRefer.url_pix || 'N/A'}'>${orderPixRefer.url_pix || 'N/A'}</a></p>
+                                        <p><strong>Produto:</strong> ${product.nome || 'N/A'} - #${productId}</p>
+                                        <p><strong>Valor:</strong> R$ ${parseFloat(orderData.preco).toFixed(2).replace('.', ',') || '0,00'}</p>
+                                        <p><strong>Status:</strong> ${orderData.status === 'approved' ? 'Aprovado' : orderData.status === 'pending' ? 'Pendente' :
+                                            orderData.status === 'cancelled' ? 'Cancelado' : 'N/A'
+                                        } <i style="margin-left: 5px; color: #1DB954 !important;"  class="fa-solid fa-badge-check"></i></p>
+                                        <p><strong>Order:</strong> #${orderPixRefer.pix_id || 'N/A'}</p>
+                                        <p><strong>Data que gerou o pix:</strong> ${orderPixDataRefer.data} - ${orderPixDataRefer.hora}</p>
+                                            <p><strong>Data que pagou:</strong> ${orderPixDataRefer.data_payment} - ${orderPixDataRefer.hora_payment || 'Aguardando pagamento'}</p>
                                         `;
-                                        modalRaiz.style.display = "block";
-                                        odCloseModal.addEventListener("click", () => { 
+                                    modalRaiz.style.display = "block";
+                                    odCloseModal.addEventListener("click", () => {
                                         modalRaiz.style.display = "none";
-                                        });
-
                                     });
+
                                 });
+                            });
+                        });
+
+                        // Atualizar métricas
+                        document.getElementById("total-buyers").textContent = totalBuyers;
+                        document.getElementById("approved-buyers").textContent = approvedBuyers;
+                        document.getElementById("pending-buyers").textContent = pendingBuyers;
+
+                        if (totalBuyers === 0) {
+                            buyersList.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px;">Nenhum comprador encontrado</td></tr>';
+                        }
                     });
-
-                    // Atualizar métricas
-                    document.getElementById("total-buyers").textContent = totalBuyers;
-                    document.getElementById("approved-buyers").textContent = approvedBuyers;
-                    document.getElementById("pending-buyers").textContent = pendingBuyers;
-
-                    if (totalBuyers === 0) {
-                        buyersList.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px;">Nenhum comprador encontrado</td></tr>';
-                    }
-                });
-            }
+                }
+            });
         });
-    });
-}
+    }
 
 
     // Filtros e busca
@@ -296,6 +300,8 @@ document.addEventListener("DOMContentLoaded", () => {
         editingProductId = null;
         clearForm();
     });
+
+    
 
     btnConfigSave.addEventListener("click", () => {
         if (tokenInput.value.length < 66) {
@@ -379,7 +385,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 localStorage.setItem('token', data.token);
                 document.getElementById("token-input").value = data.token;
             }
-            if (data.webhook){
+            if (data.webhook) {
                 document.getElementById("webhook-input").value = data.webhook;
             } else {
                 document.getElementById("webhook-input").value = '';
@@ -482,6 +488,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         </div>
                     </div>
                 `;
+                
                 if (productList.innerHTML === null || productList.innerHTML === undefined || productList.innerHTML === "") {
                     document.getElementById("fake-product-list").innerHTML = `
                         <div class="card-produto-placeholder placeholder">

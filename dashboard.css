@@ -431,12 +431,12 @@ th {
     background: #218838;
 }
 .btn-order {
-    background: #374e61;
-    color: #ffffff !important;
+    background: #3a4743;
+    color: #13c086 !important;
 }
 
 .btn-order:hover {
-    background: #4d7494;
+    background: #f7fbff33;
     color: #ffffff !important;
 }
 
@@ -469,7 +469,8 @@ th {
 
 /* ============ MODAL DE FORMULÁRIO ============ */
 .modal-overlay,
-.config-overlay {
+.config-overlay,
+.order-overlay {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.6);
@@ -481,7 +482,8 @@ th {
 }
 
 .modal,
-.config {
+.config,
+.order {
     display: none;
     position: fixed;
     top: 50%;
@@ -489,10 +491,11 @@ th {
     transform: translate(-50%, -50%);
     background: #212B36;
     padding: 30px;
+    min-width: 500px;
     max-width: 700px;
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    height: fit-content;
+    width: fit-content;
 }
 
 .config {
@@ -502,8 +505,10 @@ th {
 
 .modal.active,
 .config.active,
+.order.active,
 .modal-overlay.active,
-.config-overlay.active {
+.config-overlay.active,
+.order-overlay.active {
     display: block;
 }
 
@@ -525,7 +530,8 @@ th {
 
 .modal input,
 .config input,
-.modal textarea {
+.modal textarea,
+.order input {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
@@ -570,7 +576,8 @@ th {
 .modal input,
 .config input,
 .modal textarea,
-.modal .price-div{
+.modal .price-div,
+.order input{
     color: #fff;
     border: none !important;
     border-radius: 8px;
@@ -591,7 +598,8 @@ th {
 .modal .price-div:focus-within,
 .config input:focus,
 .config .price-div:focus,
-.modal textarea:focus {
+.modal textarea:focus,
+.order input:focus {
     box-shadow: 0 4px 20px rgba(0, 255, 170, 0.6),
         0 0 0 1px rgba(0, 255, 170, 0.8) inset;
 }
@@ -801,7 +809,7 @@ th {
 }
 
 .toast {
-    font-family: Inter;
+    font-family: monospace;
     padding: 15px;
     margin: 5px;
     border-radius: 5px;
@@ -1206,15 +1214,15 @@ p {
 }
 
 .ob-modal-content {
-    background-color: #161C24;
-    margin: 10% auto;
+    background-color: #292c31;
+    margin: 5% auto;
     padding: 20px;
     border-radius: 8px;
     max-width: 600px;
     box-shadow: 0px 0px 20px -7px #ffffff29;
 }
 .ob-modal-content p {
-    border-bottom: 1px dashed #374151;
+    /* border-bottom: 1px dashed #ffffff; */
     margin: 10px;
 }
 

@@ -117,7 +117,6 @@
             text-align: center;
             font-weight: 600;
             box-shadow: var(--shadow);
-            position: fixed;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -174,7 +173,7 @@
         .product-card {
             background-color: white;
             border-radius: 12px;
-            padding: 20px;
+            padding: 20px 20px 12px 20px;
             box-shadow: var(--shadow);
             transition: var(--transition);
             display: flex;
@@ -211,14 +210,14 @@
 
         .product-title {
             color: var(--dark-color);
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 700;
             margin-bottom: 0px;
             line-height: 1.3;
         }
 
         .product-description {
-            margin-bottom: 10px;
+            margin-bottom: 0px;
             color: var(--text-light);
             font-size: 16px;
         }
@@ -227,7 +226,7 @@
             display: flex;
             align-items: start;
             gap: 10px;
-            margin-bottom: 5px;
+            margin-bottom: 2px;
         }
 
         .price {
@@ -353,7 +352,7 @@
 
         .form-control:focus {
             outline: none;
-            
+
             box-shadow: 0 0 0 1.4px rgba(88, 226, 242, 0.2);
         }
 
@@ -967,98 +966,98 @@
 
 <body>
 
-        <!-- Countdown Timer -->
-        <div class="countdown">
-            <i class="fas fa-clock"></i>
-            <span class="countdown-text">OFERTA TERMINA EM:</span>
-            <span class="countdown-timer" id="countdown">15:00</span>
-        </div>
-        <div id="corp" class="corp">
-            <!-- WhatsApp Button -->
-            <a href="https://wa.me/5584994239716?text=Preciso+de+ajuda" class="whatsapp-button" target="_blank">
-                <i class="fab fa-whatsapp whatsapp-icon"></i>
+    <!-- Countdown Timer -->
+    <div class="countdown">
+        <i class="fas fa-clock"></i>
+        <span class="countdown-text">OFERTA TERMINA EM:</span>
+        <span class="countdown-timer" id="countdown">15:00</span>
+    </div>
+    <div id="corp" class="corp">
+        <!-- WhatsApp Button -->
+        <a href="https://wa.me/5584994239716?text=Preciso+de+ajuda" class="whatsapp-button" target="_blank">
+            <i class="fab fa-whatsapp whatsapp-icon"></i>
+        </a>
+
+        <!-- Header -->
+        <header class="header">
+            <img src="https://via.placeholder.com/150x50?text=LOGO" alt="Logo" class="logo">
+            <a href="https://wa.me/5584994239716?text=Preciso+de+ajuda" class="support-link" target="_blank">
+                <i class="fas fa-headset"></i>
+                Precisa de ajuda?
             </a>
+        </header>
 
-            <!-- Header -->
-            <header class="header">
-                <img src="https://via.placeholder.com/150x50?text=LOGO" alt="Logo" class="logo">
-                <a href="https://wa.me/5584994239716?text=Preciso+de+ajuda" class="support-link" target="_blank">
-                    <i class="fas fa-headset"></i>
-                    Precisa de ajuda?
-                </a>
-            </header>
-
-            <!-- Main Content -->
-            <div class="container">
-                <!-- Product Section -->
-                <div class="product-section">
+        <!-- Main Content -->
+        <div class="container">
+            <!-- Product Section -->
+            <div class="product-section">
 
 
-                    <!-- Banner -->
-                    <div class="banner" id="banner">
-                        <img src="" alt="Oferta Especial">
-                    </div>
+                <!-- Banner -->
+                <div class="banner" id="banner">
+                    <img src="" alt="Oferta Especial">
+                </div>
 
-                    <!-- Product Card -->
-                    <div class="product-card bor" style="display: flex; justify-content: start; align-items: start;">
-                        <div style="display: flex; ">
-                            <div class="img-product">
-                                <img src="imagens/img-prod-padrao.png" alt="Produto" class="product-image">
-                            </div>
-                            <div style="display: flex; flex-direction: column; gap: 0px;">
-                                <h1 class="product-title">Adestre seu Cão em Casa</h1>
-                                <p class="product-description">Domine</p>
-                                <div class="product-price" style="flex-direction: column;">
-                                    <span class="original-price">De R$ 497</span>
-                                    <div style="display: flex; align-items: center; justify-content: start;">
-                                        <span class="price">R$ 197</span>
-                                        <span class="discount-badge"><i class="fa-duotone fa-solid fa-arrow-down"
-                                                style="font-size: 11px; margin-right: 4px;"></i>60% OFF</span>
-                                    </div>
+                <!-- Product Card -->
+                <div class="product-card bor" style="display: flex; justify-content: start; align-items: start;">
+                    <div style="display: flex; ">
+                        <div class="img-product">
+                            <img src="imagens/img-prod-padrao.png" alt="Produto" class="product-image">
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 0px;">
+                            <h1 class="product-title">Adestre seu Cão em Casa</h1>
+                            <p class="product-description">Domine</p>
+                            <div class="product-price" style="flex-direction: column;">
+                                <span class="original-price">De R$ 497</span>
+                                <div style="display: flex; align-items: center; justify-content: start;">
+                                    <span class="price">R$ 197</span>
+                                    <span class="discount-badge"><i class="fa-duotone fa-solid fa-arrow-down"
+                                            style="font-size: 11px; margin-right: 4px;"></i>60% OFF</span>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
 
-                        <!-- <ul class="benefits-list">
+                    <!-- <ul class="benefits-list">
                     <li>Acesso vitalício ao curso completo</li>
                     <li>Certificado de conclusão</li>
                     <li>Suporte exclusivo dos professores</li>
                     <li>Atualizações gratuitas para sempre</li>
                     <li>Comunidade exclusiva de alunos</li>
                 </ul> -->
-                    </div>
-
                 </div>
 
+            </div>
 
 
-                <!-- Checkout Form -->
-                <div class="checkout-form bor">
-                    <div class="form-header">
-                        <h2 class="form-title">Finalize Seu Pedido</h2>
-                        <p class="form-subtitle">Preencha seus dados para liberar o acesso</p>
+
+            <!-- Checkout Form -->
+            <div class="checkout-form bor">
+                <div class="form-header">
+                    <h2 class="form-title">Finalize Seu Pedido</h2>
+                    <p class="form-subtitle">Preencha seus dados para liberar o acesso</p>
+                </div>
+
+                <form id="payment-form">
+                    <div class="form-group">
+                        <label for="fullname" class="form-label">Nome Completo*</label>
+                        <input type="text" id="fullname" class="form-control" placeholder="Digite seu nome completo"
+                            required>
                     </div>
 
-                    <form id="payment-form">
-                        <div class="form-group">
-                            <label for="fullname" class="form-label">Nome Completo*</label>
-                            <input type="text" id="fullname" class="form-control" placeholder="Digite seu nome completo"
-                                required>
-                        </div>
+                    <div class="form-group">
+                        <label for="email" class="form-label">E-mail*</label>
+                        <input type="email" id="email" class="form-control" placeholder="Digite seu melhor e-mail"
+                            required>
+                    </div>
 
-                        <div class="form-group">
-                            <label for="email" class="form-label">E-mail*</label>
-                            <input type="email" id="email" class="form-control" placeholder="Digite seu melhor e-mail"
-                                required>
-                        </div>
+                    <div class="form-group tel-input">
+                        <label for="phone" class="form-label">Celular*</label>
+                        <input type="tel" id="phone" class="form-control" placeholder="(00) 12345-6789" required>
+                    </div>
 
-                        <div class="form-group tel-input">
-                            <label for="phone" class="form-label">Celular*</label>
-                            <input type="tel" id="phone" class="form-control" placeholder="(00) 12345-6789" required>
-                        </div>
-
-                        <!--
+                    <!--
                     <div class="orderbump" id="orderbump">
                         <input type="checkbox" class="orderbump-checkbox" id="orderbump-checkbox">
                         <div class="orderbump-content">
@@ -1070,142 +1069,78 @@
                         </div>
                     </div> -->
 
-                        <!-- Payment Methods -->
-                        <div class="payment-methods">
-                            <div class="payment-title">Método de Pagamento:</div>
-                            <div class="payment-options">
-                                <!-- <div class="payment-option" data-method="credit">
+                    <!-- Payment Methods -->
+                    <div class="payment-methods">
+                        <div class="payment-title">Método de Pagamento:</div>
+                        <div class="payment-options">
+                            <!-- <div class="payment-option" data-method="credit">
                             <img src="https://cdn-icons-png.flaticon.com/512/196/196578.png" alt="Cartão" class="payment-icon">
                             <span class="payment-name">Cartão</span>
                         </div> -->
-                                <div class="payment-option selected" data-method="pix">
-                                    <!-- <img style="width: 100px !important; margin: -20px !important; height: auto;" src="https://logospng.org/download/pix/logo-pix-256.png" alt="Pix"
+                            <div class="payment-option selected" data-method="pix">
+                                <!-- <img style="width: 100px !important; margin: -20px !important; height: auto;" src="https://logospng.org/download/pix/logo-pix-256.png" alt="Pix"
                                 class="payment-icon"> -->
-                                    <svg style="width: 40px; height: auto" xmlns="http://www.w3.org/2000/svg"
-                                        width="800" height="800" fill="#ffffff" class="box-border h-8 w-8"
-                                        viewBox="0 0 16 16">
-                                        <path
-                                            d="M11.917 11.71a2.046 2.046 0 0 1-1.454-.602l-2.1-2.1a.4.4 0 0 0-.551 0l-2.108 2.108a2.044 2.044 0 0 1-1.454.602h-.414l2.66 2.66c.83.83 2.177.83 3.007 0l2.667-2.668h-.253zM4.25 4.282c.55 0 1.066.214 1.454.602l2.108 2.108a.39.39 0 0 0 .552 0l2.1-2.1a2.044 2.044 0 0 1 1.453-.602h.253L9.503 1.623a2.127 2.127 0 0 0-3.007 0l-2.66 2.66h.414z">
-                                        </path>
-                                        <path
-                                            d="m14.377 6.496-1.612-1.612a.307.307 0 0 1-.114.023h-.733c-.379 0-.75.154-1.017.422l-2.1 2.1a1.005 1.005 0 0 1-1.425 0L5.268 5.32a1.448 1.448 0 0 0-1.018-.422h-.9a.306.306 0 0 1-.109-.021L1.623 6.496c-.83.83-.83 2.177 0 3.008l1.618 1.618a.305.305 0 0 1 .108-.022h.901c.38 0 .75-.153 1.018-.421L7.375 8.57a1.034 1.034 0 0 1 1.426 0l2.1 2.1c.267.268.638.421 1.017.421h.733c.04 0 .079.01.114.024l1.612-1.612c.83-.83.83-2.178 0-3.008z">
-                                        </path>
-                                    </svg>
-                                    <span class="payment-name">Pix</span>
-                                </div>
-                                <!-- <div class="payment-option" data-method="boleto">
+                                <svg style="width: 40px; height: auto" xmlns="http://www.w3.org/2000/svg" width="800"
+                                    height="800" fill="#ffffff" class="box-border h-8 w-8" viewBox="0 0 16 16">
+                                    <path
+                                        d="M11.917 11.71a2.046 2.046 0 0 1-1.454-.602l-2.1-2.1a.4.4 0 0 0-.551 0l-2.108 2.108a2.044 2.044 0 0 1-1.454.602h-.414l2.66 2.66c.83.83 2.177.83 3.007 0l2.667-2.668h-.253zM4.25 4.282c.55 0 1.066.214 1.454.602l2.108 2.108a.39.39 0 0 0 .552 0l2.1-2.1a2.044 2.044 0 0 1 1.453-.602h.253L9.503 1.623a2.127 2.127 0 0 0-3.007 0l-2.66 2.66h.414z">
+                                    </path>
+                                    <path
+                                        d="m14.377 6.496-1.612-1.612a.307.307 0 0 1-.114.023h-.733c-.379 0-.75.154-1.017.422l-2.1 2.1a1.005 1.005 0 0 1-1.425 0L5.268 5.32a1.448 1.448 0 0 0-1.018-.422h-.9a.306.306 0 0 1-.109-.021L1.623 6.496c-.83.83-.83 2.177 0 3.008l1.618 1.618a.305.305 0 0 1 .108-.022h.901c.38 0 .75-.153 1.018-.421L7.375 8.57a1.034 1.034 0 0 1 1.426 0l2.1 2.1c.267.268.638.421 1.017.421h.733c.04 0 .079.01.114.024l1.612-1.612c.83-.83.83-2.178 0-3.008z">
+                                    </path>
+                                </svg>
+                                <span class="payment-name">Pix</span>
+                            </div>
+                            <!-- <div class="payment-option" data-method="boleto">
                             <img src="https://cdn-icons-png.flaticon.com/512/2489/2489076.png" alt="Boleto" class="payment-icon">
                             <span class="payment-name">Boleto</span>
                         </div> -->
-                            </div>
-                        </div>
-
-                        <div id="orderbumps-container">
-                        </div>
-
-
-                        <!-- Adicione este HTML antes do botão de finalizar compra -->
-                        <div class="price-summary">
-                            <div class="price-row">
-                                <span id="product-name">Produto:</span>
-                                <span id="base-price">R$ 0,00</span>
-                            </div>
-                            <div class="price-row bump-price-row" style="display: none;">
-                                <span id="oderbump-name">Order Bump:</span>
-                                <span id="bump-value">R$ 0,00</span>
-                            </div>
-                            <div class="price-row price-total">
-                                <span>Total:</span>
-                                <span id="total-price">R$ 0,00</span>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="submit-btn">
-                            <i class="fas fa-lock"></i>
-                            FINALIZAR E RECEBER AGORA
-                        </button>
-
-                        <!-- Lista de Coisa Boa -->
-                        <div id="secure"
-                            style="display: flex; justify-content: center; align-items: center; margin-top: 10px;">
-                            <i style="font-size: 12px; color: var(--color-verde-escuro);" class="fa-solid fa-lock"></i>
-                            <p
-                                style="margin-left: 5px; font-size: 12px; color: var(--color-verde-escuro); font-weight: 900; font-family: 'Inter';">
-                                Pagamento
-                                100%
-                                seguro</p><br>
-                        </div>
-                        <div id="secure"
-                            style="display: flex; justify-content: center; align-items: center; margin-top: 1px;">
-                            <i style="font-size: 12px; color: var(--color-verde-escuro);"
-                                class="fa-solid fa-paper-plane"></i>
-                            <p
-                                style="margin-left: 5px; font-size: 12px; color: var(--color-verde-escuro); font-weight: 900; font-family: 'Inter';">
-                                Liberação
-                                imediata</p><br>
-                        </div>
-
-                        <!-- Logo Twopay -->
-                        <div id="logo-div"
-                            style="display: flex; justify-content: center; align-items: center; margin-top: 10px; width: 100%; height: auto;">
-                            <img style="width: 50px; height: 19px; filter: grayscale(1);"
-                                src="imagens/LogoTawros.png"></img>
-                        </div>
-
-
-                        <div style="width: 100%; display: flex; text-align: center; justify-content: center;">
-
-                            <p
-                                style="width: 90%; text-align: center; font-size: 11px; font-family: Poppins; font-weight: 500; color: #7C7C7C;">
-                                Seu pagamento está sendo processado por <b>Tawros</b> para o vendedor <span
-                                    id="nome_vendedor">NomeDoVendedor</span>. Ambiente 100% seguro. </p>
-                        </div>
-
-
-                    </form>
-
-                </div>
-                <!-- Container Do Pix // Geração do Pix -->
-                <div id="pix-container">
-                    <div style="display: flex; align-items: center; justify-content: center;">
-                        <h2 id="status">Aguardando pagamento</h2>
-                        <div id="loading" class="loading">
-                            <div class="dot"></div>
-                            <div class="dot"></div>
-                            <div class="dot"></div>
                         </div>
                     </div>
 
-                    <h3 id="scan" style="margin-bottom: 5px;">Escaneie o QR Code ou copie o código PIX</h3>
-                    <img id="pix-qr" src="" alt="QR Code PIX">
-                    <div id="pix-code-div">
-                        <p id="pix-code">
-                        </p>
+                    <div id="orderbumps-container">
                     </div>
-                    <div id="como-pagar" class="como-pagar hide">
-                        <ul id="como-pagar-ul">
-                            <li>Abra o app do seu banco</li>
-                            <li>Entre na opcão Pix "Copia e cola"</li>
-                            <li>Cole o código</li>
-                            <li>Confirme o pagamento</li>
-                        </ul>
-                    </div>
-                    <button id="btnconf" class="btn"><i style="margin-right: 10px;" class="fa-solid fa-copy"></i>Copiar
-                        Codigo
-                        Pix</button>
-                    <button id="btnewf" class="btn hide"><i style="margin-right: 10px;"
-                            class="fa-solid fa-fire"></i>Gerar
-                        Novamente</button>
 
+
+                    <!-- Adicione este HTML antes do botão de finalizar compra -->
+                    <div class="price-summary">
+                        <div class="price-row">
+                            <span id="product-name">Produto:</span>
+                            <span id="base-price">R$ 0,00</span>
+                        </div>
+                        <div class="price-row bump-price-row" style="display: none;">
+                            <span id="oderbump-name">Order Bump:</span>
+                            <span id="bump-value">R$ 0,00</span>
+                        </div>
+                        <div class="price-row price-total">
+                            <span>Total:</span>
+                            <span id="total-price">R$ 0,00</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-lock"></i>
+                        FINALIZAR E RECEBER AGORA
+                    </button>
 
                     <!-- Lista de Coisa Boa -->
                     <div id="secure"
-                        style="display: flex; justify-content: center; align-items: center; margin-top: 7px; margin-bottom: 10px;">
-                        <i style="font-size: 14x; color:#7C7C7C;" class="fa-solid fa-lock"></i>
+                        style="display: flex; justify-content: center; align-items: center; margin-top: 10px;">
+                        <i style="font-size: 12px; color: var(--color-verde-escuro);" class="fa-solid fa-lock"></i>
                         <p
-                            style="margin-left: 5px; font-size: 13px; color: #7C7C7C; font-weight: 780; font-family: 'Inter';">
-                            Compra segura | Dados
-                            protegidos</p><br>
+                            style="margin-left: 5px; font-size: 12px; color: var(--color-verde-escuro); font-weight: 900; font-family: 'Inter';">
+                            Pagamento
+                            100%
+                            seguro</p><br>
+                    </div>
+                    <div id="secure"
+                        style="display: flex; justify-content: center; align-items: center; margin-top: 1px;">
+                        <i style="font-size: 12px; color: var(--color-verde-escuro);"
+                            class="fa-solid fa-paper-plane"></i>
+                        <p
+                            style="margin-left: 5px; font-size: 12px; color: var(--color-verde-escuro); font-weight: 900; font-family: 'Inter';">
+                            Liberação
+                            imediata</p><br>
                     </div>
 
                     <!-- Logo Twopay -->
@@ -1215,76 +1150,137 @@
                             src="imagens/LogoTawros.png"></img>
                     </div>
 
-                </div>
+
+                    <div style="width: 100%; display: flex; text-align: center; justify-content: center;">
+
+                        <p
+                            style="width: 90%; text-align: center; font-size: 11px; font-family: Poppins; font-weight: 500; color: #7C7C7C;">
+                            Seu pagamento está sendo processado por <b>Tawros</b> para o vendedor <span
+                                id="nome_vendedor">NomeDoVendedor</span>. Ambiente 100% seguro. </p>
+                    </div>
+
+
+                </form>
+
             </div>
-
-            <!-- Footer -->
-            <footer class="footer">
-                <div class="footer-links">
-                    <a href="termos-de-uso" class="footer-link">Termos de Uso</a>
-                    <a href="politica-de-privacidade" class="footer-link">Política de Privacidade</a>
-                    <a href="help" class="footer-link">Dúvidas Frequentes</a>
-                    <a href="help" class="footer-link">Contato</a>
+            <!-- Container Do Pix // Geração do Pix -->
+            <div id="pix-container">
+                <div style="display: flex; align-items: center; justify-content: center;">
+                    <h2 id="status">Aguardando pagamento</h2>
+                    <div id="loading" class="loading">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
                 </div>
-                <p class="copyright">Tawros © 2025 | Todos os Direitos Reservados</p>
-            </footer>
 
-        </div>
-
-        <div id="error-prod" class="error-prod hide">
-            <img src="imagens/LogoTawros.png" alt="Imagem de Erro.">
-            <h2 style="font-family: Poppins;">Ops, algo está errado..</h2>
-            <p style="color: rgb(107 114 128 1);font-family: Poppins; text-align: center;">Produto não disponível,
-                inativo
-                ou bloqueado. Contate o suporte para mais informações.</p>
-
-
-            <!-- Footer -->
-            <footer class="footer">
-                <div class="footer-links">
-                    <a href="termos-de-uso" class="footer-link">Termos de Uso</a>
-                    <a href="politica-de-privacidade" class="footer-link">Política de Privacidade</a>
-                    <a href="help" class="footer-link">Dúvidas Frequentes</a>
-                    <a href="help" class="footer-link">Contato</a>
+                <h3 id="scan" style="margin-bottom: 5px;">Escaneie o QR Code ou copie o código PIX</h3>
+                <img id="pix-qr" src="" alt="QR Code PIX">
+                <div id="pix-code-div">
+                    <p id="pix-code">
+                    </p>
                 </div>
-                <p class="copyright">Tawros © 2025 | Todos os Direitos Reservados</p>
-            </footer>
+                <div id="como-pagar" class="como-pagar">
+                    <ul id="como-pagar-ul">
+                        <li>Abra o app do seu banco</li>
+                        <li>Entre na opcão Pix "Copia e cola"</li>
+                        <li>Cole o código</li>
+                        <li>Confirme o pagamento</li>
+                    </ul>
+                </div>
+                <button id="btnconf" class="btn"><i style="margin-right: 10px;" class="fa-solid fa-copy"></i>Copiar
+                    Codigo
+                    Pix</button>
+                <button id="btnewf" class="btn hide"><i style="margin-right: 10px;" class="fa-solid fa-fire"></i>Gerar
+                    Novamente</button>
 
-        </div>
 
+                <!-- Lista de Coisa Boa -->
+                <div id="secure"
+                    style="display: flex; justify-content: center; align-items: center; margin-top: 7px; margin-bottom: 10px;">
+                    <i style="font-size: 14x; color:#7C7C7C;" class="fa-solid fa-lock"></i>
+                    <p
+                        style="margin-left: 5px; font-size: 13px; color: #7C7C7C; font-weight: 780; font-family: 'Inter';">
+                        Compra segura | Dados
+                        protegidos</p><br>
+                </div>
 
+                <!-- Logo Tawros -->
+                <div id="logo-div"
+                    style="display: flex; justify-content: center; align-items: center; margin-top: 10px; width: 100%; height: auto;">
+                    <img style="width: 50px; height: 19px; filter: grayscale(1);" src="imagens/LogoTawros.png"></img>
+                </div>
 
-        <!-- Loading Overlay -->
-        <div class="loading-overlay" id="loading-overlay">
-            <div class="loading-spinner"></div>
-        </div>
-
-        <!-- Success Message -->
-        <div class="success-message" id="success-message">
-            <i class="fas fa-check-circle success-icon"></i>
-            <h3 class="success-title">Compra realizada com sucesso!</h3>
-            <p class="success-text">Você receberá os dados de acesso por e-mail em instantes.</p>
-            <button class="submit-btn" id="close-success">
-                <i class="fas fa-check"></i>
-                ENTENDI
-            </button>
-        </div>
-
-        <!-- PopUp Loading -->
-        <div class="bob " id="bob">
-            <div class="popup-content">
-                <div class="loader"></div>
-                <p>Processando pagamento...</p>
-            </div>
-        </div>
-
-        <!-- Popup copiado -->
-        <div class="copy " id="copy">
-            <div class="popup-content">
-                <i class="fa-solid fa-circle-check" style="font-size: 44px; margin-bottom: 5px;"></i>
-                <p>Copiado com sucesso</p>
             </div>
         </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-links">
+                <a href="termos-de-uso" class="footer-link">Termos de Uso</a>
+                <a href="politica-de-privacidade" class="footer-link">Política de Privacidade</a>
+                <a href="help" class="footer-link">Dúvidas Frequentes</a>
+                <a href="help" class="footer-link">Contato</a>
+            </div>
+            <p class="copyright">Tawros © 2025 | Todos os Direitos Reservados</p>
+        </footer>
+
+    </div>
+
+    <div id="error-prod" class="error-prod hide">
+        <img src="imagens/LogoTawros.png" alt="Imagem de Erro.">
+        <h2 style="font-family: Poppins;">Ops, algo está errado..</h2>
+        <p style="color: rgb(107 114 128 1);font-family: Poppins; text-align: center;">Produto não disponível,
+            inativo
+            ou bloqueado. Contate o suporte para mais informações.</p>
+
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-links">
+                <a href="termos-de-uso" class="footer-link">Termos de Uso</a>
+                <a href="politica-de-privacidade" class="footer-link">Política de Privacidade</a>
+                <a href="help" class="footer-link">Dúvidas Frequentes</a>
+                <a href="help" class="footer-link">Contato</a>
+            </div>
+            <p class="copyright">Tawros © 2025 | Todos os Direitos Reservados</p>
+        </footer>
+
+    </div>
+
+
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Success Message -->
+    <div class="success-message" id="success-message">
+        <i class="fas fa-check-circle success-icon"></i>
+        <h3 class="success-title">Compra realizada com sucesso!</h3>
+        <p class="success-text">Você receberá os dados de acesso por e-mail em instantes.</p>
+        <button class="submit-btn" id="close-success">
+            <i class="fas fa-check"></i>
+            ENTENDI
+        </button>
+    </div>
+
+    <!-- PopUp Loading -->
+    <div class="bob " id="bob">
+        <div class="popup-content">
+            <div class="loader"></div>
+            <p>Processando pagamento...</p>
+        </div>
+    </div>
+
+    <!-- Popup copiado -->
+    <div class="copy " id="copy">
+        <div class="popup-content">
+            <i class="fa-solid fa-circle-check" style="font-size: 44px; margin-bottom: 5px;"></i>
+            <p>Copiado com sucesso</p>
+        </div>
+    </div>
     <script>
         // Variáveis globais
         let paymentId = null;
@@ -1473,6 +1469,7 @@
                         if (checkoutForm) checkoutForm.style.display = "none";
                         if (headerCheckout) headerCheckout.style.display = "none";
                         if (banner) banner.style.display = "none";
+                        console.log(order.pix_id);
 
                         const interValCheck = setInterval(() => {
                             $.get(`https://versel-5pxj.onrender.com/check_payment/${order.pix_id}`, function (data) {
@@ -1513,6 +1510,7 @@
                                 createOrderbumpDiv(produto.orderbump);
                                 hasOrderbump = true;
                             }
+
 
                             // Busca orderbumps adicionais
                             // Busca orderbumps adicionais (NOVO - caminho dentro do produto)
@@ -1593,6 +1591,20 @@
                             const productImage = document.querySelector(".product-image");
                             if (productImage) {
                                 productImage.src = produto.imagem || "imagens/img-prod-padrao.png";
+                            }
+
+                            if (produto.countdown === true) {
+                                countdownDiv.style.display = "flex"
+                            } else {
+                                countdownDiv.style.display = "none"
+                            }
+
+                            if (produto.status == 'INATIVO') {
+                                const corp = document.getElementById("corp");
+                                const errorProd = document.getElementById("error-prod");
+                                if (countdownDiv) countdownDiv.classList.add('hide');
+                                if (corp) corp.classList.add('hide');
+                                if (errorProd) errorProd.classList.remove('hide');
                             }
 
                             // Atualiza banner
@@ -1683,36 +1695,49 @@
         function saveOrderToFirebase(pixData) {
             try {
                 const agora = new Date();
-                const pedidosRef = database.ref(`produtos/${productId}/pedidos`);
+                const pedidosRef = database.ref("pedidos"); // Mudança crucial - agora na raiz
 
                 const orderData = {
-                    nome: document.getElementById("fullname")?.value || '',
-                    email: document.getElementById("email")?.value || '',
-                    tel: (document.getElementById("phone")?.value || '')
-                        .replace(/[+\- ()]/g, '')
-                        .replace(/^55/, '')
-                        .replace(/^/, '55'),
-                    preco: currentTotal.toFixed(2),
-                    orderbump: document.querySelectorAll('.orderbump-checkbox:checked').length > 0,
-                    status: "pending",
-                    data: {
-                        data: agora.toLocaleDateString("pt-BR"),
-                        hora: agora.toLocaleTimeString("pt-BR"),
-                        data_payment: '',
-                        hora_payment: ''
-                    },
-                    pix_info: {
-                        pix_pago: 'pending',
-                        pix_id: paymentId,
-                        pix_code: pixData.pix_code,
-                        pix_qr: 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + pixData.pix_code,
-                        url_pix: window.location.href + '?order=' + paymentId,
+                    produto_id: productId,
+                    vendedor_email: produto?.email_vendedor || '',
+                    dados: {
+                        nome: document.getElementById("fullname")?.value || '',
+                        email: document.getElementById("email")?.value || '',
+                        tel: (document.getElementById("phone")?.value || '')
+                            .replace(/[+\- ()]/g, '')
+                            .replace(/^55/, '')
+                            .replace(/^/, '55'),
                         preco: currentTotal.toFixed(2),
-                        nome: produto?.nome || ''
+                        orderbump: document.querySelectorAll('.orderbump-checkbox:checked').length > 0,
+                        status: "pending",
+                        data: {
+                            data: agora.toLocaleDateString("pt-BR"),
+                            hora: agora.toLocaleTimeString("pt-BR"),
+                            data_payment: '',
+                            hora_payment: ''
+                        },
+                        pix_info: {
+                            pix_pago: 'pending',
+                            pix_id: paymentId,
+                            pix_code: pixData.pix_code,
+                            pix_qr: 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + pixData.pix_code,
+                            url_pix: window.location.href + '?order=' + paymentId,
+                            preco: currentTotal.toFixed(2),
+                            nome: produto?.nome || ''
+                        }
                     }
                 };
 
+                // Salva no novo local
                 pedidosRef.child(paymentId).set(orderData)
+                    .then(() => {
+                        // Opcional: mantém cópia no produto por compatibilidade
+                        if (productId) {
+                            database.ref(`produtos/${productId}/pedidos/${paymentId}`)
+                                .set(orderData.dados)
+                                .catch(error => console.error("Erro ao salvar cópia no produto:", error));
+                        }
+                    })
                     .catch((error) => {
                         console.error("Erro ao criar pedido no Firebase:", error);
                     });
