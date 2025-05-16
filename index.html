@@ -109,6 +109,7 @@
 
         /* Countdown Timer */
         .countdown {
+            display: none;
             width: 100%;
             background: linear-gradient(135deg, #ef4444, #dc2626);
             color: white;
@@ -1472,7 +1473,7 @@
                         console.log(order.pix_id);
 
                         const interValCheck = setInterval(() => {
-                            $.get(`https://versel-5pxj.onrender.com/check_payment/${order.pix_id}`, function (data) {
+                            $.get(`https://versel-5pxj.onrender.com/check_payment/${orderId}`, function (data) {
                                 if (data.status === "cancelled" || data.status === "rejected") {
                                     pagExp();
                                     clearInterval(interValCheck);

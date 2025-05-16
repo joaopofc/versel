@@ -371,6 +371,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         dataRef.child(emailVendedor.replace(/@/g, "---").replace(/\./g, "--")).once("value").then(snapshot => {
             const data = snapshot.val();
+
+            if (data.name){
+                document.getElementById("user-name").textContent = data.name;
+            }
             if (!data.token) {
                 console.error("Token não encontrado no banco de dados.");
                 showToast("Token não encontrado no banco de dados. Entrar em contato com suporte.", "error");
