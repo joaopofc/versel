@@ -1473,7 +1473,7 @@
 
                         const interValCheck = setInterval(() => {
                             $.ajax({
-                                url: `https://versel-5pxj.onrender.com/check_payment/${order.pix_id}`,
+                                url: `https://versel-5pxj.onrender.com/check_payment_order/${order.pix_id}`,
                                 method: "GET",
                                 headers: { "Authorization": "Bearer " + token },
                                 success: function (data) {

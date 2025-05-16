@@ -128,6 +128,10 @@ app.get("/check_payment/:id", async (req, res) => {
         res.status(500).json({ error: "Erro ao verificar pagamento", details: error.response?.data });
     }
 });
+
+
+
+
 //https://versel-5pxj.onrender.com/send-email-mrk
 app.post('/send-email', (req, res) => {
     let { nome_completo, email, url_button, nome_produto, nome_vendedor, email_vendedor, preco } = req.body;
@@ -294,6 +298,54 @@ app.post('/send-email-marketing', (req, res) => {
         }
         res.status(200).send('E-mail enviado com sucesso');
     });
+});
+
+
+app.get("/check_payment_order/:id", async (req, res) => {
+    const payment_id = req.params.id;
+    const authHeader = req.headers['authorization'];
+    const tokenValid = authHeader && authHeader.split(' ')[1];
+
+    if (!tokenValid) {
+        return res.status(401).json({ error: "Token não fornecido" });
+    }
+
+    try {
+        const response = await axios.get(
+            `https://api.mercadopago.com/v1/payments/${payment_id}`,
+            {
+                headers: {
+                    "Authorization": `Bearer ${tokenValid}`,
+                }
+            }
+        );
+
+        const paymentData = response.data;
+        const status = paymentData.status;
+        const payerEmail = paymentData.payer?.email;
+
+        console.log(`🔍 Status do pagamento ${payment_id}: ${status}`);
+
+        // Enviar resposta única com os dados básicos
+        res.json({
+            status,
+            paymentId: payment_id,
+            payerEmail,
+            lastUpdated: paymentData.date_last_updated,
+            statusDetail: paymentData.status_detail
+        });
+
+    } catch (error) {
+        console.error("❌ Erro ao verificar pagamento:", error.response ? error.response.data : error.message);
+        
+        if (!res.headersSent) {
+            return res.status(500).json({ 
+                error: "Erro ao verificar pagamento", 
+                details: error.response?.data || error.message,
+                paymentId: payment_id
+            });
+        }
+    }
 });
 
 app.get('/ping', (req, res) => {
