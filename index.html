@@ -1470,18 +1470,25 @@
                         if (checkoutForm) checkoutForm.style.display = "none";
                         if (headerCheckout) headerCheckout.style.display = "none";
                         if (banner) banner.style.display = "none";
-                        console.log(order.pix_id);
 
-                        const interValCheck = setInterval(() => {
-                            $.get(`https://versel-5pxj.onrender.com/check_payment/${order.pix_id}`, function (data) {
-                                if (data.status === 'cancelled' || data.status === 'rejected') {
-                                    pagExp();
-                                    clearInterval(interValCheck);
+                        const interval = setInterval(() => {
+                            $.ajax({
+                                url: `https://versel-5pxj.onrender.com/check_payment/${order.pix_id}`,
+                                method: "GET",
+                                headers: { "Authorization": "Bearer " + token },
+                                success: function (data) {
+                                    if (data.status === 'cancelled' || data.status === 'rejected') {
+                                        pagExp();
+                                        clearInterval(interValCheck);
+                                    }
+                                },
+                                error: function () {
+                                    console.log("Erro ao verificar pagamento")
                                 }
-                            }).fail(() => {
-                                console.log("Erro ao verificar pagamento");
                             });
-                        }, 1000);
+                        }, 2000);
+
+
                     }
                 })
                 .catch(error => {
