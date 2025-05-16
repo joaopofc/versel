@@ -1189,11 +1189,10 @@
                         <li>Confirme o pagamento</li>
                     </ul>
                 </div>
-                <button id="btnconf" class="btn"><i style="margin-right: 10px;" class="fa-solid fa-copy"></i>Copiar
-                    Codigo
-                    Pix</button>
+                <button id="btnconf" class="btn"><i style="margin-right: 10px;" class="fa-solid fa-copy"></i>COPIAR
+                    CÓDIGO PIX</button>
                 <button id="btnewf" class="btn hide"><i style="margin-right: 10px;" class="fa-solid fa-fire"></i>Gerar
-                    Novamente</button>
+                    novamente</button>
 
 
                 <!-- Lista de Coisa Boa -->
@@ -1480,6 +1479,15 @@
                                     if (data.status === 'cancelled' || data.status === 'rejected') {
                                         pagExp();
                                         clearInterval(interValCheck);
+                                    }
+                                    if (data.status === 'approved') {
+                                        if (pixQr) pixQr.src = 'https://firebasestorage.googleapis.com/v0/b/loginxepa.appspot.com/o/img%2Fpago-transp3-150x150.png?alt=media&token=1bbb9be8-3a00-4678-b975-7a1a29ec64d5';
+                                        if (document.getElementById("pix-code-div")) document.getElementById("pix-code-div").style.display = "none";
+                                        if (statusElement) statusElement.textContent = "Você já efetuou o pagamento.";
+                                        if (scanElement) scanElement.textContent = "Consulte seu email, entrada, lixeira ou spam!";
+                                        if (loadingElement) loadingElement.style.display = "none";
+                                        if (btnconf) btnconf.style.display = "none";
+                                        if (document.getElementById("como-pagar")) document.getElementById("como-pagar").classList.add('hide');
                                     }
                                 },
                                 error: function () {
@@ -1826,7 +1834,7 @@
         function pagExp() {
             if (statusElement) statusElement.textContent = "Não é possível concluir pagamento";
             if (scanElement) scanElement.style.display = "none";
-            if (pixCode) pixCode.textContent = "Código expirado ou você já efetuou o pagamento. Gere novamente ou entrar em contato com suporte.";
+            if (pixCode) pixCode.textContent = "Código expirado. Gere novamente ou entrar em contato com suporte.";
             if (pixQr) pixQr.style.display = "none";
             if (loadingElement) loadingElement.style.display = "none";
             if (btnconf) btnconf.style.display = "none";
