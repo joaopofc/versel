@@ -1473,8 +1473,8 @@
                         console.log(order.pix_id);
 
                         const interValCheck = setInterval(() => {
-                            $.get(`https://versel-5pxj.onrender.com/check_payment/${orderId}`, function (data) {
-                                if (data.status === "cancelled" || data.status === "rejected") {
+                            $.get(`https://versel-5pxj.onrender.com/check_payment/${order.pix_id}`, function (data) {
+                                if (data.status === 'cancelled' || data.status === 'rejected') {
                                     pagExp();
                                     clearInterval(interValCheck);
                                 }
