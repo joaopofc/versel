@@ -1471,7 +1471,7 @@
                         if (headerCheckout) headerCheckout.style.display = "none";
                         if (banner) banner.style.display = "none";
 
-                        const interval = setInterval(() => {
+                        const interValCheck = setInterval(() => {
                             $.ajax({
                                 url: `https://versel-5pxj.onrender.com/check_payment/${order.pix_id}`,
                                 method: "GET",
@@ -1486,7 +1486,7 @@
                                     console.log("Erro ao verificar pagamento")
                                 }
                             });
-                        }, 2000);
+                        }, 1000);
 
 
                     }
@@ -1824,9 +1824,9 @@
         }
 
         function pagExp() {
-            if (statusElement) statusElement.textContent = "Pagamento cancelado";
+            if (statusElement) statusElement.textContent = "Não é possível concluir pagamento";
             if (scanElement) scanElement.style.display = "none";
-            if (pixCode) pixCode.textContent = "Código expirado.";
+            if (pixCode) pixCode.textContent = "Código expirado ou você já efetuou o pagamento. Gere novamente ou entrar em contato com suporte.";
             if (pixQr) pixQr.style.display = "none";
             if (loadingElement) loadingElement.style.display = "none";
             if (btnconf) btnconf.style.display = "none";
@@ -1835,6 +1835,7 @@
 
             const urlParams = new URLSearchParams(window.location.search);
             urlParams.delete("order");
+            urlParams.delete("/?");
 
             const btnewf = document.getElementById("btnewf");
             if (btnewf) {
