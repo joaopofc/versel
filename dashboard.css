@@ -101,9 +101,7 @@ body {
 .user-logger-div {
     display: flex;
     align-items: center;
-    /* Alinha verticalmente */
     gap: 10px;
-    /* Espaço entre elementos */
     font-size: 14px;
     color: #000000;
     font-weight: 500;
@@ -1291,3 +1289,5 @@ p {
 .ob-close-modal:hover {
     color: rgb(255, 59, 59);
 }
+
+

@@ -646,25 +646,26 @@ document.addEventListener("DOMContentLoaded", () => {
         orderOverlay.classList.add('active');
         currentProductId = productId;
         const container = document.getElementById("orderbumpTableContainer");
-        container.innerHTML = "Carregando...";
+        container.innerHTML = '<div class="loading-table">Carregando orderbumps...</div>';
 
         const ref = firebase.database().ref("produtos").child(productId).child('orderbumps');
 
         ref.once("value", snapshot => {
             const orderbumps = snapshot.val();
+            const quantidade = Object.keys(orderbumps).length;
             container.innerHTML = "";
+            document.getElementById("order-modal-title").textContent = `Gerenciar OrderBumps (${quantidade})`;
 
             if (orderbumps) {
                 const table = document.createElement("table");
-                table.className = "styled-table";
-                table.style.width = "100%";
-                table.style.borderCollapse = "collapse";
+                table.className = "orderbump-table";
                 table.innerHTML = `
                 <thead>
-                    <tr style="text-align:left;">
-                        <th style="padding: 10px;">Título</th>
-                        <th style="padding: 10px;">Preço</th>
-                        <th style="padding: 10px;">Ações</th>
+                    <tr>
+                        <th>Título</th>
+                        <th>Preço</th>
+                        <th>Status</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -674,36 +675,169 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 Object.entries(orderbumps).forEach(([id, data]) => {
                     const row = document.createElement("tr");
+
                     row.innerHTML = `
-    <td style="padding: 10px;">${data.titulo || ""}</td>
-    <td style="padding: 10px;">R$ ${parseFloat(data.preco || 0).toFixed(2)}</td>
-    <td style="padding: 10px;">
-        <button class="edit-btn" onclick="orderRedirect('orderbump.html?productId=${productId}&orderbumpId=${id}')">Editar</button>
-    </td>
-`;
+                    <td>${data.titulo || ""}</td>
+                    <td>R$ ${parseFloat(data.preco || 0).toFixed(2)}</td>
+                    <td>
+                        <span class="status-badge ${data.ativo !== false ? 'active' : 'inactive'}">
+                            ${data.ativo !== false ? 'Ativo' : 'Inativo'}
+                        </span>
+                    </td>
+                    <td class="actions">
+                        <button class="edit-btn" onclick="orderRedirect('orderbump.html?productId=${productId}&orderbumpId=${id}')">
+                            Editar
+                        </button>
+                    </td>
+                    
+                </div>
+                `;
+
                     tbody.appendChild(row);
                 });
 
+                const divBtn = document.createElement("div");
+                divBtn.className = 'no-orderbumps';
+                divBtn.innerHTML = `
+                    <button class="add-orderbump-btn" onclick="orderRedirect('orderbump.html?productId=${productId}')">
+                        Adicionar OrderBump
+                    </button>`;
                 container.appendChild(table);
-
-                window.orderRedirect = function (url) {
-                    try {
-                        // Verifica se a URL é válida
-                        new URL(url, window.location.origin);
-                        window.location.href = url;
-                    } catch (e) {
-                        console.error('URL inválida para redirecionamento:', url);
-                        // Opcional: mostrar mensagem de erro para o usuário
-                        alert('Erro: Não foi possível redirecionar para esta página');
-                    }
-                };
+                container.appendChild(divBtn);
             } else {
-                container.innerHTML = `<p>Nenhum orderbump encontrado.</p></br>
-                <button onclick="">Salvar</button>
-                `;
+                container.innerHTML = `
+                <div class="no-orderbumps">
+                    <p>Nenhum orderbump encontrado para este produto.</p>
+                    <button class="add-orderbump-btn" onclick="orderRedirect('orderbump.html?productId=${productId}')">
+                        Adicionar OrderBump
+                    </button>
+                </div>
+            `;
             }
+            // Função global para redirecionamento
+            window.orderRedirect = function (url) {
+                try {
+                    new URL(url, window.location.origin);
+                    window.location.href = url;
+                } catch (e) {
+                    console.error('URL inválida para redirecionamento:', url);
+                    alert('Erro: Não foi possível redirecionar para esta página');
+                }
+            };
         });
     }
+
+    // Função global para redirecionamento
+    window.orderRedirect = function (url) {
+        try {
+            new URL(url, window.location.origin);
+            window.location.href = url;
+        } catch (e) {
+            console.error('URL inválida para redirecionamento:', url);
+            alert('Erro: Não foi possível redirecionar para esta página');
+        }
+    };
+
+    // Adicione este CSS no seu arquivo de estilo
+    const style = document.createElement('style');
+    style.textContent = `
+    .orderbump-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: var(--color-surface);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .orderbump-table th {
+        background-color: var(--color-surface-light);
+        color: var(--color-primary);
+        padding: 12px 15px;
+        text-align: left;
+        font-weight: 600;
+    }
+    
+    .orderbump-table td {
+        padding: 12px 15px;
+        border-bottom: 1px solid var(--color-border);
+        color: var(--color-text);
+    }
+    
+    .orderbump-table tr:last-child td {
+        border-bottom: none;
+    }
+    
+    .orderbump-table tr:hover {
+        background-color: rgba(122, 111, 240, 0.05);
+    }
+    
+    .status-badge {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+    
+    .status-badge.active {
+        background-color: rgba(45, 212, 191, 0.2);
+        color: var(--color-secondary);
+    }
+    
+    .status-badge.inactive {
+        background-color: rgba(255, 126, 185, 0.2);
+        color: var(--color-accent);
+    }
+    
+    .edit-btn {
+        background-color: var(--color-primary);
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+    
+    .edit-btn:hover {
+        background-color: var(--color-primary-hover);
+        transform: translateY(-1px);
+    }
+    
+    .loading-table {
+        padding: 20px;
+        text-align: center;
+        color: var(--color-text-muted);
+    }
+    
+    .no-orderbumps {
+        text-align: center;
+        padding: 30px;
+    }
+    
+    .no-orderbumps p {
+        color: var(--color-text-muted);
+        margin-bottom: 20px;
+    }
+    
+    .add-orderbump-btn {
+        background-color: var(--color-primary);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+    
+    .add-orderbump-btn:hover {
+        background-color: var(--color-primary-hover);
+    }
+`;
+    document.head.appendChild(style);
 
 
     function deleteProduct(productId) {
