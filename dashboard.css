@@ -477,6 +477,19 @@ th {
     display: block;
 }
 
+
+
+.edit-btn {
+    background-color: #7a6ff0;
+    color: white;
+    border: none;
+    padding: .40rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
 /* ============ MODAL DE FORMULÁRIO ============ */
 .modal-overlay,
 .config-overlay,
@@ -1267,7 +1280,7 @@ p {
 }
 
 .ob-close-modal,
-#close-modal-order{
+#close-modal-order {
     color: #aaa;
     float: right;
     font-size: 28px;
@@ -1278,5 +1291,3 @@ p {
 .ob-close-modal:hover {
     color: rgb(255, 59, 59);
 }
-
-

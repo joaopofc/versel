@@ -678,79 +678,32 @@ document.addEventListener("DOMContentLoaded", () => {
     <td style="padding: 10px;">${data.titulo || ""}</td>
     <td style="padding: 10px;">R$ ${parseFloat(data.preco || 0).toFixed(2)}</td>
     <td style="padding: 10px;">
-        <button class="edit-btn" onclick="window.preencherFormOrderbump('${id}')">Editar</button>
+        <button class="edit-btn" onclick="orderRedirect('orderbump.html?productId=${productId}&orderbumpId=${id}')">Editar</button>
     </td>
 `;
                     tbody.appendChild(row);
                 });
 
                 container.appendChild(table);
+
+                window.orderRedirect = function (url) {
+                    try {
+                        // Verifica se a URL é válida
+                        new URL(url, window.location.origin);
+                        window.location.href = url;
+                    } catch (e) {
+                        console.error('URL inválida para redirecionamento:', url);
+                        // Opcional: mostrar mensagem de erro para o usuário
+                        alert('Erro: Não foi possível redirecionar para esta página');
+                    }
+                };
             } else {
-                container.innerHTML = "<p>Nenhum orderbump encontrado.</p>";
+                container.innerHTML = `<p>Nenhum orderbump encontrado.</p></br>
+                <button onclick="">Salvar</button>
+                `;
             }
         });
     }
-
-    function preencherFormOrderbump(orderbumpId) {
-        const ref = firebase.database().ref("produtos").child(currentProductId).child('orderbumps').child(orderbumpId);
-
-        ref.once("value", snapshot => {
-            const data = snapshot.val();
-            if (data) {
-                document.getElementById("order-name").value = data.titulo || "";
-                document.getElementById("order-description").value = data.descricao || "";
-                document.getElementById("order-link").value = data.entrega || "";
-                document.getElementById("price-order").value = data.preco || "0.00";
-                orderbumpEditandoId = orderbumpId;
-            }
-        });
-    }
-    window.preencherFormOrderbump = preencherFormOrderbump;
-
-    document.getElementById("save-order").addEventListener("click", () => {
-        const titulo = document.getElementById("oder-name").value.trim();
-        const descricao = document.getElementById("order-description").value.trim();
-        const entrega = document.getElementById("order-link").value.trim();
-        const preco = parseFloat(document.getElementById("price-order").value.replace(",", "."));
-
-        if (!titulo || !descricao || !entrega || isNaN(preco)) {
-            alert("Preencha todos os campos corretamente.");
-            return;
-        }
-
-        const orderbump = { titulo, descricao, entrega, preco };
-
-        const ref = firebase.database().ref("produtos").child(currentProductId).child('orderbumps');
-
-        if (orderbumpEditandoId) {
-            ref.child(orderbumpEditandoId).update(orderbump).then(() => {
-                alert("OrderBump atualizado com sucesso!");
-                orderbumpEditandoId = null;
-                limparCamposOrderbump();
-                editProductOrder(currentProductId);
-            });
-        } else {
-            const novoId = ref.push().key;
-            ref.child(novoId).set(orderbump).then(() => {
-                alert("OrderBump adicionado com sucesso!");
-                limparCamposOrderbump();
-                editProductOrder(currentProductId);
-            });
-        }
-    });
-
-    document.getElementById("cancel-edit")?.addEventListener("click", () => {
-        orderbumpEditandoId = null;
-        limparCamposOrderbump();
-    });
-
-    function limparCamposOrderbump() {
-        document.getElementById("oder-name").value = "";
-        document.getElementById("order-description").value = "";
-        document.getElementById("order-link").value = "";
-        document.getElementById("price-order").value = "";
-    }
-
 
 
     function deleteProduct(productId) {
