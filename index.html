@@ -1435,6 +1435,7 @@
 
                 currentTotal += totalBumpPrice;
                 totalElement.textContent = formatReal(currentTotal);
+                document.getElementById("price").textContent = formatReal(currentTotal);
                 bumpPriceRow.style.display = totalBumpPrice > 0 ? 'flex' : 'none';
                 bumpValueElement.textContent = formatReal(totalBumpPrice);
 
