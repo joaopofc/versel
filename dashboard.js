@@ -684,7 +684,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         </span>
                     </td>
                     <td class="actions">
-                        <button class="edit-btn" onclick="orderRedirect('orderbump.html?productId=${productId}&orderbumpId=${id}')">
+                        <button class="edit-btn" onclick="orderRedirect('orderbump?prod=${productId}&bump=${id}')">
                             Editar
                         </button>
                     </td>
@@ -698,7 +698,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const divBtn = document.createElement("div");
                 divBtn.className = 'no-orderbumps';
                 divBtn.innerHTML = `
-                    <button class="add-orderbump-btn" onclick="orderRedirect('orderbump.html?productId=${productId}')">
+                    <button class="add-orderbump-btn" onclick="orderRedirect('orderbump?prod=${productId}')">
                         Criar +OrderBumps
                     </button>`;
                 container.appendChild(table);
@@ -707,7 +707,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 container.innerHTML = `
                 <div class="no-orderbumps">
                     <p>Nenhum orderbump encontrado para este produto.</p>
-                    <button class="add-orderbump-btn" onclick="orderRedirect('orderbump.html?productId=${productId}')">
+                    <button class="add-orderbump-btn" onclick="orderRedirect('orderbump?prod=${productId}')">
                         Criar OrderBump
                     </button>
                 </div>

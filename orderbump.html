@@ -539,7 +539,7 @@
         function saveOrderbump() {
             const titulo = tituloEl.value.trim();
             const descricao = descricaoEl.value.trim();
-            const preco = parseFloat(precoEl.value);
+            const preco = parseFloat(precoEl.value.replace(',', '.'));
             const desconto = descontoEl.value.trim();
             const entrega = entregaEl.value.trim();
             const ativo = ativoEl.value === 'true';
@@ -614,8 +614,8 @@
         document.addEventListener('DOMContentLoaded', () => {
             // Obter parâmetros da URL
             const urlParams = new URLSearchParams(window.location.search);
-            currentProductId = urlParams.get('productId');
-            const orderbumpId = urlParams.get('orderbumpId');
+            currentProductId = urlParams.get('prod');
+            const orderbumpId = urlParams.get('bump');
 
             if (!currentProductId) {
                 showAlert('ID do produto não especificado', 'error');
