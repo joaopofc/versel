@@ -652,9 +652,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         ref.once("value", snapshot => {
             const orderbumps = snapshot.val();
-            const quantidade = Object.keys(orderbumps).length;
+
             container.innerHTML = "";
-            document.getElementById("order-modal-title").textContent = `Gerenciar OrderBumps (${quantidade})`;
 
             if (orderbumps) {
                 const table = document.createElement("table");
@@ -700,7 +699,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 divBtn.className = 'no-orderbumps';
                 divBtn.innerHTML = `
                     <button class="add-orderbump-btn" onclick="orderRedirect('orderbump.html?productId=${productId}')">
-                        Adicionar OrderBump
+                        Criar +OrderBumps
                     </button>`;
                 container.appendChild(table);
                 container.appendChild(divBtn);
@@ -709,7 +708,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div class="no-orderbumps">
                     <p>Nenhum orderbump encontrado para este produto.</p>
                     <button class="add-orderbump-btn" onclick="orderRedirect('orderbump.html?productId=${productId}')">
-                        Adicionar OrderBump
+                        Criar OrderBump
                     </button>
                 </div>
             `;
