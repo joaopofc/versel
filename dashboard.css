@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@400;500&display=swap');
 
 :root {
@@ -89,19 +88,27 @@ body {
 }
 
 .user-logger {
+    border-top: 1px solid rgb(91, 91, 91);
     margin-top: 10px;
     display: flex;
     flex-direction: column;
-    align-items: Top;
-    width: auto;
+    align-items: flex-start;
+    width: 100%;
+    overflow: hidden;
+    padding-top: 15px;
 }
 
 .user-logger-div {
     display: flex;
-    margin-left: 10px;
+    align-items: center;
+    /* Alinha verticalmente */
+    gap: 10px;
+    /* Espaço entre elementos */
     font-size: 14px;
     color: #000000;
     font-weight: 500;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .user-logger img {
@@ -111,29 +118,31 @@ body {
 }
 
 .user-logger-div p {
-    margin: 0 10px 3px 10px;
+    margin: 0;
     font-size: 14px;
-    color: #333;
+    color: #d5d5d5;
     font-weight: 500;
+    width: 100%;
 }
 
-.user-logger p {
-    margin: 0 10px 3px 10px;
+.user-logger p#user-email {
+    margin-top: 5px;
     font-size: 13px;
     color: #666;
     font-weight: 500;
 }
 
 .user-logger-div button {
-    font-size: 12px;
+    font-size: 14px;
     color: #ffffff;
     background: #f30a3c;
     font-weight: 500;
     border: none;
     border-radius: 50%;
-    padding: 5px 9px;
+    padding: 6px 10px;
     cursor: pointer;
 }
+
 
 /* ============ CONTEÚDO PRINCIPAL ============ */
 .main {
@@ -430,6 +439,7 @@ th {
 .btn-edit:hover {
     background: #218838;
 }
+
 .btn-order {
     background: #3a4743;
     color: #13c086 !important;
@@ -491,12 +501,34 @@ th {
     transform: translate(-50%, -50%);
     background: #212B36;
     padding: 30px;
-    min-width: 500px;
-    max-width: 700px;
+    min-width: 600px;
+    max-width: 900px;
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    width: fit-content;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #e6e6e6b8 transparent;
 }
+
+.container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.container::-webkit-scrollbar-track {
+    background: #2a2a2a;
+    border-radius: 3px;
+}
+
+.container::-webkit-scrollbar-thumb {
+    background-color: #090909;
+    border-radius: 3px;
+    transition: background 0.3s;
+}
+
+.container::-webkit-scrollbar-thumb:hover {
+    background-color: #666;
+}
+
 
 .config {
     width: 400px;
@@ -514,16 +546,14 @@ th {
 
 .modal h2,
 .config h2,
+.order h2,
 .modal i,
-.config i {
+.config i .order i {
     margin-bottom: 15px;
 }
 
 
 
-#order-div {
-    display: none;
-}
 
 
 
@@ -531,6 +561,7 @@ th {
 .modal input,
 .config input,
 .modal textarea,
+.order textarea,
 .order input {
     width: 100%;
     padding: 10px;
@@ -577,7 +608,9 @@ th {
 .config input,
 .modal textarea,
 .modal .price-div,
-.order input{
+.order .price-div,
+.order input,
+.order textarea {
     color: #fff;
     border: none !important;
     border-radius: 8px;
@@ -587,7 +620,8 @@ th {
     transition: 0.3s;
 }
 
-#price,  #price-order {
+#price,
+#price-order {
     background: transparent !important;
     border: none !important;
     outline: none;
@@ -612,7 +646,7 @@ th {
 .btn-delete,
 .btn-link,
 .btn-contact,
-.btn-order  {
+.btn-order {
     color: #fff;
     border: none;
     padding: 6px 14px;
@@ -733,7 +767,7 @@ th {
 }
 
 .card-produto {
-    background-color: #272c31;
+    background-color: #1a1d28;
     border-radius: 12px;
     padding: 15px;
     width: auto;
@@ -1047,14 +1081,16 @@ textarea,
     padding-left: 15px;
 }
 
-.price-div input, #price-order input {
+.price-div input,
+#price-order input {
     border: none;
     height: auto;
     margin: 0 !important;
     padding: 10px 4px;
 }
 
-.price-div span, #price-div span {
+.price-div span,
+#price-div span {
     font-size: 16px;
     color: #717070;
     margin-left: 10px;
@@ -1141,13 +1177,16 @@ textarea:focus,
 .aba-produto header {
     position: relative;
 }
+
 a {
     color: #fff;
 }
+
 p {
     color: #fff;
     margin-bottom: 6px;
 }
+
 #count-prod {
     font-size: 12px;
     color: #1d1d1d;
@@ -1221,12 +1260,14 @@ p {
     max-width: 600px;
     box-shadow: 0px 0px 20px -7px #ffffff29;
 }
+
 .ob-modal-content p {
     /* border-bottom: 1px dashed #ffffff; */
     margin: 10px;
 }
 
-.ob-close-modal {
+.ob-close-modal,
+#close-modal-order{
     color: #aaa;
     float: right;
     font-size: 28px;
@@ -1237,3 +1278,5 @@ p {
 .ob-close-modal:hover {
     color: rgb(255, 59, 59);
 }
+
+

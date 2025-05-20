@@ -1,7 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@400;500&display=swap');
 
+:root {
+  /* Cores Dark Mode Premium */
+  --color-bg: #0f111a;
+  --color-surface: #1a1d28;
+  --color-surface-light: #252a38;
+  --color-primary: #7a6ff0;
+  --color-primary-hover: #8a80ff;
+  --color-secondary: #2dd4bf;
+  --color-accent: #ff7eb9;
+  --color-text: #e0e3ff;
+  --color-text-muted: #8a91b8;
+  --color-border: rgba(138, 145, 184, 0.12);
+}
+
+
 body {
-  background: #111111;
+  background: #0F111A;
   font-family: "Poppins";
   height: 100dvh;
 }
@@ -9,7 +24,11 @@ body {
 .center-box,
 #reset-password-div {
   position: absolute;
-  background: #1E1E1E;
+  background: #14171f;
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 1.25rem;
+  transition: all 0.25s ease;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -20,6 +39,7 @@ body {
   align-items: center;
   justify-content: center;
 }
+
 #reset-password-div {
   min-height: 50%;
   height: auto;
@@ -37,9 +57,9 @@ h2 {
   padding: 10px 30px;
   margin: 7px 0;
   font-family: "Poppins";
-  background-color: #333;
+  background-color: #59595942;
   border: none;
-  border-radius: 10px;
+  border-radius: 18px;
   outline: none;
   font-size: 12pt;
   color: rgb(246, 246, 246);

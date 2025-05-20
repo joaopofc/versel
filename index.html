@@ -369,6 +369,12 @@
             cursor: pointer;
             transition: var(--transition);
         }
+         .orderbump.false{
+            display: none;
+         }
+         .orderbump.true{
+            display: flex;
+         }
 
         .orderbump:hover {
             background-color: #f0fdf4;
@@ -1378,7 +1384,7 @@
                 }
 
                 const orderbumpDiv = document.createElement('div');
-                orderbumpDiv.className = 'orderbump';
+                orderbumpDiv.className = `orderbump ${orderbumpData.status}`;
                 orderbumpDiv.innerHTML = `
             <input type="checkbox" class="orderbump-checkbox" id="orderbump-checkbox-${Date.now()}">
             <div class="orderbump-content">

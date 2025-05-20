@@ -29,6 +29,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       const ip = ipData?.ip || "Desconhecido";
       const cidade = ipData?.city || "N/A";
+      const uf = ipData?.region_code || "N/A";
       const pais = ipData?.country_name || "N/A";
 
   document.getElementById("reg-btn").addEventListener('click', function () {
@@ -126,7 +127,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                   name: name,
                   userdata: {
                     ip: ip,
-                    cidade: cidade
+                    cidade: cidade + ' ' + uf
                   },
                   tel: tel.replace(/[+\- ]/g, ''), // <-- correção aqui
                   token: '',

@@ -20,6 +20,8 @@ let token = null;
 let emailVendedor = null;
 let productRef = database.ref("produtos/");
 let currentPage = 'dashboard';
+let currentProductId = null;
+let orderbumpEditandoId = null;
 
 // Função para inicializar a aplicação
 document.addEventListener("DOMContentLoaded", () => {
@@ -41,6 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const addOrderBumpBtn = document.getElementById("btn-add-order");
 
     const closeModal = document.getElementById("close-modal");
+    const closeModalOrder = document.getElementById("close-modal-order");
     const countProd = document.getElementById("count-prod");
     const closeModalConfig = document.getElementById("close-modal-config");
     const countdownToggle = document.getElementById("countdown-toggle");
@@ -142,6 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 totalBuyers++;
                                 if (order.status === "approved") approvedBuyers++;
                                 if (order.status === "pending") pendingBuyers++;
+                                if (order.status === "cancelled") pendingBuyers++;
 
                                 // Formatar data e criar objeto Date para ordenação
                                 let dataObj = null;
@@ -182,12 +186,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
                             const row = document.createElement('tr');
                             row.innerHTML = `
-                            <td><strong>${order.nome || 'N/A'}</strong></br>${order.email || 'N/A'}</td>
+                            <td class="col-1"><strong>${order.nome || 'N/A'}</strong></br>${order.email || 'N/A'}</td>
                             <td>${product.nome || 'N/A'}</td>
                             <td>R$ ${order.preco ? parseFloat(order.preco).toFixed(2).replace('.', ',') : '0,00'}</td>
                             <td><span class="status-badge status-${order.status || 'pending'}">${order.status === 'approved' ? 'Aprovado' :
                                     order.status === 'pending' ? 'Pendente' :
-                                        order.status === 'cancelled' ? 'Cancelado' : 'N/A'
+                                        order.status === 'cancelled' ? 'Cancelado' : order.status === 'rejected' ? 'Cancelado' : 'N/A'
                                 }</span></td>
                             <td>${dataFormatada}</td>
                             <td class="buyer-actions">
@@ -277,11 +281,11 @@ document.addEventListener("DOMContentLoaded", () => {
     btnAdd.addEventListener("click", () => {
         token = localStorage.getItem('token');
         if (token === "" || token === null) {
-            showToast("Preencha o token!", "error");
+            showToast("Preencha o token antes de criar o produto.", "error");
             config.classList.add("active");
             configOverlay.classList.add("active");
         } else if (token.length < 66) {
-            showToast("Token inválido!", "error");
+            showToast("Token inválido.", "error");
             config.classList.add("active");
             configOverlay.classList.add("active");
 
@@ -301,15 +305,15 @@ document.addEventListener("DOMContentLoaded", () => {
         clearForm();
     });
 
-    
+
 
     btnConfigSave.addEventListener("click", () => {
         if (tokenInput.value.length < 66) {
-            showToast("Token inválido!", "error");
+            showToast("Token inválido.", "error");
         } else if (tokenInput.value === "") {
-            showToast("Preencha o token!", "error");
+            showToast("Preencha o token.", "error");
         } else {
-            showToast("Token salvo com sucesso!", "success");
+            showToast("Token salvo com sucesso.", "success");
             config.classList.remove("active");
             configOverlay.classList.remove("active");
 
@@ -364,6 +368,12 @@ document.addEventListener("DOMContentLoaded", () => {
         editingProductId = null;
         clearForm();
     });
+    closeModalOrder.addEventListener("click", () => {
+        orderModal.classList.remove("active");
+        orderOverlay.classList.remove("active");
+        editingProductId = null;
+        clearForm();
+    });
 
     // Carregar o token do LocalStorage
     function loadToken() {
@@ -372,12 +382,12 @@ document.addEventListener("DOMContentLoaded", () => {
         dataRef.child(emailVendedor.replace(/@/g, "---").replace(/\./g, "--")).once("value").then(snapshot => {
             const data = snapshot.val();
 
-            if (data.name){
+            if (data.name) {
                 document.getElementById("user-name").textContent = data.name;
             }
             if (!data.token) {
                 console.error("Token não encontrado no banco de dados.");
-                showToast("Token não encontrado no banco de dados. Entrar em contato com suporte.", "error");
+                showToast("Token não encontrado no banco de dados. Adicione em configurações ou entre em contato com suporte.", "error");
                 localStorage.removeItem('token');
                 return;
             } else if (data.token.length < 66) {
@@ -492,7 +502,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         </div>
                     </div>
                 `;
-                
+
                 if (productList.innerHTML === null || productList.innerHTML === undefined || productList.innerHTML === "") {
                     document.getElementById("fake-product-list").innerHTML = `
                         <div class="card-produto-placeholder placeholder">
@@ -558,6 +568,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             });
 
+            document.querySelectorAll(".btn-order").forEach(button => {
+                button.addEventListener("click", (event) => {
+                    const productId = event.target.getAttribute("data-id");
+                    editProductOrder(productId); // Passa o productId para a função editProduct
+                });
+            });
+
             document.querySelectorAll(".btn-delete").forEach(button => {
                 button.addEventListener("click", (event) => {
                     const productId = event.target.getAttribute("data-id");
@@ -620,6 +637,122 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    let orderbumpEditandoId = null;
+    let currentProductId = null;
+
+    function editProductOrder(productId) {
+        if (!productId) return console.error("ID do produto inválido");
+        orderModal.classList.add('active');
+        orderOverlay.classList.add('active');
+        currentProductId = productId;
+        const container = document.getElementById("orderbumpTableContainer");
+        container.innerHTML = "Carregando...";
+
+        const ref = firebase.database().ref("produtos").child(productId).child('orderbumps');
+
+        ref.once("value", snapshot => {
+            const orderbumps = snapshot.val();
+            container.innerHTML = "";
+
+            if (orderbumps) {
+                const table = document.createElement("table");
+                table.className = "styled-table";
+                table.style.width = "100%";
+                table.style.borderCollapse = "collapse";
+                table.innerHTML = `
+                <thead>
+                    <tr style="text-align:left;">
+                        <th style="padding: 10px;">Título</th>
+                        <th style="padding: 10px;">Preço</th>
+                        <th style="padding: 10px;">Ações</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            `;
+
+                const tbody = table.querySelector("tbody");
+
+                Object.entries(orderbumps).forEach(([id, data]) => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+    <td style="padding: 10px;">${data.titulo || ""}</td>
+    <td style="padding: 10px;">R$ ${parseFloat(data.preco || 0).toFixed(2)}</td>
+    <td style="padding: 10px;">
+        <button class="edit-btn" onclick="window.preencherFormOrderbump('${id}')">Editar</button>
+    </td>
+`;
+                    tbody.appendChild(row);
+                });
+
+                container.appendChild(table);
+            } else {
+                container.innerHTML = "<p>Nenhum orderbump encontrado.</p>";
+            }
+        });
+    }
+
+    function preencherFormOrderbump(orderbumpId) {
+        const ref = firebase.database().ref("produtos").child(currentProductId).child('orderbumps').child(orderbumpId);
+
+        ref.once("value", snapshot => {
+            const data = snapshot.val();
+            if (data) {
+                document.getElementById("order-name").value = data.titulo || "";
+                document.getElementById("order-description").value = data.descricao || "";
+                document.getElementById("order-link").value = data.entrega || "";
+                document.getElementById("price-order").value = data.preco || "0.00";
+                orderbumpEditandoId = orderbumpId;
+            }
+        });
+    }
+    window.preencherFormOrderbump = preencherFormOrderbump;
+
+    document.getElementById("save-order").addEventListener("click", () => {
+        const titulo = document.getElementById("oder-name").value.trim();
+        const descricao = document.getElementById("order-description").value.trim();
+        const entrega = document.getElementById("order-link").value.trim();
+        const preco = parseFloat(document.getElementById("price-order").value.replace(",", "."));
+
+        if (!titulo || !descricao || !entrega || isNaN(preco)) {
+            alert("Preencha todos os campos corretamente.");
+            return;
+        }
+
+        const orderbump = { titulo, descricao, entrega, preco };
+
+        const ref = firebase.database().ref("produtos").child(currentProductId).child('orderbumps');
+
+        if (orderbumpEditandoId) {
+            ref.child(orderbumpEditandoId).update(orderbump).then(() => {
+                alert("OrderBump atualizado com sucesso!");
+                orderbumpEditandoId = null;
+                limparCamposOrderbump();
+                editProductOrder(currentProductId);
+            });
+        } else {
+            const novoId = ref.push().key;
+            ref.child(novoId).set(orderbump).then(() => {
+                alert("OrderBump adicionado com sucesso!");
+                limparCamposOrderbump();
+                editProductOrder(currentProductId);
+            });
+        }
+    });
+
+    document.getElementById("cancel-edit")?.addEventListener("click", () => {
+        orderbumpEditandoId = null;
+        limparCamposOrderbump();
+    });
+
+    function limparCamposOrderbump() {
+        document.getElementById("oder-name").value = "";
+        document.getElementById("order-description").value = "";
+        document.getElementById("order-link").value = "";
+        document.getElementById("price-order").value = "";
+    }
+
+
+
     function deleteProduct(productId) {
         if (confirm("Tem certeza que deseja excluir este produto?")) {
             productRef.child(productId).remove();
@@ -670,7 +803,7 @@ function showToast(message, type) {
     // Remove o toast após 4 segundos
     setTimeout(() => {
         toast.remove();
-    }, 4000);
+    }, 6000);
 }
 
 async function updateDashboard() {

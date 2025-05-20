@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de OrderBumps</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@400;500&display=swap');
+
+        @font-face {
+            font-family: Satoshi;
+            src: url(Fonts/OTF/Satoshi-Medium.otf);
+        }
+
+        :root {
+            /* Cores Dark Mode Premium */
+            --color-bg: #0f111a;
+            --color-surface: #1a1d28;
+            --color-surface-light: #252a38;
+            --color-primary: #7a6ff0;
+            --color-primary-hover: #8a80ff;
+            --color-secondary: #2dd4bf;
+            --color-accent: #ff7eb9;
+            --color-text: #e0e3ff;
+            --color-text-muted: #8a91b8;
+            --color-border: rgba(138, 145, 184, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Satoshi !important;
+
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        h1 {
+            color: var(--color-primary);
+            font-size: 2rem;
+        }
+
+        .btn {
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background-color: var(--color-primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--color-surface-light);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--color-surface);
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        .form-container {
+            background-color: var(--color-surface);
+            border-radius: 10px;
+            padding: 1.2rem 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--color-text-muted);
+            font-weight: 500;
+        }
+
+        input,
+        textarea,
+        select,
+        .div-preco {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--color-surface-light);
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            outline: none;
+            color: var(--color-text);
+            font-size: 1rem;
+        }
+
+        .div-preco {
+            padding: 0.75rem;
+
+        }
+
+        input#preco {
+            margin-left: 5px;
+            background-color: transparent;
+            border: none;
+            padding: 0;
+
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: end;
+        }
+
+        .product-info {
+            background-color: var(--color-surface);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 10px;
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .product-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .product-details h2 {
+            color: var(--color-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .product-details p {
+            color: var(--color-text-muted);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 1rem;
+        }
+
+        .status-active {
+            background-color: rgba(45, 212, 191, 0.2);
+            color: var(--color-secondary);
+        }
+
+        .status-inactive {
+            background-color: rgba(255, 126, 185, 0.2);
+            color: var(--color-accent);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--color-text-muted);
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background-color: rgba(45, 212, 191, 0.2);
+            color: var(--color-secondary);
+            border: 1px solid var(--color-secondary);
+        }
+
+        .alert-error {
+            background-color: rgba(255, 126, 185, 0.2);
+            color: var(--color-accent);
+            border: 1px solid var(--color-accent);
+        }
+
+        .orderbumps-list {
+            background-color: var(--color-surface);
+            border-radius: 10px;
+            margin-top: 2rem;
+        }
+
+        .orderbumps-list h2 {
+            margin-bottom: 1.5rem;
+            color: var(--color-primary);
+        }
+
+        .orderbump-item {
+            background-color: var(--color-surface-light);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .orderbump-details h3 {
+            color: var(--color-text);
+            margin-bottom: 0.5rem;
+        }
+
+        .orderbump-details p {
+            color: var(--color-text-muted);
+            margin-bottom: 0.5rem;
+            /* max-width: 100px; */
+        }
+
+        .orderbump-price {
+            font-weight: bold;
+            color: var(--color-secondary);
+        }
+
+        .orderbump-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .copy-link {
+            background-color: rgba(122, 111, 240, 0.2);
+            color: var(--color-primary);
+            border: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .copy-link:hover {
+            background-color: rgba(122, 111, 240, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Gerenciador de OrderBumps</h1>
+            <button id="backBtn" class="btn btn-secondary">Voltar</button>
+        </header>
+
+        <div id="productInfo" class="product-info">
+            <div class="loading">Carregando informações do produto...</div>
+        </div>
+
+        <div class="form-container">
+            <h2 id="formTitle">Adicionar Novo OrderBump</h2>
+            <div id="alertBox"></div>
+
+            <div class="form-group">
+                <label for="titulo">Título do OrderBump</label>
+                <input type="text" id="titulo" placeholder="Ex: Acesso Vitalício">
+            </div>
+
+            <div class="form-group">
+                <label for="descricao">Descrição</label>
+                <textarea id="descricao" placeholder="Descreva os benefícios deste orderbump"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="entrega">Link de Entrega*</label>
+                <input type="url" id="entrega" placeholder="https://link-de-entrega.com" required>
+            </div>
+            <div style="display: flex; justify-content: space-between; gap: 20px;">
+
+                <div class="form-group">
+                    <label for="preco">Preço (R$)</label>
+                    <div class="div-preco" style="display: flex; align-items: center;">
+                        <span>R$</span>
+                        <input type="text" id="preco" maxlength="6" placeholder="0.00" step="0.01" min="0">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="desconto">Desconto (opcional)</label>
+                    <input type="text" id="desconto" placeholder="Ex: 50%">
+                </div>
+
+                <div class="form-group">
+                    <label for="ativo">Status</label>
+                    <select id="ativo"
+                        style="width: 100%; padding: 0.75rem; background-color: var(--color-surface-light); border: 1px solid var(--color-border); border-radius: 6px; color: var(--color-text);">
+                        <option value="true">Ativo</option>
+                        <option value="false">Inativo</option>
+                    </select>
+                </div>
+            </div>
+            <div class="actions">
+                <button id="backBtn" class="btn btn-secondary">Voltar Ao Dashboard</button>
+                <button id="cancelBtn" class="btn btn-secondary">Cancelar</button>
+                <button id="saveBtn" class="btn">Salvar OrderBump</button>
+            </div>
+            <div class="orderbumps-list">
+                <h2>OrderBumps deste Produto</h2>
+                <div id="orderbumpsContainer">
+                    <div class="loading">Carregando orderbumps...</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+        // Configuração do Firebase (substitua com sua configuração)
+        const firebaseConfig = {
+            apiKey: "AIzaSyB0DFXPILXxKAkjaKOHvgnppV3CY7xR9Cs",
+            authDomain: "meu-checkout-web.firebaseapp.com",
+            databaseURL: "https://meu-checkout-web-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "meu-checkout-web",
+            storageBucket: "meu-checkout-web.firebasestorage.app",
+            messagingSenderId: "422699934016",
+            appId: "1:422699934016:web:7910537a1f8d5457929aa5",
+            measurementId: "G-VRKRL1MR9S"
+        };
+
+
+        // Inicialize o Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Variáveis globais
+        let currentProductId = null;
+        let currentOrderbumpId = null;
+        let isEditing = false;
+
+        // Elementos DOM
+        const productInfoEl = document.getElementById('productInfo');
+        const formTitleEl = document.getElementById('formTitle');
+        const tituloEl = document.getElementById('titulo');
+        const descricaoEl = document.getElementById('descricao');
+        const precoEl = document.getElementById('preco');
+        const descontoEl = document.getElementById('desconto');
+        const entregaEl = document.getElementById('entrega');
+        const ativoEl = document.getElementById('ativo');
+        const saveBtn = document.getElementById('saveBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const backBtn = document.getElementById('backBtn');
+        const alertBox = document.getElementById('alertBox');
+        const orderbumpsContainer = document.getElementById('orderbumpsContainer');
+
+        // Função para exibir alertas
+        function showAlert(message, type = 'success') {
+            alertBox.innerHTML = `
+                <div class="alert alert-${type}">${message}</div>
+            `;
+            setTimeout(() => {
+                alertBox.innerHTML = '';
+            }, 5000);
+        }
+
+        // Função para copiar texto para área de transferência
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showAlert('Link copiado para a área de transferência!');
+            }).catch(err => {
+                console.error('Erro ao copiar texto: ', err);
+            });
+        }
+
+        // Função para carregar informações do produto
+        function loadProductInfo(productId) {
+            const productRef = database.ref('produtos').child(productId);
+
+            productRef.once('value').then(snapshot => {
+                const productData = snapshot.val();
+
+                if (productData) {
+                    productInfoEl.innerHTML = `
+                        <img src="${productData.imagem || 'https://via.placeholder.com/100'}" alt="${productData.nome}" class="product-image">
+                        <div class="product-details">
+                            <h2>${productData.nome}</h2>
+                            <p>${productData.descricao || 'Sem descrição'}</p>
+                        </div>
+                    `;
+
+                    // Carregar orderbumps do produto
+                    loadOrderbumps(productId);
+                } else {
+                    productInfoEl.innerHTML = '<div class="alert alert-error">Produto não encontrado</div>';
+                }
+            }).catch(error => {
+                console.error('Erro ao carregar produto:', error);
+                productInfoEl.innerHTML = '<div class="alert alert-error">Erro ao carregar informações do produto</div>';
+            });
+        }
+
+        // Função para carregar a lista de orderbumps
+        function loadOrderbumps(productId) {
+            const orderbumpsRef = database.ref('produtos').child(productId).child('orderbumps');
+
+            orderbumpsRef.on('value', snapshot => {
+                const orderbumps = snapshot.val();
+
+                if (orderbumps) {
+                    orderbumpsContainer.innerHTML = '';
+
+                    Object.entries(orderbumps).forEach(([id, orderbump]) => {
+                        const orderbumpEl = document.createElement('div');
+                        orderbumpEl.className = 'orderbump-item';
+                        orderbumpEl.innerHTML = `
+                            <div class="orderbump-details">
+                                <div style="display: flex;">
+                                     <h3>${orderbump.titulo} 
+                                        <span class="status-badge ${orderbump.ativo !== false ? 'status-active' : 'status-inactive'}">
+                                            ${orderbump.ativo !== false ? 'Ativo' : 'Inativo'}
+                                        </span>
+                                     </h3>
+    
+                                </div>
+
+                                <p>${orderbump.descricao}</p>
+                                
+                                <p class="orderbump-price">R$ ${parseFloat(orderbump.preco || 0).toFixed(2)}</p>
+                                ${orderbump.desconto ? `<p>Desconto: ${orderbump.desconto}</p>` : ''}
+                                <div class="orderbump-actions">
+                                    <button class="btn btn-sm" onclick="editOrderbump('${id}')">Editar</button>
+                                    <button class="copy-link" onclick="copyToClipboard('${orderbump.entrega || ''}')">Copiar Link</button>
+                                </div>
+                            </div>
+                            
+                        `;
+                        orderbumpsContainer.appendChild(orderbumpEl);
+                    });
+                } else {
+                    orderbumpsContainer.innerHTML = '<p>Nenhum orderbump encontrado para este produto.</p>';
+                }
+            });
+        }
+
+        // Função para editar orderbump (global para acesso via onclick)
+        window.editOrderbump = function (orderbumpId) {
+            const orderbumpRef = database.ref('produtos').child(currentProductId).child('orderbumps').child(orderbumpId);
+
+            orderbumpRef.once('value').then(snapshot => {
+                const orderbumpData = snapshot.val();
+
+                if (orderbumpData) {
+                    isEditing = true;
+                    formTitleEl.textContent = 'Editar OrderBump';
+                    currentOrderbumpId = orderbumpId;
+
+                    // Preencher formulário
+                    tituloEl.value = orderbumpData.titulo || '';
+                    descricaoEl.value = orderbumpData.descricao || '';
+                    precoEl.value = orderbumpData.preco || '0.00';
+                    descontoEl.value = orderbumpData.desconto || '';
+                    entregaEl.value = orderbumpData.entrega || '';
+                    ativoEl.value = orderbumpData.ativo === false ? 'false' : 'true';
+
+                    // Rolagem suave até o formulário
+                    document.querySelector('.form-container').scrollIntoView({ behavior: 'smooth' });
+
+                    showAlert('OrderBump carregado para edição', 'success');
+                } else {
+                    showAlert('OrderBump não encontrado', 'error');
+                }
+            }).catch(error => {
+                console.error('Erro ao carregar orderbump:', error);
+                showAlert('Erro ao carregar orderbump', 'error');
+            });
+        };
+        document.getElementById("preco").addEventListener("input", function (event) {
+            let value = event.target.value;
+
+            // Remove qualquer caractere que não seja número
+            value = value.replace(/\D/g, "");
+
+            // Garante que sempre tenha ao menos 3 dígitos (para manter a estrutura "0,00")
+            while (value.length < 3) {
+                value = "0" + value;
+            }
+
+            // Adiciona a vírgula para os centavos
+            let integerPart = value.slice(0, value.length - 2);
+            let decimalPart = value.slice(value.length - 2);
+            value = integerPart + "," + decimalPart;
+
+            // Se a parte inteira for apenas '0' e há um número diferente de zero nos centavos, mantém o zero à esquerda
+            if (integerPart === "0" && decimalPart !== "00") {
+                value = "0," + decimalPart;
+            } else {
+                // Remove o zero da parte inteira apenas quando houver um número maior que zero nela
+                value = value.replace(/^0+(?=\d,)/, '');
+            }
+
+            // Atualiza o campo com o valor formatado
+            event.target.value = value;
+        });
+
+        // Função para salvar orderbump
+        function saveOrderbump() {
+            const titulo = tituloEl.value.trim();
+            const descricao = descricaoEl.value.trim();
+            const preco = parseFloat(precoEl.value);
+            const desconto = descontoEl.value.trim();
+            const entrega = entregaEl.value.trim();
+            const ativo = ativoEl.value === 'true';
+
+            // Validação
+            if (!titulo || !descricao || isNaN(preco) || !entrega) {
+                document.querySelector('.product-info').scrollIntoView({ behavior: 'smooth' });
+                showAlert('Preencha todos os campos obrigatórios', 'error');
+                return;
+            }
+
+            const orderbumpData = {
+                titulo,
+                descricao,
+                preco,
+                entrega,
+                ativo,
+                produto_relacionado: currentProductId
+            };
+
+            if (desconto) {
+                orderbumpData.desconto = desconto;
+            }
+
+            let ref;
+            if (isEditing) {
+                ref = database.ref('produtos').child(currentProductId).child('orderbumps').child(currentOrderbumpId);
+            } else {
+                ref = database.ref('produtos').child(currentProductId).child('orderbumps').push();
+            }
+
+            ref.set(orderbumpData)
+                .then(() => {
+                    document.querySelector('.product-info').scrollIntoView({ behavior: 'smooth' });
+
+                    const action = isEditing ? 'atualizado' : 'adicionado';
+                    showAlert(`OrderBump ${action} com sucesso!`, 'success');
+
+                    if (!isEditing) {
+                        // Limpar formulário após adicionar novo
+                        clearForm();
+                    }
+                })
+                .catch(error => {
+                    document.querySelector('.product-info').scrollIntoView({ behavior: 'smooth' });
+                    console.error('Erro ao salvar orderbump:', error);
+                    showAlert('Erro ao salvar orderbump', 'error');
+                });
+        }
+
+        // Função para limpar formulário
+        function clearForm() {
+            isEditing = false;
+            currentOrderbumpId = null;
+            formTitleEl.textContent = 'Adicionar Novo OrderBump';
+            tituloEl.value = '';
+            descricaoEl.value = '';
+            precoEl.value = '0.00';
+            descontoEl.value = '';
+            entregaEl.value = '';
+            ativoEl.value = 'true';
+        }
+
+        // Event Listeners
+        saveBtn.addEventListener('click', saveOrderbump);
+        cancelBtn.addEventListener('click', clearForm);
+        backBtn.addEventListener('click', () => {
+            window.location.href = 'produtos.html'; // Ajuste para sua página de listagem de produtos
+        });
+
+        // Inicialização da página
+        document.addEventListener('DOMContentLoaded', () => {
+            // Obter parâmetros da URL
+            const urlParams = new URLSearchParams(window.location.search);
+            currentProductId = urlParams.get('productId');
+            const orderbumpId = urlParams.get('orderbumpId');
+
+            if (!currentProductId) {
+                showAlert('ID do produto não especificado', 'error');
+                return;
+            }
+
+            // Carregar informações do produto
+            loadProductInfo(currentProductId);
+
+            // Se houver orderbumpId, carregar para edição
+            if (orderbumpId) {
+                editOrderbump(orderbumpId);
+            }
+        });
+    </script>
+</body>
+
+</html>
