@@ -179,7 +179,8 @@
         .status-badge {
             display: inline-flex;
             align-items: center;
-            padding: 0.25rem 0.75rem;
+            gap: 6px;
+            padding: 1.25rem 0.75rem;
             border-radius: 12px;
             font-size: 0.75rem;
             font-weight: 500;
@@ -187,7 +188,6 @@
         }
 
         .status-badge::before {
-            content: "";
             display: block;
             width: 6px;
             height: 6px;
@@ -519,7 +519,7 @@
                         <h2>Lista de Compradores</h2>
                         <div style="display: flex;justify-content: center;align-items: center;">
                             <select id="filter-status"
-                                style="padding: 8px; border-radius: 6px; border: .1px solid #dddddd00; background-color: #212B36; color: #ffff; height: 30px;">
+                                style="padding: 8px; border-radius: 6px; border: .1px solid #dddddd00; background-color: #212B36; color: #ffff; height: 38px;">
                                 <option value="all">Todos os status</option>
                                 <option value="approved">Aprovados</option>
                                 <option value="pending">Pendentes</option>

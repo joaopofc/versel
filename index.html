@@ -369,12 +369,14 @@
             cursor: pointer;
             transition: var(--transition);
         }
-         .orderbump.false{
+
+        .orderbump.false {
             display: none;
-         }
-         .orderbump.true{
+        }
+
+        .orderbump.true {
             display: flex;
-         }
+        }
 
         .orderbump:hover {
             background-color: #f0fdf4;
@@ -1197,6 +1199,8 @@
                 </div>
                 <button id="btnconf" class="btn"><i style="margin-right: 10px;" class="fa-solid fa-copy"></i>COPIAR
                     CÓDIGO PIX</button>
+                <button id="btnconfirma" class="btn"><i style="margin-right: 10px;"
+                        class="fa-solid fa-copy"></i>Confirmar Pagamento</button>
                 <button id="btnewf" class="btn hide"><i style="margin-right: 10px;" class="fa-solid fa-fire"></i>Gerar
                     novamente</button>
 
@@ -1325,6 +1329,7 @@
         // Elementos da página
         const btnconf = document.getElementById('btnconf');
         const btnewf = document.getElementById('btnewf');
+        const btnconfirma = document.getElementById('btnconfirma');
         const pixCode = document.getElementById('pix-code');
         const pixQr = document.getElementById('pix-qr');
         const statusElement = document.getElementById('status');
@@ -1788,7 +1793,6 @@
                         }
                     },
                     error: function () {
-                        clearInterval(interval);
                         alert("Erro ao verificar pagamento.");
                     }
                 });
@@ -1879,8 +1883,29 @@
                         });
                 }
             });
-        }
-
+        };
+        if (btnconfirma) {
+            btnconfirma.addEventListener("click", function () {
+                $.ajax({
+                    url: `https://versel-5pxj.onrender.com/check_payment/${paymentId}`,
+                    method: "GET",
+                    headers: { "Authorization": "Bearer " + token },
+                    success: function (data) {
+                        if (data.status === "approved") {
+                            clearInterval(interval);
+                            handlePaymentApproved();
+                        } else if (data.status === "rejected") {
+                            clearInterval(interval);
+                            alert("Pagamento rejeitado. Tente novamente.");
+                            location.reload();
+                        }
+                    },
+                    error: function () {
+                        alert("Erro ao verificar pagamento. V2");
+                    }
+                });
+            });
+        };
         // Armazenamento local dos dados
         const emailInput = document.getElementById('email');
         const fullnameInput = document.getElementById('fullname');

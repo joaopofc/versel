@@ -249,7 +249,6 @@ header h1 {
 }
 
 .status-badge {
-    display: inline-block;
     padding: 4px 8px;
     border-radius: 20px;
     font-size: 12px;
@@ -645,8 +644,10 @@ th {
 .config .price-div:focus,
 .modal textarea:focus,
 .order input:focus {
-    box-shadow: 0 4px 20px rgba(0, 255, 170, 0.6),
+    /* box-shadow: 0 4px 20px rgba(0, 255, 170, 0.6),
         0 0 0 1px rgba(0, 255, 170, 0.8) inset;
+ */
+
 }
 
 .modal .div-url-link input {
@@ -1166,6 +1167,13 @@ textarea:focus,
         font-family: 'Inter', sans-serif !important;
     }
 
+    .modal,
+    .config,
+    .order {
+        min-width: 0px;
+    }
+
+
     .sidebar {
         position: absolute;
         left: -100%;
@@ -1245,6 +1253,7 @@ p {
     .main {
         margin-left: 0;
     }
+    
 }
 
 /* Estilos para o modal */
@@ -1289,5 +1298,3 @@ p {
 .ob-close-modal:hover {
     color: rgb(255, 59, 59);
 }
-
-
