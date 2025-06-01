@@ -240,7 +240,6 @@ document.addEventListener("DOMContentLoaded", () => {
                                     odCloseModal.addEventListener("click", () => {
                                         modalRaiz.style.display = "none";
                                     });
-
                                 });
                             });
                         });
@@ -281,11 +280,11 @@ document.addEventListener("DOMContentLoaded", () => {
     btnAdd.addEventListener("click", () => {
         token = localStorage.getItem('token');
         if (token === "" || token === null) {
-            showToast("Preencha o token antes de criar o produto.", "error");
+            showMsg("Preencha o token antes de criar o produto.", "error");
             config.classList.add("active");
             configOverlay.classList.add("active");
         } else if (token.length < 66) {
-            showToast("Token inválido.", "error");
+            showMsg("Token inválido.", "error");
             config.classList.add("active");
             configOverlay.classList.add("active");
 
@@ -300,20 +299,17 @@ document.addEventListener("DOMContentLoaded", () => {
     btnConfig.addEventListener("click", () => {
         config.classList.add("active");
         configOverlay.classList.add("active");
-
         editingProductId = null;
         clearForm();
     });
 
-
-
     btnConfigSave.addEventListener("click", () => {
         if (tokenInput.value.length < 66) {
-            showToast("Token inválido.", "error");
+            showMsg("Token inválido.", "error");
         } else if (tokenInput.value === "") {
-            showToast("Preencha o token.", "error");
+            showMsg("Preencha o token.", "error");
         } else {
-            showToast("Token salvo com sucesso.", "success");
+            showMsg("Token salvo com sucesso.", "success");
             config.classList.remove("active");
             configOverlay.classList.remove("active");
 
@@ -368,12 +364,13 @@ document.addEventListener("DOMContentLoaded", () => {
         editingProductId = null;
         clearForm();
     });
-    closeModalOrder.addEventListener("click", () => {
+    closeModalOrder.addEventListener("click", (a) => {
         orderModal.classList.remove("active");
         orderOverlay.classList.remove("active");
         editingProductId = null;
         clearForm();
     });
+    
 
     // Carregar o token do LocalStorage
     function loadToken() {
@@ -387,12 +384,12 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             if (!data.token) {
                 console.error("Token não encontrado no banco de dados.");
-                showToast("Token não encontrado no banco de dados. Adicione em configurações ou entre em contato com suporte.", "error");
+                showMsg("Token não encontrado no banco de dados. Adicione em configurações ou entre em contato com suporte.", "error");
                 localStorage.removeItem('token');
                 return;
             } else if (data.token.length < 66) {
                 console.error("Token inválido no banco de dados.");
-                showToast("Token inválido no banco de dados. Atualize seu Token.", "error");
+                showMsg("Token inválido no banco de dados. Atualize seu Token.", "error");
                 localStorage.removeItem('token');
                 return;
             } else {
@@ -463,13 +460,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 modal.classList.remove("active");
                 modalOverlay.classList.remove("active");
                 loadProducts(emailVendedor);
+                showMsg("Produto atualizado com sucesso!", "success")
 
             } else {
-                showToast("Preencha todos os campos corretamente!", "error");
+                showMsg("Preencha todos os campos corretamente!", "error");
             }
 
         } else {
-            showToast("Preencha todos os campos corretamente!", "error");
+            showMsg("Preencha todos os campos corretamente!", "error");
         };
     });
 
@@ -602,7 +600,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 button.addEventListener("click", (event) => {
                     const productId = event.target.getAttribute("data-id");
                     navigator.clipboard.writeText('https://ipat.shop/' + productId).then(() => {
-                        showToast("Link copiado para área de transferencia!", "success");
+                        showMsg("Link copiado para área de transferencia!", "success");
                     }).catch(err => {
                         console.error("Erro ao copiar o ID do produto: ", err);
                     });
@@ -862,11 +860,25 @@ document.addEventListener("DOMContentLoaded", () => {
 // Funções auxiliares
 function abrirPopup() {
     document.getElementById('popup-confirmacao').style.display = 'flex';
+    document.querySelector(".confirmar").style.backgroundColor = 'gray';
+    document.querySelector(".confirmar").textContent = 'Leia acima';
+    document.querySelector(".confirmar").style.cursor = 'not-allowed';
+    document.querySelector(".confirmar").disabled = true;
+    setTimeout(() => {
+        document.querySelector(".confirmar").style.backgroundColor = 'red';
+        document.querySelector(".confirmar").textContent = 'Confirmar';
+        document.querySelector(".confirmar").disabled = false;
+        document.querySelector(".confirmar").style.cursor = 'pointer';
+    }, 10000);
 }
 
 function fecharPopup() {
     document.getElementById('popup-confirmacao').style.display = 'none';
 }
+document.getElementById('popup-confirmacao').addEventListener("click", () => {
+    fecharPopup()
+})
+
 
 function confirmarAcao(prodIdDelete) {
     fecharPopup();
@@ -876,7 +888,7 @@ function confirmarAcao(prodIdDelete) {
     loadProducts(emailVendedor);
 }
 
-function showToast(message, type) {
+function showMsg(message, type) {
     const toastContainer = document.getElementById("toast-container");
 
     const toast = document.createElement("div");

@@ -1,0 +1,125 @@
+:root {
+    --toast-success: #4caf50;
+    --toast-error: #f44336;
+    --toast-warning: #ff9800;
+    --toast-info: #2196f3;
+    --toast-copy: #9c27b0;
+    --toast-default: #333;
+}
+
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast2 {
+    position: relative;
+    min-width: 250px;
+    max-width: 350px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateX(150%);
+    transition: transform 0.3s ease-in-out, opacity 0.3s, margin-top 0.3s;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    opacity: 0;
+    margin-top: 0;
+}
+
+.toast2.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.toast2::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 5px;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.toast-icon {
+    margin-right: 15px;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.toast-content {
+    flex: 1;
+}
+
+.toast-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.toast-message {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.toast-close {
+    margin-left: 15px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    font-size: 18px;
+}
+
+.toast-close:hover {
+    opacity: 1;
+}
+
+.toast-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.toast-progress-bar {
+    height: 100%;
+    background-color: white;
+    width: 100%;
+    transition: width linear;
+}
+
+/* Toast Types */
+.toast-success {
+    background-color: var(--toast-success);
+}
+
+.toast-error {
+    background-color: var(--toast-error);
+}
+
+.toast-warning {
+    background-color: var(--toast-warning);
+}
+
+.toast-info {
+    background-color: var(--toast-info);
+}
+
+.toast-copy {
+    background-color: var(--toast-copy);
+}
+
+.toast-default {
+    background-color: var(--toast-default);
+}

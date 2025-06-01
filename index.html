@@ -861,7 +861,7 @@
             transition: var(--transition);
 
             border: none;
-            border-radius: 8px;
+            border-radius: 40px;
             cursor: pointer;
             transition: background-color 0.3s ease;
             font-weight: 700;
@@ -1199,8 +1199,7 @@
                 </div>
                 <button id="btnconf" class="btn"><i style="margin-right: 10px;" class="fa-solid fa-copy"></i>COPIAR
                     CÓDIGO PIX</button>
-                <button id="btnconfirma" class="btn"><i style="margin-right: 10px;"
-                        class="fa-solid fa-copy"></i>Confirmar Pagamento</button>
+                <button id="btnconfirma" style="background: black; border-radius: 40px;" class="btn"><i style="margin-right: 10px;" class="fa-solid fa-bolt"></i>CONFIRMAR PAGAMENTO</button>
                 <button id="btnewf" class="btn hide"><i style="margin-right: 10px;" class="fa-solid fa-fire"></i>Gerar
                     novamente</button>
 
@@ -1291,6 +1290,7 @@
             <p>Copiado com sucesso</p>
         </div>
     </div>
+    <script src="toast.js"></script>
     <script>
         // Variáveis globais
         let paymentId = null;

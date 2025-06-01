@@ -330,7 +330,7 @@
                 </div>
             </div>
             <div class="actions">
-                <button id="backBtn" class="btn btn-secondary">Voltar Ao Dashboard</button>
+                <button id="backBtn2" class="btn btn-secondary">Voltar Ao Dashboard</button>
                 <button id="cancelBtn" class="btn btn-secondary">Cancelar</button>
                 <button id="saveBtn" class="btn">Salvar OrderBump</button>
             </div>
@@ -383,6 +383,7 @@
         const saveBtn = document.getElementById('saveBtn');
         const cancelBtn = document.getElementById('cancelBtn');
         const backBtn = document.getElementById('backBtn');
+        const backBtn2 = document.getElementById('backBtn2');
         const alertBox = document.getElementById('alertBox');
         const orderbumpsContainer = document.getElementById('orderbumpsContainer');
 
@@ -607,12 +608,14 @@
         saveBtn.addEventListener('click', saveOrderbump);
         cancelBtn.addEventListener('click', clearForm);
         backBtn.addEventListener('click', () => {
-            window.location.href = 'dashboard'; // Ajuste para sua página de listagem de produtos
+            window.location.href = 'dashboard';
+        });
+        backBtn2.addEventListener('click', () => {
+            window.location.href = 'dashboard';
         });
 
         // Inicialização da página
         document.addEventListener('DOMContentLoaded', () => {
-            // Obter parâmetros da URL
             const urlParams = new URLSearchParams(window.location.search);
             currentProductId = urlParams.get('prod');
             const orderbumpId = urlParams.get('bump');

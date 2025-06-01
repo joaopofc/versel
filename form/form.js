@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const loginPassword = document.getElementById("login-password").value;
 
     if (loginEmail === "" || loginPassword === "") {
-      showToast("Preencha todos os campos.", "error");
+      showMsg("Preencha todos os campos.", "error");
       return;
     }
 
@@ -68,26 +68,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         }, 3000);
       })
       .catch((error) => {
-        showToast("Usuário ou senha incorretos.", "error");
+        showMsg("Usuário ou senha incorretos.", "error");
       });
   });
 
-
-  function showToast(message, type) {
-    const toastContainer = document.getElementById("toast-container");
-
-    const toast = document.createElement("div");
-    toast.classList.add("toast");
-    toast.classList.add(type);  // Adiciona a classe 'success' ou 'error'
-    toast.textContent = message;
-
-    toastContainer.appendChild(toast);
-
-    // Remove o toast após 4 segundos
-    setTimeout(() => {
-      toast.remove();
-    }, 10000);
-  }
 
 
   document.getElementById("register-btn").addEventListener('click', function () {
@@ -102,13 +86,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   
     if (registerEmail === "" || registerPassword === "" || name === "" || tel === "") {
-      showToast("Preencha todos os campos.", "error");
+      showMsg("Preencha todos os campos.", "error");
       return;
     } else if (registerPassword.length < 6) {
-      showToast("A senha deve ter pelo menos 6 caracteres.", "error");
+      showMsg("A senha deve ter pelo menos 6 caracteres.", "error");
       return;
     } else if (tel.length < 17) {
-      showToast("O telefone deve ter pelo menos 11 dígitos.", "error");
+      showMsg("O telefone deve ter pelo menos 11 dígitos.", "error");
       return;
     } else {
       createUserWithEmailAndPassword(auth, registerEmail, registerPassword)
@@ -120,7 +104,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   
             get(dadosRef).then((snapshot) => {
               if (snapshot.exists()) {
-                showToast("Usuário já registrado no banco. Nada será feito.", "error");
+                showMsg("Usuário já registrado no banco. Nada será feito.", "error");
               } else {
                 set(dadosRef, {
                   email: registerEmail,
@@ -150,9 +134,9 @@ document.addEventListener("DOMContentLoaded", async () => {
           });
         }).catch((error) => {
           if (error.code === "auth/email-already-in-use") {
-            showToast("Este email já está cadastrado. Clique em ENTRAR!", "error");
+            showMsg("Este email já está cadastrado. Clique em ENTRAR!", "error");
           } else {
-            showToast("Erro ao registrar: " + error.message, "error");
+            showMsg("Erro ao registrar: " + error.message, "error");
           }
         });
     }
@@ -190,7 +174,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const resetEmail = document.getElementById("reset-email").value;
 
     if (!resetEmail) {
-      showToast("Por favor, insira um email válido.", "error");
+      showMsg("Por favor, insira um email válido.", "error");
       return;
     }
 
@@ -200,15 +184,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         document.getElementById("reset-password-div").style.display = "none";
         document.getElementById("login-div").style.display = "inline";
-        showToast("Email de redefinição enviado! Verifique sua caixa de entrada.", "success");
+        showMsg("Email de redefinição enviado! Verifique sua caixa de entrada.", "success");
       })
       .catch((error) => {
         const message = document.getElementById("reset-message");
         message.style.display = "inline";
         if (error.code === "auth/user-not-found") {
-          showToast("Nenhum usuário encontrado com esse email.", "error");
+          showMsg("Nenhum usuário encontrado com esse email.", "error");
         } else {
-          showToast("Erro ao enviar o email. Tente novamente.", "error");
+          showMsg("Erro ao enviar o email. Tente novamente.", "error");
         }
         message.style.color = "red";
       });

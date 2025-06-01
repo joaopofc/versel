@@ -1,17 +1,20 @@
 <html>
 
 <head>
-  <title>Tawros</title>  
+  <title>Tawros</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-database.js"></script>
   <link rel="shortcut icon" href="imagens/p.png" type="image/x-icon">
   <link rel="stylesheet" href="form/form.css">
+  <link rel="stylesheet" href="toast/toast.css">
   <script type="module" src="form/form.js"></script>
+  <script type="module" src="toast/toast.js"></script>
 </head>
 
 <body>
-  <div id="toast-container"></div>
+  <div class="toast-container" id="toastContainer"></div>
+
   <div class="center-box" id="login-div">
     <h2>Entrar</h2>
     <input type="email" id="login-email" class="text-field" name="login-email" placeholder="Email" required /><br>
@@ -29,7 +32,9 @@
 
   <div id="reset-password-div" style="display: none;">
     <div style="justify-content: center; display: flex; align-items: center;">
-      <img src="imagens/back.png" id="back" style="height: 24px; width: 24px; transform: rotate(180deg); margin-right: 20px; cursor: pointer;" alt="back"><h2>Redefinir Senha</h2>
+      <img src="imagens/back.png" id="back"
+        style="height: 24px; width: 24px; transform: rotate(180deg); margin-right: 20px; cursor: pointer;" alt="back">
+      <h2>Redefinir Senha</h2>
     </div>
     <input type="email" id="reset-email" placeholder="Digite seu email"></br>
     <button id="reset-password-btn" style="cursor: pointer;">Redefinir Senha</button><br>
@@ -40,7 +45,8 @@
     <h2>Registrar</h2>
     <input type="text" id="register-name" class="text-field" name="register-name" placeholder="Seu nome" required /><br>
     <input type="email" id="register-email" class="text-field" name="register-email" placeholder="Email" required /><br>
-    <input type="text" id="register-tel" class="text-field" name="register-tel" value="+55 " maxlength="17" placeholder="Seu telefone" required /><br>
+    <input type="text" id="register-tel" class="text-field" name="register-tel" value="+55 " maxlength="17"
+      placeholder="Seu telefone" required /><br>
     <input type="password" id="register-password" class="text-field" name="register-password" placeholder="Senha"
       required /><br>
     <button id="register-btn" class="btn-style">Registrar</button><br>
@@ -57,6 +63,8 @@
     <h3 id="result"></h3><br>
     <button id="log-out-btn" class="btn-style">VOLTAR</button>
   </div>
+  <script src="toast/toast.js"></script>
+
 </body>
 
 </html>

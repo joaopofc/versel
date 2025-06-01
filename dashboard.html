@@ -12,6 +12,8 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-database.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="toast/toast.css">
+    <!-- <link rel="stylesheet" href="toast/popup.css"> -->
     <link rel="stylesheet" href="https://assets.codepen.io/605876/geist.css">
     <link rel="stylesheet" href="https://assets.codepen.io/593526/clash-display.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -319,6 +321,7 @@
 </head>
 
 <body>
+    <div class="toast-container" id="toastContainer"></div>
     <script>
         document.querySelectorAll('.card').forEach(card => {
             card.addEventListener('mousemove', (e) => {
@@ -362,7 +365,7 @@
 
     <div class="supra-side" style="display: flex; width: 100vw; position: relative;">
         <div class="sidebar" id="sidebar">
-            <h2 style="justify-content: center; margin: 0;">Dash Tawros</h2>
+            <h2 style="justify-content: center; margin: 0;" id="tawrosnamedash">Dash Tawros</h2>
             <p style="font-size:11px;text-align: center;margin: 0;">Versão 3.9.5</p>
             <ul class="off">
                 <li>
@@ -491,6 +494,7 @@
                     <div id="product-list" style="margin-bottom: 150px;"></div>
                 </div>
             </div>
+
 
             <!-- Página de Compradores -->
             <div class="page" id="buyers-page">
@@ -632,7 +636,7 @@
 
                     <span>Webhook <i id="info-i"
                             data-message="Adicione um Webhook e automatize suas vendas. ATENÇÃO: O Webhook funcionará para todos os produtos."
-                            style="margin-left: 5px; font-size: 12px; color: #b3b3b3;"
+                            style="margin-left: 5px; max-width: 50px; font-size: 12px; color: #b3b3b3;"
                             class="fa-regular fa-circle-question"></i></span>
                     <input type="text" id="webhook-input" placeholder="Adicione o Webhook" name="NKACNALSDNASKDNASKND"
                         autocomplete="off">
@@ -678,7 +682,27 @@
 
         </div>
     </div>
+
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup-container" id="popupContainer">
+            <div class="popup-header">
+                <div class="popup-icon" id="popupIcon">✓</div>
+                <div>
+                    <div class="popup-title" id="popupTitle">Título</div>
+                    <div class="popup-subtitle" id="popupSubtitle">Subtítulo</div>
+                </div>
+                <div class="popup-close" id="popupClose">×</div>
+            </div>
+            <div class="popup-content" id="popupContent">Conteúdo da mensagem aqui...</div>
+            <div class="popup-footer" id="popupFooter">
+                <!-- Buttons will be added here dynamically -->
+            </div>
+        </div>
+    </div>
     <script src="dashboard.js"></script>
+    <script src="toast/toast.js"></script>
+    <!-- <script src="toast/popup.js"></script> -->
+
 </body>
 
 </html>
